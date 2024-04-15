@@ -1,6 +1,8 @@
 package sokoban;
 
 public class RightAction implements Action {
+	
+	public RightAction(WarehouseMan w, char[][] mat) {}
 
 	public void move(WarehouseMan w, char[][] mat) throws WallException {
 		int x = w.getX();
@@ -26,5 +28,4 @@ public class RightAction implements Action {
 				w.setY(y+1);
 		}
 	}
-
 }

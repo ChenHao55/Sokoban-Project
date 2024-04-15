@@ -2,6 +2,10 @@ package sokoban;
 
 public class DownAction implements Action {
 
+	public DownAction(WarehouseMan w, char[][] mat) {
+		// TODO Auto-generated constructor stub
+	}
+
 	public void move(WarehouseMan w, char[][] mat) throws WallException {
 		int x = w.getX();
 		int y = w.getY();

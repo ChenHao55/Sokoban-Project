@@ -18,7 +18,7 @@ public class ActionsManager{
 	}
 	
 	public void newAction(String direction, WarehouseMan w, char[][] mat) {
-		actions.push(aFactory.createAction(direction, w, mat));
+		actions.push((Action) aFactory.createAction(direction, w, mat));
 	}
 
 	public void undo() {
