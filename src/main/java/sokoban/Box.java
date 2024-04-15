@@ -1,10 +1,10 @@
 package sokoban;
 
-public class WarehouseMan {
+public class Box implements ObjectInterface{
 	private int x;
 	private int y;
 	
-	public WarehouseMan(int x, int y){
+	public Box(int x, int y){
 		if (x < 0 || y < 0){
 			//throw new InvalidPreConditionException("ID, name or email have a blank value");
 		}
