@@ -18,7 +18,7 @@ public class ActionsManager{
 		return actions;
 	}
 	
-	public void newAction(String direction, WarehouseMan w, char[][] mat) {
+	public void newAction(char direction, WarehouseMan w, char[][] mat) {
 		actions.push((Action) aFactory.createAction(direction, w, mat));
 	}
 
