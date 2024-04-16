@@ -1,5 +1,6 @@
 package sokoban;
 
+
 public class ActionsFactory {
 	
 	Action createAction(String direction, WarehouseMan w, char[][] mat) {

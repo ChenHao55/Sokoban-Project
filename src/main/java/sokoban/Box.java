@@ -1,12 +1,13 @@
 package sokoban;
 
+
 public class Box implements ObjectInterface{
 	private int x;
 	private int y;
 	
-	public Box(int x, int y){
+	public Box(int x, int y) throws IlegalPositionException{
 		if (x < 0 || y < 0){
-			//throw new InvalidPreConditionException("ID, name or email have a blank value");
+			throw new IlegalPositionException("Invalid initial position");
 		}
 		this.x = x;
 		this.y = y;

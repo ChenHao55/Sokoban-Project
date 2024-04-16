@@ -1,5 +1,6 @@
 package sokoban;
 
+
 public interface ObjectInterface {
 	public int getX();
 	public int getY();

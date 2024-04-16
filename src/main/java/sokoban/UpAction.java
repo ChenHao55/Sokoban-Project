@@ -1,5 +1,6 @@
 package sokoban;
 
+
 public class UpAction implements Action {
 
 	public UpAction(WarehouseMan w, char[][] mat) {

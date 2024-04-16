@@ -1,5 +1,6 @@
 package sokoban;
 
+
 public class WallException extends Exception {
 	private static final long serialVersionUID = 1L;
 

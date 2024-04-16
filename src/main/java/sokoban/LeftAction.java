@@ -1,5 +1,6 @@
 package sokoban;
 
+
 public class LeftAction implements Action{
 
 	public LeftAction(WarehouseMan w, char[][] mat) {
