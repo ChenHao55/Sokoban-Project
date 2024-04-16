@@ -1,7 +1,8 @@
 package sokoban;
 
+import exceptions.WallException;
 
-public class LeftAction implements Action{
+public class LeftAction implements ActionI{
 
 	public LeftAction(WarehouseMan w, char[][] mat) {
 		// TODO Auto-generated constructor stub

@@ -1,5 +1,6 @@
 package sokoban;
 
+import exceptions.IlegalPositionException;
 
 public class Box implements ObjectInterface{
 	private int x;

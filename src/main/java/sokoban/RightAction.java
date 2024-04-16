@@ -1,7 +1,8 @@
 package sokoban;
 
+import exceptions.WallException;
 
-public class RightAction implements Action {
+public class RightAction implements ActionI {
 	
 	public RightAction(WarehouseMan w, char[][] mat) {}
 

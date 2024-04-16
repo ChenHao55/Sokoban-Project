@@ -1,5 +1,6 @@
 package sokoban;
 
+import exceptions.IlegalPositionException;
 
 public class WarehouseMan implements ObjectInterface{
 	private int x;

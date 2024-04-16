@@ -1,7 +1,8 @@
 package sokoban;
 
+import exceptions.WallException;
 
-public class DownAction implements Action {
+public class DownAction implements ActionI {
 
 	public DownAction(WarehouseMan w, char[][] mat) {
 		// TODO Auto-generated constructor stub

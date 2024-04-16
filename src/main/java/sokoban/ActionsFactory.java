@@ -3,7 +3,7 @@ package sokoban;
 
 public class ActionsFactory {
 	
-	Action createAction(char direction, WarehouseMan w, char[][] mat) {
+	ActionI createAction(char direction, WarehouseMan w, char[][] mat) {
 		switch(direction) {
 			case 'l':
 				return new LeftAction(w, mat);
