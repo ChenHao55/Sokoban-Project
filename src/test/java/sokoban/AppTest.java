@@ -9,6 +9,10 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import exceptions.EmptyFileException;
+import exceptions.FileException;
+import exceptions.IlegalPositionException;
+
 public class AppTest {
 	
 	private static final Logger log = LoggerFactory.getLogger(AppTest.class);
@@ -56,7 +60,7 @@ public class AppTest {
 	
 	@DisplayName("Correct creation of WarehouseMan and Box objects")
 	@Nested
-	class CorrectCreation{
+	class CorrectObjectCreation{
 		
 		@Test
 		void correctBoxCreation() {
@@ -70,5 +74,23 @@ public class AppTest {
 			assertDoesNotThrow(() -> new Box(3, 4));
 		}
 	}
+	
+/*	@DisplayName("Correct creation of a Map")
+	@Nested
+	class CorrectMapCreation{
+		
+		@Test
+		void correctMap() throws EmptyFileException, FileException {
+			CreateMap cm = new CreateMap();
+			char[][] map = cm.createMap("map_level_1.txt");
+			
+			for(int i = 0; i<map.length; i++) {
+				for(int j = 0; j<map[0].length; j++) {
+					System.out.println(map[i][j]);
+				}
+			}
+			System.out.println();
+		}
+	}*/
 	
 }
