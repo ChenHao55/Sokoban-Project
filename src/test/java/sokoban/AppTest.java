@@ -1,7 +1,10 @@
 package sokoban;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import java.io.FileNotFoundException;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -9,8 +12,6 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import exceptions.EmptyFileException;
-import exceptions.FileException;
 import exceptions.IlegalPositionException;
 
 public class AppTest {
@@ -75,22 +76,29 @@ public class AppTest {
 		}
 	}
 	
-/*	@DisplayName("Correct creation of a Map")
+	@DisplayName("Correct creation of a Map")
 	@Nested
 	class CorrectMapCreation{
 		
 		@Test
-		void correctMap() throws EmptyFileException, FileException {
+		void correctMap() throws FileNotFoundException {
+			log.info("Trying to create a valid Map");
 			CreateMap cm = new CreateMap();
-			char[][] map = cm.createMap("map_level_1.txt");
+			char[][] expectedMap = {
+					{'+','+','+','+'},
+					{'+','W','.','+'},
+					{'+','.','.','+'},
+					{'+','+','+','+'}
+			};
 			
-			for(int i = 0; i<map.length; i++) {
-				for(int j = 0; j<map[0].length; j++) {
-					System.out.println(map[i][j]);
+			char[][] actualMap = cm.createMap("/home/pproject/eclipse-workspace/sokoban/maps/map_level_1.txt");
+			
+			for(int i = 0; i<expectedMap.length; i++) {
+				for(int j = 0; j<expectedMap[0].length; j++) {
+					assertEquals(expectedMap[i][j], actualMap[i][j]);
 				}
 			}
-			System.out.println();
 		}
-	}*/
+	}
 	
 }
