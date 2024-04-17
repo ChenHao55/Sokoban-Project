@@ -29,7 +29,7 @@ public class MainFrame extends JFrame{
 		b.setBackground(Color.BLACK);
 		add(b);  
 		
-        MapPanel mapPanel = new MapPanel("C:\\Users\\cesar\\OneDrive\\Escritorio\\Eclipse\\eclipse-workspace\\PProject\\sokobanproject\\maps\\map_level_1.txt");
+        MapPanel mapPanel = new MapPanel("/home/pproject/eclipse-workspace/sokoban/maps/map_level_1.txt");
         add(mapPanel, BorderLayout.CENTER);
 	}
 	

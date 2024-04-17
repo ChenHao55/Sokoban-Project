@@ -22,10 +22,10 @@ public class MapPanel extends JPanel {
 
     private char[][] level;
     
-    private final ImageIcon wallIcon = new ImageIcon("C:\\Users\\cesar\\OneDrive\\Escritorio\\Eclipse\\eclipse-workspace\\PProject\\sokobanproject\\img\\wall.png");
-    private final ImageIcon emptyIcon = new ImageIcon("C:\\Users\\cesar\\OneDrive\\Escritorio\\Eclipse\\eclipse-workspace\\PProject\\sokobanproject\\img\\ground.png");
-    private final ImageIcon boxIcon = new ImageIcon("C:\\Users\\cesar\\OneDrive\\Escritorio\\Eclipse\\eclipse-workspace\\PProject\\sokobanproject\\img\\box.png");
-    private final ImageIcon playerIcon = new ImageIcon("C:\\Users\\cesar\\OneDrive\\Escritorio\\Eclipse\\eclipse-workspace\\PProject\\sokobanproject\\img\\player.png");
+    private final ImageIcon wallIcon = new ImageIcon("/home/pproject/eclipse-workspace/sokoban/img/wall.png");
+    private final ImageIcon emptyIcon = new ImageIcon("/home/pproject/eclipse-workspace/sokoban/img/ground.png");
+    private final ImageIcon boxIcon = new ImageIcon("/home/pproject/eclipse-workspace/sokoban/img/box.png");
+    private final ImageIcon playerIcon = new ImageIcon("/home/pproject/eclipse-workspace/sokoban/img/player.png");
 
     public MapPanel(String fileName) {
         CreateMap createMap = new CreateMap();
