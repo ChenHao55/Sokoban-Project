@@ -101,4 +101,17 @@ public class AppTest {
 		}
 	}
 	
+	@DisplayName("Incorrect creation of a Map")
+	@Nested
+	class IncorrectMapCreation {
+		
+		@Test
+		void fileNotFound() {
+			log.info("Trying to create a Map from a non existing file");
+			CreateMap cm = new CreateMap();
+			
+			assertThrows(FileNotFoundException.class, () -> cm.createMap("/home/pproject/eclipse-workspace/sokoban/maps/non_existing_file.txt"));
+		}
+	}
+	
 }
