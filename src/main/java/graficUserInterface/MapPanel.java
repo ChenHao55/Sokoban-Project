@@ -26,7 +26,7 @@ public class MapPanel extends JPanel {
     private final ImageIcon emptyIcon = new ImageIcon("C:\\Users\\cesar\\OneDrive\\Escritorio\\Eclipse\\eclipse-workspace\\PProject\\sokobanproject\\img\\ground.png");
     private final ImageIcon boxIcon = new ImageIcon("C:\\Users\\cesar\\OneDrive\\Escritorio\\Eclipse\\eclipse-workspace\\PProject\\sokobanproject\\img\\box.png");
     private final ImageIcon playerIcon = new ImageIcon("C:\\Users\\cesar\\OneDrive\\Escritorio\\Eclipse\\eclipse-workspace\\PProject\\sokobanproject\\img\\player.png");
-
+    private final ImageIcon goal = new ImageIcon("C:\\Users\\cesar\\OneDrive\\Escritorio\\Eclipse\\eclipse-workspace\\PProject\\sokobanproject\\img\\goal.png");
     public MapPanel(String fileName) {
         CreateMap createMap = new CreateMap();
         try {
@@ -52,7 +52,7 @@ public class MapPanel extends JPanel {
                     	image = emptyIcon.getImage();
                         break;
                     case GOAL:
-                    	image = wallIcon.getImage();
+                    	image = goal.getImage();
                         break;
                     case BOX:
                     	image = boxIcon.getImage();
