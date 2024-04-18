@@ -91,7 +91,7 @@ public class AppTest {
 					{'+','+','+','+'}
 			};
 			
-			char[][] actualMap = cm.createMap("C:\\Users\\cesar\\OneDrive\\Escritorio\\Eclipse\\eclipse-workspace\\PProject\\sokobanproject\\maps");
+			char[][] actualMap = cm.createMap("/home/pproject/eclipse-workspace/sokoban/maps/map_level_1.txt");
 			
 			for(int i = 0; i<expectedMap.length; i++) {
 				for(int j = 0; j<expectedMap[0].length; j++) {
