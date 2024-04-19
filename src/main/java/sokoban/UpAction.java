@@ -8,29 +8,37 @@ public class UpAction implements ActionI {
 		// TODO Auto-generated constructor stub
 	}
 
-	public void move(WarehouseMan w, char[][] mat) throws WallException {
+	public boolean move(WarehouseMan w, char[][] mat) throws WallException {
 		int x = w.getX();
 		int y = w.getY();
 		
-		switch(mat[x-mat[0].length][y-mat[0].length]) {
+		switch(mat[x-1][y]) {
 			case '+':
 				throw new WallException("Can't move, there is a wall");
 			case '#':
-				if(mat[x-(mat[0].length+1)][y-(mat[0].length+1)] == '+') {
+				if(mat[x-2][y] == '+') {
 					throw new WallException("Can't move, there is a wall");
-				} else {
-					mat[x-mat[0].length][y-mat[0].length] = 'W';
-					mat[x-(mat[0].length+1)][y-(mat[0].length+1)] = '#';
+				} /*else if(mat[x-2][y] == '*') {
+					mat[x-1][y] = 'W';
+					mat[x-2][y] = '#';
 					mat[x][y] = '.';
-					w.setX(x-mat[0].length);
-					w.setY(y-mat[0].length);
+					return true;
+				}*/ else {
+					mat[x-1][y] = 'W';
+					mat[x-2][y] = '#';
+					mat[x][y] = '.';
+					w.setX(x-1);
+					w.setY(y);
+					return false;
 				}
 			case '.':
-				mat[x-mat[0].length][y-mat[0].length] = 'W';
+				mat[x-1][y] = 'W';
 				mat[x][y] = '.';
-				w.setX(x-mat[0].length);
-				w.setY(y-mat[0].length);
+				w.setX(x-1);
+				w.setY(y);
+				return false;
 		}
+		return false;
 	}
 
 }
