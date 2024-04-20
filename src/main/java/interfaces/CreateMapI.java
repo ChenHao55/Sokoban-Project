@@ -1,4 +1,4 @@
-package sokoban;
+package interfaces;
 
 import java.io.FileNotFoundException;
 

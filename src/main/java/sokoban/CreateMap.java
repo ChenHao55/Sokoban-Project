@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
+import interfaces.CreateMapI;
+
 public class CreateMap implements CreateMapI {
 	
 	public CreateMap() {}
@@ -12,7 +14,8 @@ public class CreateMap implements CreateMapI {
 	public char[][] createMap(String fileName) throws FileNotFoundException {
 		char[][] map = null;
 		try {
-			Scanner s = new Scanner(new File(fileName));
+			File file = new File(fileName);
+			Scanner s = new Scanner(file);
 			
 			String levelName = s.nextLine();
 			int rows = s.nextInt();

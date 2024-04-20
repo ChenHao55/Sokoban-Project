@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -14,10 +15,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import exceptions.IlegalPositionException;
-import exceptions.PlayerNotFoundException;
+import exceptions.ObjectPositionNotFoundException;
 import exceptions.WallException;
 import sokoban.CreateMap;
 import sokoban.DownAction;
+import sokoban.GoalPosition;
 import sokoban.LeftAction;
 import sokoban.RightAction;
 import sokoban.UpAction;
@@ -35,6 +37,7 @@ public class MapPanel extends JPanel implements KeyListener {
 
     private char[][] level;
     private WarehouseMan m = new WarehouseMan(0,0);
+    private GoalPosition g = new GoalPosition(0,0);
     private CreateMap createMap = new CreateMap();
     //private int level_map = 1;
 
@@ -55,14 +58,15 @@ public class MapPanel extends JPanel implements KeyListener {
         }
     }
     
-    public MapPanel() throws IlegalPositionException, PlayerNotFoundException {
-    	createMap("C:\\Users\\cesar\\OneDrive\\Escritorio\\Eclipse\\eclipse-workspace\\PProject\\sokobanproject\\maps\\map_level_1.txt");
+    public MapPanel() throws IlegalPositionException, ObjectPositionNotFoundException {
+    	File file = new File("maps/map_level_1.txt");
+    	createMap(file.getAbsolutePath());
     	setPreferredSize(new Dimension(level[0].length * BLOCK_SIZE, level.length * BLOCK_SIZE));
         addKeyListener(this);
         setFocusable(true);
     }
     
-    private void createMap(String fileName) throws IlegalPositionException, PlayerNotFoundException {
+    private void createMap(String fileName) throws IlegalPositionException, ObjectPositionNotFoundException {
     	try {
             level = createMap.createMap(fileName);
             for (int x = 0; x < level.length; x++) {
@@ -70,12 +74,14 @@ public class MapPanel extends JPanel implements KeyListener {
                     if (level[x][y] == PLAYER) {
                         m.setX(x);
                         m.setY(y);
-                        break;
+                    } else if (level[x][y] == GOAL) {
+                    	g.setX(x);
+                    	g.setY(y);
                     }
                 }
             }
             if(m.getX() == 0 && m.getY() == 0) {
-            	throw new PlayerNotFoundException("Initial player position not found");
+            	throw new ObjectPositionNotFoundException("Not found position for all objects");
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -124,7 +130,7 @@ public class MapPanel extends JPanel implements KeyListener {
             	
                 UpAction up = new UpAction(m, level);
 				try {
-					/*finish =*/ up.move(m, level);
+					/*finish =*/ up.move(m, g, level);
 					/*if(finish) {
 						int option = JOptionPane.showOptionDialog(null, "¡Nivel completado! ¿Quieres avanzar al siguiente nivel?", "Nivel completado", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new String[]{"Sí", "No"}, "Sí");
 		                if (option == JOptionPane.YES_OPTION) {
@@ -145,7 +151,7 @@ public class MapPanel extends JPanel implements KeyListener {
             case KeyEvent.VK_DOWN:
             	DownAction down = new DownAction(m, level);
 				try {
-					/*finish =*/ down.move(m, level);
+					/*finish =*/ down.move(m, g, level);
 					/*if(finish) {
 						int option = JOptionPane.showOptionDialog(null, "¡Nivel completado! ¿Quieres avanzar al siguiente nivel?", "Nivel completado", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new String[]{"Sí", "No"}, "Sí");
 		                if (option == JOptionPane.YES_OPTION) {
@@ -166,7 +172,7 @@ public class MapPanel extends JPanel implements KeyListener {
             case KeyEvent.VK_LEFT:
             	LeftAction left = new LeftAction(m, level);
 				try {
-					/*finish =*/ left.move(m, level);
+					/*finish =*/ left.move(m, g, level);
 					/*if(finish) {
 						int option = JOptionPane.showOptionDialog(null, "¡Nivel completado! ¿Quieres avanzar al siguiente nivel?", "Nivel completado", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new String[]{"Sí", "No"}, "Sí");
 		                if (option == JOptionPane.YES_OPTION) {
@@ -187,7 +193,7 @@ public class MapPanel extends JPanel implements KeyListener {
             case KeyEvent.VK_RIGHT:
             	RightAction right = new RightAction(m, level);
 				try {
-					/*finish =*/ right.move(m, level);
+					/*finish =*/ right.move(m, g, level);
 					/*if(finish) {
 						int option = JOptionPane.showOptionDialog(null, "¡Nivel completado! ¿Quieres avanzar al siguiente nivel?", "Nivel completado", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, new String[]{"Sí", "No"}, "Sí");
 		                if (option == JOptionPane.YES_OPTION) {

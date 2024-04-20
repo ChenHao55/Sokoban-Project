@@ -1,6 +1,7 @@
 package sokoban;
 
 import exceptions.WallException;
+import interfaces.ActionI;
 
 public class DownAction implements ActionI {
 
@@ -8,9 +9,12 @@ public class DownAction implements ActionI {
 		// TODO Auto-generated constructor stub
 	}
 
-	public boolean move(WarehouseMan w, char[][] mat) throws WallException {
+	public boolean move(WarehouseMan w, GoalPosition g, char[][] mat) throws WallException {
 		int x = w.getX();
 		int y = w.getY();
+		boolean goal = false;
+		
+		goal = (x == g.getX()) && (y == g.getY());
 		
 		switch(mat[x+1][y]) {
 			case '+':
@@ -28,14 +32,15 @@ public class DownAction implements ActionI {
 					mat[x+2][y] = '#';
 					mat[x][y] = '.';
 					w.setX(x+1);
-					w.setY(y);
 				}
-			case '.':
+			default:
 				mat[x+1][y] = 'W';
 				mat[x][y] = '.';
 				w.setX(x+1);
-				w.setY(y);
 		}
+		
+		mat[x][y] = goal ? '*' : mat[x][y];
+		
 		return false;
 	}
 

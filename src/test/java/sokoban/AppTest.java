@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 
 import org.junit.jupiter.api.DisplayName;
@@ -76,7 +77,7 @@ public class AppTest {
 		}
 	}
 	
-	/*@DisplayName("Correct creation of a Map")
+	@DisplayName("Correct creation of a Map")
 	@Nested
 	class CorrectMapCreation{
 		
@@ -86,16 +87,17 @@ public class AppTest {
 			CreateMap cm = new CreateMap();
 			char[][] expectedMap = {
 					{'+','+','+','+','+','+','+','+'},
-					{'+','.','.','*','.','.','.','+'},
 					{'+','.','.','.','.','.','.','+'},
+					{'+','.','.','.','.','.','.','+'},
+					{'+','.','.','.','*','.','.','+'},
 					{'+','.','.','#','W','.','.','+'},
-					{'+','.','.','.','.','.','.','+'},
 					{'+','.','.','.','.','.','.','+'},
 					{'+','.','.','.','.','.','.','+'},
 					{'+','+','+','+','+','+','+','+'}
 			};
 			
-			char[][] actualMap = cm.createMap("..\\sokobanproject\\maps\\map_level_1.txt");
+			File file = new File("maps/map_level_1.txt");
+			char[][] actualMap = cm.createMap(file.getAbsolutePath());
 			
 			for(int i = 0; i<expectedMap.length; i++) {
 				for(int j = 0; j<expectedMap[0].length; j++) {
@@ -103,7 +105,7 @@ public class AppTest {
 				}
 			}
 		}
-	}*/
+	}
 	
 	@DisplayName("Incorrect creation of a Map")
 	@Nested

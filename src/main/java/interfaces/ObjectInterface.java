@@ -1,4 +1,4 @@
-package sokoban;
+package interfaces;
 
 
 public interface ObjectInterface {

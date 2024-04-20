@@ -1,5 +1,6 @@
 package sokoban;
 
+import interfaces.ActionI;
 
 public class ActionsFactory {
 	
