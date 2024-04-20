@@ -2,8 +2,10 @@ package graficUserInterface;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.FlowLayout;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
@@ -13,6 +15,7 @@ import exceptions.ObjectPositionNotFoundException;
 public class MainFrame extends JFrame{
 
 	private static final long serialVersionUID = 1L;
+
 	public MainFrame() throws IlegalPositionException, ObjectPositionNotFoundException {
 		setSize(400,500);  
 		setTitle("Sokoban");

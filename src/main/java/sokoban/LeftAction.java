@@ -32,11 +32,14 @@ public class LeftAction implements ActionI{
 					mat[x][y-2] = '#';
 					mat[x][y] = '.';
 					w.setY(y-1);
+					w.setBoxCount(w.getBoxCount() + 1);
+					break;
 				}
 			default:
 				mat[x][y-1] = 'W';
 				mat[x][y] = '.';
 				w.setY(y-1);
+				w.setCount(w.getCount() + 1);
 		}
 		
 		mat[x][y] = goal ? '*' : mat[x][y];

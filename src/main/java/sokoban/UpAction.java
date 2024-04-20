@@ -32,12 +32,15 @@ public class UpAction implements ActionI {
 					mat[x-2][y] = '#';
 					mat[x][y] = '.';
 					w.setX(x-1);
-					return false;
+					w.setBoxCount(w.getBoxCount() + 1);
+					//return false;
+					break;
 				}
 			default:
 				mat[x-1][y] = 'W';
 				mat[x][y] = '.';
 				w.setX(x-1);
+				w.setCount(w.getCount() + 1);
 		}
 		
 		mat[x][y] = goal ? '*' : mat[x][y];

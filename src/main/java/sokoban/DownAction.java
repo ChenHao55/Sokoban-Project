@@ -32,11 +32,14 @@ public class DownAction implements ActionI {
 					mat[x+2][y] = '#';
 					mat[x][y] = '.';
 					w.setX(x+1);
+					w.setBoxCount(w.getBoxCount() + 1);
+					break;
 				}
 			default:
 				mat[x+1][y] = 'W';
 				mat[x][y] = '.';
 				w.setX(x+1);
+				w.setCount(w.getCount() + 1);
 		}
 		
 		mat[x][y] = goal ? '*' : mat[x][y];
