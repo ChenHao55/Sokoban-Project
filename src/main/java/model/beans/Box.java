@@ -1,7 +1,6 @@
-package sokoban;
+package model.beans;
 
-import exceptions.IlegalPositionException;
-import interfaces.ObjectInterface;
+import model.exceptions.IlegalPositionException;
 
 public class Box implements ObjectInterface{
 	private int x;

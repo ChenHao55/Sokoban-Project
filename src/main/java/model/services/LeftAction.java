@@ -1,15 +1,15 @@
-package sokoban;
+package model.services;
 
-import exceptions.WallException;
-import interfaces.ActionI;
+import model.beans.GoalPosition;
+import model.beans.WarehouseMan;
+import model.exceptions.IlegalPositionException;
+import model.exceptions.WallException;
 
 public class LeftAction implements ActionI{
 
-	public LeftAction(WarehouseMan w, char[][] mat) {
-		// TODO Auto-generated constructor stub
-	}
+	public LeftAction(WarehouseMan w, char[][] mat) {}
 
-	public boolean move(WarehouseMan w, GoalPosition g, char[][] mat) throws WallException {
+	public char[][] move(WarehouseMan w, GoalPosition g, char[][] mat) throws WallException, IlegalPositionException {
 		int x = w.getX();
 		int y = w.getY();
 		boolean goal = false;
@@ -44,7 +44,6 @@ public class LeftAction implements ActionI{
 		
 		mat[x][y] = goal ? '*' : mat[x][y];
 		
-		return false;
+		return mat;
 	}
-
 }

@@ -1,7 +1,6 @@
-package sokoban;
+package model.beans;
 
-import exceptions.IlegalPositionException;
-import interfaces.ObjectInterface;
+import model.exceptions.IlegalPositionException;
 
 public class WarehouseMan implements ObjectInterface{
 	private int x;
@@ -9,12 +8,7 @@ public class WarehouseMan implements ObjectInterface{
 	private int count;
 	private int boxCount;
 	
-	public WarehouseMan(int x, int y) throws IlegalPositionException{
-		if (x < 0 || y < 0){
-			throw new IlegalPositionException("Invalid initial position");
-		}
-		this.x = x;
-		this.y = y;
+	public WarehouseMan() {
 		this.count = 0;
 		this.boxCount = 0;;
 	}
@@ -23,7 +17,10 @@ public class WarehouseMan implements ObjectInterface{
 		return x;
 	}
 
-	public void setX(int x) {
+	public void setX(int x) throws IlegalPositionException {
+		if (x < 0){
+			throw new IlegalPositionException("Invalid initial position");
+		}
 		this.x = x;
 	}
 
@@ -31,7 +28,10 @@ public class WarehouseMan implements ObjectInterface{
 		return y;
 	}
 
-	public void setY(int y) {
+	public void setY(int y) throws IlegalPositionException {
+		if (y < 0){
+			throw new IlegalPositionException("Invalid initial position");
+		}
 		this.y = y;
 	}
 

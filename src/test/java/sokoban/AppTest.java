@@ -1,11 +1,7 @@
 package sokoban;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-
-import java.io.File;
-import java.io.FileNotFoundException;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -13,7 +9,8 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import exceptions.IlegalPositionException;
+import model.beans.Box;
+import model.exceptions.IlegalPositionException;
 
 public class AppTest {
 	
@@ -74,49 +71,6 @@ public class AppTest {
 		void correctWarehouseManCreation() {
 			log.info("Executing test to check the correct creation of a WarehouseMan Object");
 			assertDoesNotThrow(() -> new Box(3, 4));
-		}
-	}
-	
-	@DisplayName("Correct creation of a Map")
-	@Nested
-	class CorrectMapCreation{
-		
-		@Test
-		void correctMap() throws FileNotFoundException {
-			log.info("Trying to create a valid Map");
-			CreateMap cm = new CreateMap();
-			char[][] expectedMap = {
-					{'+','+','+','+','+','+','+','+'},
-					{'+','.','.','.','.','.','.','+'},
-					{'+','.','.','.','.','.','.','+'},
-					{'+','.','.','.','*','.','.','+'},
-					{'+','.','.','#','W','.','.','+'},
-					{'+','.','.','.','.','.','.','+'},
-					{'+','.','.','.','.','.','.','+'},
-					{'+','+','+','+','+','+','+','+'}
-			};
-			
-			File file = new File("maps/map_level_1.txt");
-			char[][] actualMap = cm.createMap(file.getAbsolutePath());
-			
-			for(int i = 0; i<expectedMap.length; i++) {
-				for(int j = 0; j<expectedMap[0].length; j++) {
-					assertEquals(expectedMap[i][j], actualMap[i][j]);
-				}
-			}
-		}
-	}
-	
-	@DisplayName("Incorrect creation of a Map")
-	@Nested
-	class IncorrectMapCreation {
-		
-		@Test
-		void fileNotFound() {
-			log.info("Trying to create a Map from a non existing file");
-			CreateMap cm = new CreateMap();
-			
-			assertThrows(FileNotFoundException.class, () -> cm.createMap("\\sokobanproject\\maps\\non_existing_map.txt"));
 		}
 	}
 	

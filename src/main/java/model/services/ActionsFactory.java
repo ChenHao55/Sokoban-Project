@@ -1,6 +1,6 @@
-package sokoban;
+package model.services;
 
-import interfaces.ActionI;
+import model.beans.WarehouseMan;
 
 public class ActionsFactory {
 	
