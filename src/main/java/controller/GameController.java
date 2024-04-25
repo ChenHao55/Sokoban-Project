@@ -8,6 +8,7 @@ import model.exceptions.IlegalPositionException;
 import model.exceptions.ObjectPositionNotFoundException;
 import model.exceptions.WallException;
 import model.services.ActionI;
+import model.services.ActionsManager;
 import model.services.CreateMap;
 import model.services.CreateMapI;
 import model.services.DownAction;
@@ -26,6 +27,7 @@ public class GameController {
 	private char[][] level;
 	private WarehouseMan w = new WarehouseMan();
 	private GoalPosition g = new GoalPosition();
+	private ActionsManager am = new ActionsManager();
 	
 	public GameController(MainFrame mf, MapPanel mp) {
 		this.mf = mf;
@@ -34,9 +36,27 @@ public class GameController {
 	
 	//Aqui añadiria metodos como cambiar de nivel, una vez superado...
 	
+	public void undoMovement() throws IlegalPositionException, ObjectPositionNotFoundException {
+		char[][] aux;
+		aux = am.undo();
+		this.level = aux == null ? this.level : aux;
+		printCharArray(level);
+		updateMap();
+	}
+	
+    private void printCharArray(char[][] array) {
+        for (int i = 0; i < array.length; i++) {
+            for (int j = 0; j < array[i].length; j++) {
+                System.out.print(array[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }
+	
 	//METODOS PARA MOVER EL PERSONAJE
-	public void moveUp() {
+	public void moveUp() throws ObjectPositionNotFoundException {
 		atc = new UpAction(w, level);
+		am.newAction(atc);
 		try {
 			atc.move(w, g, level);
 			updateMap();
@@ -45,18 +65,21 @@ public class GameController {
 		}
 	}
 
-	public void moveLeft() {
+	public void moveLeft() throws ObjectPositionNotFoundException {
 		atc = new LeftAction(w, level);
+		am.newAction(atc);
 		try {
 			atc.move(w, g, level);
+			this.printCharArray(level);
 			updateMap();
 		} catch (WallException | IlegalPositionException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void moveDown() {
+	public void moveDown() throws ObjectPositionNotFoundException {
 		atc = new DownAction(w, level);
+		am.newAction(atc);
 		try {
 			atc.move(w, g, level);
 			updateMap();
@@ -65,8 +88,9 @@ public class GameController {
 		}
 	}
 	
-	public void moveRight() {
+	public void moveRight() throws ObjectPositionNotFoundException {
 		atc = new RightAction(w, level);
+		am.newAction(atc);
 		try {
 			atc.move(w, g, level);
 			updateMap();
@@ -76,25 +100,20 @@ public class GameController {
 	}
 	
 	//Este metodo se encarga de crear el mapa desde el principio
-	public void createMap(String fileName) {
+	public void createMap(String fileName) throws IlegalPositionException, ObjectPositionNotFoundException {
 		try {
 			level = cm.createMap(fileName, w, g);
 			mp.createMap(level);
 			mf.paintMap(mp);
-		} catch (FileNotFoundException | IlegalPositionException | ObjectPositionNotFoundException e) {
+		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
 	}
 	
 	//Este metodo se encarga de actualizar el mapa despues de los movimientos
-	private void updateMap() {
-		try {
-			mp.createMap(level);
-			mp.repaint();
-			mf.paintMap(mp);
-		} catch (IlegalPositionException | ObjectPositionNotFoundException e) {
-			e.printStackTrace();
-		}
+	private void updateMap() throws IlegalPositionException, ObjectPositionNotFoundException {
+		mp.createMap(level);
+		mf.paintMap(mp);
 	}
 	
 	//GETTERS Y SETTERS

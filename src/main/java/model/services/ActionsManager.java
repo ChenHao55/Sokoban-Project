@@ -1,9 +1,6 @@
 package model.services;
 
-
 import java.util.Stack;
-
-import javax.swing.Action;
 
 public class ActionsManager{
 	private Stack<ActionI> actions;
@@ -22,7 +19,18 @@ public class ActionsManager{
 		actions.push(a);
 	}
 
-	public ActionI undo() {
-		return actions.pop();
+	public char[][] undo() {
+		if(this.actions.empty()) {return null;}
+		ActionI a = actions.pop();
+		if(a instanceof DownAction) {
+			return ((DownAction) a).getMat();
+		} else if(a instanceof UpAction) {
+			return ((UpAction) a).getMat();
+		} else if(a instanceof LeftAction) {
+			return ((LeftAction) a).getMat();
+		} else if(a instanceof RightAction) {
+			return ((RightAction) a).getMat();
+		}
+		return null;
 	}
 }

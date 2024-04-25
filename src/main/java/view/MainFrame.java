@@ -29,7 +29,7 @@ public class MainFrame extends JFrame implements KeyListener  {
 
 	public MainFrame() throws IlegalPositionException, ObjectPositionNotFoundException {
 
-		setSize(500,700);  
+		setSize(400,500);  
 		setTitle("Sokoban");
         setLocationRelativeTo(null);
         
@@ -49,7 +49,7 @@ public class MainFrame extends JFrame implements KeyListener  {
 
 	    // Crear el JLabel para el título
 	    JLabel title = new JLabel("<html><div style='text-align: center;'>SOKOBAN</div></html>", SwingConstants.CENTER);
-	    title.setFont(new Font("Times New Roman", Font.BOLD, 80));
+	    title.setFont(new Font("Times New Roman", Font.BOLD, 70));
 	    title.setForeground(Color.WHITE);
 
 	    // Crear un panel para los botones y establecer su diseño
@@ -61,7 +61,14 @@ public class MainFrame extends JFrame implements KeyListener  {
 	    JButton loadGame = new JButton("Load Game");
 
 	    // Agregar acción a los botones
-	    newGame.addActionListener(e -> gc.createMap(new File("maps/map_level_1.txt").getAbsolutePath()));
+	    newGame.addActionListener(e -> {
+			try {
+				gc.createMap(new File("maps/map_level_1.txt").getAbsolutePath());
+			} catch (IlegalPositionException | ObjectPositionNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		});
 	    loadGame.addActionListener(e -> JOptionPane.showMessageDialog(null, "Cargar Partida"));
 
 	    // Agregar el título al centro del panel principal
@@ -86,7 +93,7 @@ public class MainFrame extends JFrame implements KeyListener  {
 	}
 	
 	//Añadir al Frame el Panel del Mapa
-	public void paintMap(MapPanel mp) {
+	public void paintMap(MapPanel mp) throws IlegalPositionException, ObjectPositionNotFoundException {
 		getContentPane().removeAll();
 		add(mp, BorderLayout.CENTER);
 		revalidate();
@@ -104,17 +111,44 @@ public class MainFrame extends JFrame implements KeyListener  {
 		int keyCode = e.getKeyCode();
 		switch (keyCode) {
 			case KeyEvent.VK_UP:
-				System.out.println("Dentro de Up case");
+			try {
 				gc.moveUp();
+			} catch (ObjectPositionNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 				break;
 			case KeyEvent.VK_DOWN:
+			try {
 				gc.moveDown();
+			} catch (ObjectPositionNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 				break;
 			case KeyEvent.VK_LEFT:
+			try {
 				gc.moveLeft();
+			} catch (ObjectPositionNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 				break;
 			case KeyEvent.VK_RIGHT:
+			try {
 				gc.moveRight();
+			} catch (ObjectPositionNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+				break;
+			case KeyEvent.VK_CONTROL:
+			try {
+				gc.undoMovement();
+			} catch (IlegalPositionException | ObjectPositionNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 				break;
 		}
 	}

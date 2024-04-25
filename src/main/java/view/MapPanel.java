@@ -18,7 +18,6 @@ import model.exceptions.ObjectPositionNotFoundException;
 public class MapPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private final int BLOCK_SIZE = 50;
 	private final char WALL = '+';
 	private final char EMPTY = '.';
 	private final char GOAL = '*';
@@ -61,6 +60,7 @@ public class MapPanel extends JPanel {
 
 	public MapPanel() throws IlegalPositionException, ObjectPositionNotFoundException {
 		setLayout(new BorderLayout());
+		setSize(400,500);
 		JPanel CountPanel = new JPanel(new FlowLayout());
 
 		turnWarehouseman = new JLabel("W: 0");
@@ -71,44 +71,67 @@ public class MapPanel extends JPanel {
 
 		turnCount = new JLabel("T: 0");
 		CountPanel.add(turnCount);
+		
 		add(CountPanel, BorderLayout.AFTER_LAST_LINE);
-		setPreferredSize(new Dimension(500, 700));
-		setFocusable(true);
 
 	}
 
-	public void createMap(char[][] level) throws IlegalPositionException, ObjectPositionNotFoundException {
+	public void createMap(char[][] level) {
 		this.level = level;
 	}
 
 	@Override
 	protected void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		for (int y = 0; y < level.length; y++) {
-			for (int x = 0; x < level[y].length; x++) {
-				Image image = null;
-				switch (level[y][x]) {
-				case WALL:
-					image = wallIcon.getImage();
-					break;
-				case EMPTY:
-					image = emptyIcon.getImage();
-					break;
-				case GOAL:
-					image = goal.getImage();
-					break;
-				case BOX:
-					image = boxIcon.getImage();
-					break;
-				case PLAYER:
-					image = playerIcon.getImage();
-					break;
-				}
-				if (image != null) {
-					g.drawImage(image, x * BLOCK_SIZE, y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE, null);
-				}
-			}
-		}
+	    super.paintComponent(g);
+	    
+	    if (level == null) {
+	        return; // No hay nada que pintar si no hay un mapa
+	    }
+
+	    int numRows = level.length;
+	    int numCols = level[0].length;
+
+	    int cellSize = Math.min(getWidth() / numCols, getHeight() / numRows);
+
+	    for (int y = 0; y < numRows; y++) {
+	        for (int x = 0; x < numCols; x++) {
+	            Image image = null;
+	            int xPos = x * cellSize;
+	            int yPos = y * cellSize;
+
+	            switch (level[y][x]) {
+	                case WALL:
+	                    image = wallIcon.getImage();
+	                    break;
+	                case EMPTY:
+	                    image = emptyIcon.getImage();
+	                    break;
+	                case GOAL:
+	                    image = goal.getImage();
+	                    break;
+	                case BOX:
+	                    image = boxIcon.getImage();
+	                    break;
+	                case PLAYER:
+	                    image = playerIcon.getImage();
+	                    break;
+	            }
+	            if (image != null) {
+	                g.drawImage(image, xPos, yPos, cellSize, cellSize, null);
+	            }
+	        }
+	    }
+	}
+	
+	@Override
+	public Dimension getPreferredSize() {
+	    if (level == null) {
+	        return super.getPreferredSize();
+	    }
+	    int numRows = level.length;
+	    int numCols = level[0].length;
+	    int cellSize = Math.min(getWidth() / numCols, getHeight() / numRows);
+	    return new Dimension(numCols * cellSize, numRows * cellSize);
 	}
 
 }

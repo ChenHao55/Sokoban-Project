@@ -6,8 +6,14 @@ import model.exceptions.IlegalPositionException;
 import model.exceptions.WallException;
 
 public class UpAction implements ActionI {
+	
+	private WarehouseMan w;
+	private char[][] mat;
 
-	public UpAction(WarehouseMan w, char[][] mat) {}
+	public UpAction(WarehouseMan w, char[][] mat) {
+		this.w = w;
+		this.mat = mat;
+	}
 
 	public char[][] move(WarehouseMan w, GoalPosition g, char[][] mat) throws WallException, IlegalPositionException {
 		int x = w.getX();
@@ -18,10 +24,10 @@ public class UpAction implements ActionI {
 		
 		switch(mat[x-1][y]) {
 			case '+':
-				throw new WallException("Can't move, there is a wall");
+				break;
 			case '#':
 				if(mat[x-2][y] == '+') {
-					throw new WallException("Can't move, there is a wall");
+					break;
 				} /*else if(mat[x-2][y] == '*') {
 					mat[x-1][y] = 'W';
 					mat[x-2][y] = '#';
@@ -44,7 +50,22 @@ public class UpAction implements ActionI {
 		}
 		
 		mat[x][y] = goal ? '*' : mat[x][y];
-		
 		return mat;
+	}
+
+	public WarehouseMan getW() {
+		return w;
+	}
+
+	public void setW(WarehouseMan w) {
+		this.w = w;
+	}
+
+	public char[][] getMat() {
+		return mat;
+	}
+
+	public void setMat(char[][] mat) {
+		this.mat = mat;
 	}
 }
