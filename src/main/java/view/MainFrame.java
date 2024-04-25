@@ -49,7 +49,7 @@ public class MainFrame extends JFrame implements KeyListener  {
 
 	    // Crear el JLabel para el título
 	    JLabel title = new JLabel("<html><div style='text-align: center;'>SOKOBAN</div></html>", SwingConstants.CENTER);
-	    title.setFont(new Font("Times New Roman", Font.BOLD, 70));
+	    title.setFont(new Font("Comic Sans MS", Font.BOLD, 70));
 	    title.setForeground(Color.WHITE);
 
 	    // Crear un panel para los botones y establecer su diseño

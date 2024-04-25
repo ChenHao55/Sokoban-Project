@@ -70,7 +70,6 @@ public class GameController {
 		am.newAction(atc);
 		try {
 			atc.move(w, g, level);
-			this.printCharArray(level);
 			updateMap();
 		} catch (WallException | IlegalPositionException e) {
 			e.printStackTrace();
