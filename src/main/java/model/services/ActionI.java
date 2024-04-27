@@ -8,5 +8,7 @@ import model.exceptions.WallException;
 public interface ActionI {
 
 	//Metodo para desplazar a la derecha, izq, arriba o abajo
-	boolean move(WarehouseMan w, GoalPosition g, char[][] mat, boolean undo) throws WallException, IlegalPositionException;
+	boolean isMovedBox();
+	boolean move(WarehouseMan w, GoalPosition g, char[][] mat) throws WallException, IlegalPositionException;
+	void undo(WarehouseMan w, GoalPosition g, char[][] mat, boolean movedBox) throws WallException, IlegalPositionException;
 }
