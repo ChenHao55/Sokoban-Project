@@ -15,4 +15,4 @@ sonarqube-check:
     - mvn verify sonar:sonar -Dsonar.login=${SONAR_LOGIN} -Dsonar.id${SONAR_ID}
   allow_failure: true
   only:
-    - master # or the name of your main branch
+    - main # or the name of your main branch
