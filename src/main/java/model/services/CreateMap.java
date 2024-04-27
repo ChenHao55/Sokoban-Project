@@ -2,6 +2,7 @@ package model.services;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import model.beans.GoalPosition;
@@ -17,7 +18,7 @@ public class CreateMap implements CreateMapI {
 	public CreateMap() {}
 
 	@Override
-	public char[][] createMap(String fileName, WarehouseMan w, GoalPosition g) throws FileNotFoundException {
+	public char[][] createMap(String fileName, WarehouseMan w, ArrayList<GoalPosition> gs) throws FileNotFoundException {
 		char[][] map = null;
 		try {
 			File file = new File(fileName);
@@ -39,8 +40,10 @@ public class CreateMap implements CreateMapI {
 						w.setX(i);
 						w.setY(j);
 					} else if (row.charAt(j) == GOAL) {
+						GoalPosition g = new GoalPosition();
 						g.setX(i);
 						g.setY(j);
+						gs.add(g);
 					}
 				}
 			}
