@@ -19,18 +19,9 @@ public class ActionsManager{
 		actions.push(a);
 	}
 
-	public char[][] undo() {
+	public ActionI undo() {
 		if(this.actions.empty()) {return null;}
 		ActionI a = actions.pop();
-		if(a instanceof DownAction) {
-			return ((DownAction) a).getMat();
-		} else if(a instanceof UpAction) {
-			return ((UpAction) a).getMat();
-		} else if(a instanceof LeftAction) {
-			return ((LeftAction) a).getMat();
-		} else if(a instanceof RightAction) {
-			return ((RightAction) a).getMat();
-		}
-		return null;
+		return a;
 	}
 }

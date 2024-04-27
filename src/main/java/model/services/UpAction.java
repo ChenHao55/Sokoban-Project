@@ -15,42 +15,69 @@ public class UpAction implements ActionI {
 		this.mat = mat;
 	}
 
-	public char[][] move(WarehouseMan w, GoalPosition g, char[][] mat) throws WallException, IlegalPositionException {
+	public boolean move(WarehouseMan w, GoalPosition g, char[][] mat, boolean undo) throws WallException, IlegalPositionException {
 		int x = w.getX();
 		int y = w.getY();
 		boolean goal = false;
+		boolean moved = false;
 		
-		goal = (x == g.getX()) && (y == g.getY());
-		
-		switch(mat[x-1][y]) {
-			case '+':
-				break;
-			case '#':
-				if(mat[x-2][y] == '+') {
+		if(!undo) {
+			switch(mat[x-1][y]) {
+				case '+':
 					break;
-				} /*else if(mat[x-2][y] == '*') {
+				case '#':
+					if(mat[x-2][y] == '+') {
+						break;
+					} /*else if(mat[x+2][y]=='*') {
+						mat[x+1][y] = 'W';
+						mat[x+2][y] = '#';
+						mat[x][y] = '.';
+						return true;
+					}*/ else {
+						moved = true;
+						mat[x-1][y] = 'W';
+						mat[x-2][y] = '#';
+						mat[x][y] = '.';
+						w.setX(x-1);
+						w.setBoxCount(w.getBoxCount() + 1);
+						//return false;
+						break;
+					}
+				default:
+					moved = true;
 					mat[x-1][y] = 'W';
-					mat[x-2][y] = '#';
-					mat[x][y] = '.';
-					return true;
-				}*/ else {
-					mat[x-1][y] = 'W';
-					mat[x-2][y] = '#';
 					mat[x][y] = '.';
 					w.setX(x-1);
-					w.setBoxCount(w.getBoxCount() + 1);
-					//return false;
-					break;
-				}
-			default:
-				mat[x-1][y] = 'W';
-				mat[x][y] = '.';
-				w.setX(x-1);
-				w.setCount(w.getCount() + 1);
+					w.setCount(w.getCount() + 1);
+			}			
 		}
+		else {
+			switch(mat[x-1][y]) {
+				case '#':
+					/*else if(mat[x-2][y] == '*') {
+						mat[x-1][y] = 'W';
+						mat[x-2][y] = '#';
+						mat[x][y] = '.';
+						return true;
+					}*/
+						mat[x+1][y] = 'W';
+						mat[x][y] = '#';
+						mat[x-1][y] = '.';
+						w.setX(x+1);
+						w.setBoxCount(w.getBoxCount() - 1);
+						//return false;
+						break;
+				default:
+					mat[x+1][y] = 'W';
+					mat[x][y] = '.';
+					w.setX(x+1);
+					w.setCount(w.getCount() - 1);
+			}			
+		}
+		goal = (mat[g.getX()][g.getY()] == '.');
+		mat[g.getX()][g.getY()] = goal ? '*' : mat[g.getX()][g.getY()];
 		
-		mat[x][y] = goal ? '*' : mat[x][y];
-		return mat;
+		return moved;
 	}
 
 	public WarehouseMan getW() {

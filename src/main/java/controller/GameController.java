@@ -37,18 +37,53 @@ public class GameController {
 	//Aqui añadiria metodos como cambiar de nivel, una vez superado...
 	
 	public void undoMovement() throws IlegalPositionException, ObjectPositionNotFoundException {
-		char[][] aux;
+		ActionI aux;
 		aux = am.undo();
-		this.level = aux == null ? this.level : aux;
-		updateMap();
+		if(aux instanceof UpAction) {
+			atc = new UpAction(w, level);
+			try {
+				atc.move(w, g, level, true);
+				updateMap();
+			} catch (WallException | IlegalPositionException e) {
+				e.printStackTrace();
+			}
+		}
+		else if(aux instanceof DownAction) {
+			atc = new DownAction(w, level);
+			try {
+				atc.move(w, g, level, true);
+				updateMap();
+			} catch (WallException | IlegalPositionException e) {
+				e.printStackTrace();
+			}
+		}
+		else if(aux instanceof LeftAction) {
+			atc = new LeftAction(w, level);
+			try {
+				atc.move(w, g, level, true);
+				updateMap();
+			} catch (WallException | IlegalPositionException e) {
+				e.printStackTrace();
+			}
+		}
+		else if(aux instanceof RightAction) {
+			atc = new RightAction(w, level);
+			try {
+				atc.move(w, g, level, true);
+				updateMap();
+			} catch (WallException | IlegalPositionException e) {
+				e.printStackTrace();
+			}
+		}
+//		updateMap();
 	}
 	
 	//METODOS PARA MOVER EL PERSONAJE
 	public void moveUp() throws ObjectPositionNotFoundException {
 		atc = new UpAction(w, level);
-		am.newAction(atc);
 		try {
-			atc.move(w, g, level);
+			if(atc.move(w, g, level,false))
+				am.newAction(atc);
 			updateMap();
 		} catch (WallException | IlegalPositionException e) {
 			e.printStackTrace();
@@ -57,9 +92,9 @@ public class GameController {
 
 	public void moveLeft() throws ObjectPositionNotFoundException {
 		atc = new LeftAction(w, level);
-		am.newAction(atc);
 		try {
-			atc.move(w, g, level);
+			if(atc.move(w, g, level, false))
+				am.newAction(atc);
 			updateMap();
 		} catch (WallException | IlegalPositionException e) {
 			e.printStackTrace();
@@ -68,9 +103,9 @@ public class GameController {
 
 	public void moveDown() throws ObjectPositionNotFoundException {
 		atc = new DownAction(w, level);
-		am.newAction(atc);
 		try {
-			atc.move(w, g, level);
+			if(atc.move(w, g, level, false))
+				am.newAction(atc);
 			updateMap();
 		} catch (WallException | IlegalPositionException e) {
 			e.printStackTrace();
@@ -79,9 +114,9 @@ public class GameController {
 	
 	public void moveRight() throws ObjectPositionNotFoundException {
 		atc = new RightAction(w, level);
-		am.newAction(atc);
 		try {
-			atc.move(w, g, level);
+			if(atc.move(w, g, level, false))
+				am.newAction(atc);
 			updateMap();
 		} catch (WallException | IlegalPositionException e) {
 			e.printStackTrace();
