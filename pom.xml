@@ -27,8 +27,8 @@
 		<sonar.host.url>https://costa.ls.fi.upm.es/sonar</sonar.host.url>
 		<sonar.qualitygate.wait>true</sonar.qualitygate.wait>
         <!--suppress UnresolvedMavenProperty -->
-         <sonar.projectName>${project.name}-${sonar.id}</sonar.projectName>
-	    <sonar.projectKey>${project.groupId}:${project.artifactId}:${sonar.projectName}:${sonar.id}</sonar.projectKey>
+         <sonar.projectName>sokoban</sonar.projectName>
+	    <sonar.projectKey>sokoban</sonar.projectKey>
 	    <!-- Files to be excluded from coverage. Define for the view+controller 
 		 in your final projects -->
 	    <sonar.coverage.exclusions>**/view,**.controller</sonar.coverage.exclusions>
