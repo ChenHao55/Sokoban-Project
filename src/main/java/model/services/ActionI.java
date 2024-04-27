@@ -9,4 +9,7 @@ public interface ActionI {
 
 	//Metodo para desplazar a la derecha, izq, arriba o abajo
 	char[][] move(WarehouseMan w, GoalPosition g, char[][] mat) throws WallException, IlegalPositionException;
+	
+	//Metodo para imprimir el mapa de la accion
+	void printMap(char[][] level);
 }

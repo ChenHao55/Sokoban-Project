@@ -37,18 +37,23 @@ public class GameController {
 	//Aqui añadiria metodos como cambiar de nivel, una vez superado...
 	
 	public void undoMovement() throws IlegalPositionException, ObjectPositionNotFoundException {
-		char[][] aux;
-		aux = am.undo();
-		this.level = aux == null ? this.level : aux;
+		ActionI a = am.undo();
+		this.level = a == null ? this.level : aux;
+		this.
 		updateMap();
 	}
 	
 	//METODOS PARA MOVER EL PERSONAJE
 	public void moveUp() throws ObjectPositionNotFoundException {
-		atc = new UpAction(w, level);
+		char[][] levelCopy =  new char[this.level.length][];
+		for(int i = 0; i<this.level.length; i++) {
+			levelCopy[i] = this.level[i].clone();
+		}
+		WarehouseMan actualW = this.w.clone();
+		atc = new UpAction(actualW, levelCopy);
 		am.newAction(atc);
 		try {
-			atc.move(w, g, level);
+			atc.move(this.w, this.g, this.level);
 			updateMap();
 		} catch (WallException | IlegalPositionException e) {
 			e.printStackTrace();

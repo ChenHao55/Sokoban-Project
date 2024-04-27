@@ -14,6 +14,16 @@ public class UpAction implements ActionI {
 		this.w = w;
 		this.mat = mat;
 	}
+	
+	@Override
+	public void printMap(char[][] level) {
+		for(int i = 0; i<level.length; i++) {
+			for(int j = 0; j<level[0].length; j++) {
+				System.out.print(level[i][j]);
+			}
+			System.out.println();
+		}
+	}
 
 	public char[][] move(WarehouseMan w, GoalPosition g, char[][] mat) throws WallException, IlegalPositionException {
 		int x = w.getX();
