@@ -1,5 +1,7 @@
 package model.services;
 
+import java.util.ArrayList;
+
 import model.beans.GoalPosition;
 import model.beans.WarehouseMan;
 import model.exceptions.IlegalPositionException;
@@ -17,7 +19,7 @@ public class LeftAction implements ActionI{
 		movedBox =  false;
 	}
 
-	public boolean move(WarehouseMan w, GoalPosition g, char[][] mat) throws WallException, IlegalPositionException {
+	public boolean move(WarehouseMan w, ArrayList<GoalPosition> gs, char[][] mat) throws WallException, IlegalPositionException {
 		int x = w.getX();
 		int y = w.getY();
 		boolean goal = false;
@@ -27,7 +29,7 @@ public class LeftAction implements ActionI{
 			case '+':
 				break;
 			case '#':
-				if(mat[x][y-2] == '+') {
+				if(mat[x][y-2] == '+' || mat[x][y-2] == '#') {
 					break;
 				} /*else if(mat[x][y-2] == '*') {
 					mat[x][y-1] = 'W';
@@ -52,12 +54,14 @@ public class LeftAction implements ActionI{
 				w.setCount(w.getCount() + 1);
 		}			
 
-		goal = (mat[g.getX()][g.getY()] == '.');
-		mat[g.getX()][g.getY()] = goal ? '*' : mat[g.getX()][g.getY()];
+		for (GoalPosition g : gs) {
+			goal = (mat[g.getX()][g.getY()] == '.');
+			mat[g.getX()][g.getY()] = goal ? '*' : mat[g.getX()][g.getY()];
+		}
 		
 		return moved;
 	}
-	public void undo(WarehouseMan w, GoalPosition g, char[][] mat, boolean movedBox) throws WallException, IlegalPositionException {
+	public void undo(WarehouseMan w, ArrayList<GoalPosition> gs, char[][] mat, boolean movedBox) throws WallException, IlegalPositionException {
 		int x = w.getX();
 		int y = w.getY();
 		boolean goal = false;
@@ -76,8 +80,10 @@ public class LeftAction implements ActionI{
 			w.setCount(w.getCount() - 1);
 		}
 		
-		goal = (mat[g.getX()][g.getY()] == '.');
-		mat[g.getX()][g.getY()] = goal ? '*' : mat[g.getX()][g.getY()];
+		for (GoalPosition g : gs) {
+			goal = (mat[g.getX()][g.getY()] == '.');
+			mat[g.getX()][g.getY()] = goal ? '*' : mat[g.getX()][g.getY()];
+		}
 	}
 
 

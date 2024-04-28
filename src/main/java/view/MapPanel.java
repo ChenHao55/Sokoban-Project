@@ -1,14 +1,21 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.io.File;
 
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 import model.exceptions.IlegalPositionException;
 import model.exceptions.ObjectPositionNotFoundException;
@@ -38,6 +45,8 @@ public class MapPanel extends JPanel {
 	public MapPanel() throws IlegalPositionException, ObjectPositionNotFoundException {
 		setLayout(new BorderLayout());
 		setSize(400,500);
+		
+		//Creating count panel
 		JPanel CountPanel = new JPanel(new FlowLayout());
 
 		turnWarehouseman = new JLabel("W: 0");
@@ -49,10 +58,35 @@ public class MapPanel extends JPanel {
 		turnCount = new JLabel("T: 0");
 		CountPanel.add(turnCount);
 		
-		add(CountPanel, BorderLayout.AFTER_LAST_LINE);
+		//Creating buttons panel
+		JButton newGame = new JButton("New Game");
+	    JButton loadGame = new JButton("Load Game");
 
+	    // Agregar acción a los botones
+	    newGame.addActionListener(e -> {
+//			try {
+//				gc.createMap(new File("maps/map_level_1.txt").getAbsolutePath());
+//			} catch (IlegalPositionException | ObjectPositionNotFoundException e1) {
+//				// TODO Auto-generated catch block
+//				e1.printStackTrace();
+//			}
+		});
+	    loadGame.addActionListener(e -> JOptionPane.showMessageDialog(null, "Cargar Partida"));
+	    JPanel buttonsPanel = new JPanel(new FlowLayout());
+
+	    buttonsPanel.add(newGame);
+	    buttonsPanel.add(loadGame);
+	    
+	    //Creating container for the panels
+	    JPanel container = new JPanel();
+        container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
+        
+        container.add(CountPanel);
+        container.add(buttonsPanel);
+
+		add(container, BorderLayout.AFTER_LAST_LINE);
 	}
-
+	
 	public void createMap(char[][] level) {
 		this.level = level;
 	}

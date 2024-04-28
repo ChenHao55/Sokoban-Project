@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
 import model.beans.GoalPosition;
 import model.beans.WarehouseMan;
@@ -26,7 +27,7 @@ public class GameController {
 	private ActionI atc;
 	private char[][] level;
 	private WarehouseMan w = new WarehouseMan();
-	private GoalPosition g = new GoalPosition();
+	private ArrayList<GoalPosition> gs = new ArrayList<GoalPosition>();
 	private ActionsManager am = new ActionsManager();
 	
 	public GameController(MainFrame mf, MapPanel mp) {
@@ -39,50 +40,31 @@ public class GameController {
 	public void undoMovement() throws IlegalPositionException, ObjectPositionNotFoundException {
 		ActionI aux;
 		aux = am.undo();
-		if(aux instanceof UpAction) {
-			atc = new UpAction(w, level);
+		
+		if(aux != null) {
+			if(aux instanceof UpAction)
+				atc = new UpAction(w, level);
+			else if(aux instanceof DownAction)
+				atc = new DownAction(w, level);
+			else if(aux instanceof LeftAction)
+				atc = new LeftAction(w, level);
+			else if(aux instanceof RightAction) 
+				atc = new RightAction(w, level);
+
 			try {
-				atc.undo(w, g, level, aux.isMovedBox());
+				atc.undo(w, gs, level, aux.isMovedBox());
 				updateMap();
 			} catch (WallException | IlegalPositionException e) {
 				e.printStackTrace();
 			}
 		}
-		else if(aux instanceof DownAction) {
-			atc = new DownAction(w, level);
-			try {
-				atc.undo(w, g, level, aux.isMovedBox());
-				updateMap();
-			} catch (WallException | IlegalPositionException e) {
-				e.printStackTrace();
-			}
-		}
-		else if(aux instanceof LeftAction) {
-			atc = new LeftAction(w, level);
-			try {
-				atc.undo(w, g, level, aux.isMovedBox());
-				updateMap();
-			} catch (WallException | IlegalPositionException e) {
-				e.printStackTrace();
-			}
-		}
-		else if(aux instanceof RightAction) {
-			atc = new RightAction(w, level);
-			try {
-				atc.undo(w, g, level, aux.isMovedBox());
-				updateMap();
-			} catch (WallException | IlegalPositionException e) {
-				e.printStackTrace();
-			}
-		}
-//		updateMap();
 	}
 	
 	//METODOS PARA MOVER EL PERSONAJE
 	public void moveUp() throws ObjectPositionNotFoundException {
 		atc = new UpAction(w, level);
 		try {
-			if(atc.move(w, g, level))
+			if(atc.move(w, gs, level))
 				am.newAction(atc);
 			updateMap();
 		} catch (WallException | IlegalPositionException e) {
@@ -93,7 +75,7 @@ public class GameController {
 	public void moveLeft() throws ObjectPositionNotFoundException {
 		atc = new LeftAction(w, level);
 		try {
-			if(atc.move(w, g, level))
+			if(atc.move(w, gs, level))
 				am.newAction(atc);
 			updateMap();
 		} catch (WallException | IlegalPositionException e) {
@@ -104,7 +86,7 @@ public class GameController {
 	public void moveDown() throws ObjectPositionNotFoundException {
 		atc = new DownAction(w, level);
 		try {
-			if(atc.move(w, g, level))
+			if(atc.move(w, gs, level))
 				am.newAction(atc);
 			updateMap();
 		} catch (WallException | IlegalPositionException e) {
@@ -115,7 +97,7 @@ public class GameController {
 	public void moveRight() throws ObjectPositionNotFoundException {
 		atc = new RightAction(w, level);
 		try {
-			if(atc.move(w, g, level))
+			if(atc.move(w, gs, level))
 				am.newAction(atc);
 			updateMap();
 		} catch (WallException | IlegalPositionException e) {
@@ -126,7 +108,7 @@ public class GameController {
 	//Este metodo se encarga de crear el mapa desde el principio
 	public void createMap(String fileName) throws IlegalPositionException, ObjectPositionNotFoundException {
 		try {
-			level = cm.createMap(fileName, w, g);
+			level = cm.createMap(fileName, w, gs);
 			mp.createMap(level);
 			mf.paintMap(mp);
 		} catch (FileNotFoundException e) {
@@ -149,12 +131,12 @@ public class GameController {
 		this.w = w;
 	}
 	
-	public GoalPosition getG() {
-		return this.g;
+	public ArrayList<GoalPosition> getGs() {
+		return this.gs;
 	}
 	
-	public void setG(GoalPosition g) {
-		this.g = g;
+	public void setGs(ArrayList<GoalPosition> gs) {
+		this.gs = gs;
 	}
 	
 	public MainFrame getmf() {

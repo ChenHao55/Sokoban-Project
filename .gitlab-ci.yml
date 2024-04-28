@@ -1,6 +1,6 @@
-maven_build :
-image : maven :3.6.3 - jdk -11
-script : mvn test
+maven_build:
+  image: maven:3.6.3-jdk-11
+  script: mvn test
 
 sonarqube-check:
   image: maven:3.6.3-jdk-11
@@ -12,7 +12,7 @@ sonarqube-check:
     paths:
       - .sonar/cache
   script: 
-    - mvn verify sonar:sonar -Dsonar.login=${SONAR_LOGIN} -Dsonar.id${SONAR_ID}
+    - mvn verify sonar:sonar -Dsonar.login=${SONAR_LOGIN} -Dsonar.id=${SONAR_ID}
   allow_failure: true
   only:
-    - main # or the name of your main branch
+    - main # or master (the name of your main branch)
