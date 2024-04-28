@@ -13,6 +13,7 @@ public class GameMain {
 		GameController gc = new GameController(mf, mp);
 		
 		mf.setGc(gc);
+		mp.setGc(gc);
 		mf.setVisible(true);
 	}
 }

@@ -10,10 +10,10 @@ import model.exceptions.ObjectPositionNotFoundException;
 import model.exceptions.WallException;
 import model.services.ActionI;
 import model.services.ActionsManager;
-import model.services.CreateMap;
-import model.services.CreateMapI;
+import model.services.OptionsI;
 import model.services.DownAction;
 import model.services.LeftAction;
+import model.services.Options;
 import model.services.RightAction;
 import model.services.UpAction;
 import view.MainFrame;
@@ -23,12 +23,12 @@ public class GameController {
 	
 	private MainFrame mf;
 	private MapPanel mp;
-	private CreateMapI cm = new CreateMap();
 	private ActionI atc;
 	private char[][] level;
 	private WarehouseMan w = new WarehouseMan();
 	private ArrayList<GoalPosition> gs = new ArrayList<GoalPosition>();
 	private ActionsManager am = new ActionsManager();
+	private OptionsI o = new Options(); 
 	
 	public GameController(MainFrame mf, MapPanel mp) {
 		this.mf = mf;
@@ -36,6 +36,31 @@ public class GameController {
 	}
 	
 	//Aqui añadiria metodos como cambiar de nivel, una vez superado...
+	
+	//Este metodo se encarga de crear el mapa desde el principio
+	public void newGame(String fileName) throws IlegalPositionException, ObjectPositionNotFoundException, FileNotFoundException {
+		level = o.newGame(fileName, w, gs);
+		mp.createMap(level);
+		mf.paintMap(mp);
+	}
+	
+	public void saveGame() {
+		o.saveGame(level);
+		try {
+			updateMap();
+		} catch (IlegalPositionException | ObjectPositionNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void loadGame() {
+		this.level = o.loadGame(w, gs);
+		try {
+			updateMap();
+		} catch (IlegalPositionException | ObjectPositionNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	public void undoMovement() throws IlegalPositionException, ObjectPositionNotFoundException {
 		ActionI aux;
@@ -101,17 +126,6 @@ public class GameController {
 				am.newAction(atc);
 			updateMap();
 		} catch (WallException | IlegalPositionException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	//Este metodo se encarga de crear el mapa desde el principio
-	public void createMap(String fileName) throws IlegalPositionException, ObjectPositionNotFoundException {
-		try {
-			level = cm.createMap(fileName, w, gs);
-			mp.createMap(level);
-			mf.paintMap(mp);
-		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
 	}

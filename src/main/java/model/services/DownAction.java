@@ -108,4 +108,3 @@ public class DownAction implements ActionI {
 		this.mat = mat;
 	}
 }
-

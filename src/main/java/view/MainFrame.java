@@ -7,11 +7,11 @@ import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
+import java.io.FileNotFoundException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
@@ -25,7 +25,6 @@ public class MainFrame extends JFrame implements KeyListener  {
 
 	private static final long serialVersionUID = 1L;
 	private GameController gc;
-
 
 	public MainFrame() throws IlegalPositionException, ObjectPositionNotFoundException {
 
@@ -44,7 +43,7 @@ public class MainFrame extends JFrame implements KeyListener  {
 	}
 	
 	//Metodo para crear los botones de "Nueva Partida" o "Cargar Partida"
-	private void createButtons() {
+	public void createButtons() {
 		JPanel panel = new JPanel(new BorderLayout()); // Usamos BorderLayout para organizar los componentes
 
 	    // Crear el JLabel para el título
@@ -61,15 +60,19 @@ public class MainFrame extends JFrame implements KeyListener  {
 	    JButton loadGame = new JButton("Load Game");
 
 	    // Agregar acción a los botones
+	    //New Game Button
 	    newGame.addActionListener(e -> {
 			try {
-				gc.createMap(new File("maps/map_level_1.txt").getAbsolutePath());
-			} catch (IlegalPositionException | ObjectPositionNotFoundException e1) {
-				// TODO Auto-generated catch block
+				gc.newGame(new File("maps/map_level_1.txt").getAbsolutePath());
+			} catch (IlegalPositionException | ObjectPositionNotFoundException | FileNotFoundException e1) {
 				e1.printStackTrace();
 			}
 		});
-	    loadGame.addActionListener(e -> JOptionPane.showMessageDialog(null, "Cargar Partida"));
+	    
+	    //Load Game Button
+	    loadGame.addActionListener(e -> {
+	    	gc.loadGame();
+	    });
 
 	    // Agregar el título al centro del panel principal
 	    panel.add(title, BorderLayout.CENTER);
@@ -101,10 +104,7 @@ public class MainFrame extends JFrame implements KeyListener  {
 	}
 
 	@Override
-	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void keyTyped(KeyEvent e) {}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
@@ -114,7 +114,6 @@ public class MainFrame extends JFrame implements KeyListener  {
 			try {
 				gc.moveUp();
 			} catch (ObjectPositionNotFoundException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 				break;
@@ -122,7 +121,6 @@ public class MainFrame extends JFrame implements KeyListener  {
 			try {
 				gc.moveDown();
 			} catch (ObjectPositionNotFoundException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 				break;
@@ -130,7 +128,6 @@ public class MainFrame extends JFrame implements KeyListener  {
 			try {
 				gc.moveLeft();
 			} catch (ObjectPositionNotFoundException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 				break;
@@ -138,7 +135,6 @@ public class MainFrame extends JFrame implements KeyListener  {
 			try {
 				gc.moveRight();
 			} catch (ObjectPositionNotFoundException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 				break;
@@ -147,7 +143,6 @@ public class MainFrame extends JFrame implements KeyListener  {
 					try {
 						gc.undoMovement();
 					} catch (IlegalPositionException | ObjectPositionNotFoundException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 				}

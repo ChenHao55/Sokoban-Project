@@ -1,13 +1,12 @@
 package view;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.io.File;
+import java.io.FileNotFoundException;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -15,8 +14,8 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 
+import controller.GameController;
 import model.exceptions.IlegalPositionException;
 import model.exceptions.ObjectPositionNotFoundException;
 
@@ -41,6 +40,16 @@ public class MapPanel extends JPanel {
 	private JLabel turnCount;
 	private JLabel turnBox;
 	private JLabel turnWarehouseman;
+	
+	private GameController gc;
+	
+	public GameController getGc() {
+		return gc;
+	}
+
+	public void setGc(GameController gc) {
+		this.gc = gc;
+	}
 
 	public MapPanel() throws IlegalPositionException, ObjectPositionNotFoundException {
 		setLayout(new BorderLayout());
@@ -60,22 +69,42 @@ public class MapPanel extends JPanel {
 		
 		//Creating buttons panel
 		JButton newGame = new JButton("New Game");
-	    JButton loadGame = new JButton("Load Game");
+		JButton loadGame = new JButton("Load Game");
+		JButton saveGame = new JButton("Save Game");
+	    JButton restartLevel = new JButton("Restart Level");
 
 	    // Agregar acción a los botones
+	    
+	    //New Game Button
 	    newGame.addActionListener(e -> {
-//			try {
-//				gc.createMap(new File("maps/map_level_1.txt").getAbsolutePath());
-//			} catch (IlegalPositionException | ObjectPositionNotFoundException e1) {
-//				// TODO Auto-generated catch block
-//				e1.printStackTrace();
-//			}
+			try {
+				gc.newGame(new File("maps/map_level_1.txt").getAbsolutePath());
+			} catch (IlegalPositionException | ObjectPositionNotFoundException | FileNotFoundException e1) {
+				e1.printStackTrace();
+			}
 		});
-	    loadGame.addActionListener(e -> JOptionPane.showMessageDialog(null, "Cargar Partida"));
+	    
+	    //Save Game Button
+	    saveGame.addActionListener(e -> {
+	    	gc.saveGame();
+	    	int response = JOptionPane.showConfirmDialog(null, "Game saved correctly, continue playing?", "Confirm", JOptionPane.YES_NO_OPTION);
+	    	if(response == JOptionPane.NO_OPTION) {
+	    		//Volver a frame inicial
+	    	}
+	    });
+	    
+	    //Load Game Button
+	    loadGame.addActionListener(e -> {
+	    	gc.loadGame();
+	    });
+	    
+	    //Restart Game Button --> no implementado
+	    restartLevel.addActionListener(e -> JOptionPane.showMessageDialog(null, "Cargar Partida"));
 	    JPanel buttonsPanel = new JPanel(new FlowLayout());
 
 	    buttonsPanel.add(newGame);
 	    buttonsPanel.add(loadGame);
+	    buttonsPanel.add(saveGame);
 	    
 	    //Creating container for the panels
 	    JPanel container = new JPanel();
