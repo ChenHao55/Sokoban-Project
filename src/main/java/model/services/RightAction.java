@@ -7,24 +7,20 @@ import model.beans.WarehouseMan;
 import model.exceptions.IlegalPositionException;
 import model.exceptions.WallException;
 
-public class RightAction implements ActionI {
+public class RightAction extends Action {
 	
 	private WarehouseMan w;
 	private char[][] mat;
-	private boolean movedBox;
 
 	
 	public RightAction(WarehouseMan w, char[][] mat) {
-		this.w = w;
-		this.mat = mat;
-		movedBox =  false;
+		super(w, mat);
 	}
 
-	public boolean move(WarehouseMan w, ArrayList<GoalPosition> gs, char[][] mat) throws WallException, IlegalPositionException {
+	public char[][] move(WarehouseMan w, ArrayList<GoalPosition> gs, char[][] mat) throws WallException, IlegalPositionException {
 		int x = w.getX();
 		int y = w.getY();
 		boolean goal = false;
-		boolean moved = false;
 
 		switch(mat[x][y+1]) {
 			case '+':
@@ -38,8 +34,6 @@ public class RightAction implements ActionI {
 					mat[x][y] = '.';
 					return true;
 				}*/ else {
-					moved = true;
-					this.movedBox = true;
 					mat[x][y+1] = 'W';
 					mat[x][y+2] = '#';
 					mat[x][y] = '.';
@@ -48,7 +42,6 @@ public class RightAction implements ActionI {
 					break;
 				}
 			default:
-				moved = true;
 				mat[x][y+1] = 'W';
 				mat[x][y] = '.';
 				w.setY(y+1);
@@ -60,36 +53,7 @@ public class RightAction implements ActionI {
 			mat[g.getX()][g.getY()] = goal ? '*' : mat[g.getX()][g.getY()];
 		}
 		
-		return moved;
-	}
-	
-	public void undo(WarehouseMan w, ArrayList<GoalPosition> gs, char[][] mat, boolean movedBox) throws WallException, IlegalPositionException {
-		int x = w.getX();
-		int y = w.getY();
-		boolean goal = false;
-		
-		if(mat[x][y+1] == '#' && movedBox) {
-			mat[x][y-1] = 'W';
-			mat[x][y] = '#';
-			mat[x][y+1] = '.';
-			w.setY(y-1);
-			w.setBoxCount(w.getBoxCount() -1);
-		}
-		else {
-			mat[x][y-1] = 'W';
-			mat[x][y] = '.';
-			w.setY(y-1);
-			w.setCount(w.getCount() - 1);
-		}
-		
-		for (GoalPosition g : gs) {
-			goal = (mat[g.getX()][g.getY()] == '.');
-			mat[g.getX()][g.getY()] = goal ? '*' : mat[g.getX()][g.getY()];
-		}
-	}
-
-	public boolean isMovedBox() {
-		return movedBox;
+		return mat;
 	}
 	
 	public WarehouseMan getW() {

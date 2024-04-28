@@ -19,6 +19,7 @@ import javax.swing.WindowConstants;
 import controller.GameController;
 import model.exceptions.IlegalPositionException;
 import model.exceptions.ObjectPositionNotFoundException;
+import model.exceptions.WallException;
 
 
 public class MainFrame extends JFrame implements KeyListener  {
@@ -124,7 +125,7 @@ public class MainFrame extends JFrame implements KeyListener  {
 			try {
 				gc.moveUp();
 				gc.endGame();
-			} catch (ObjectPositionNotFoundException e1) {
+			} catch (ObjectPositionNotFoundException | WallException | IlegalPositionException e1) {
 				e1.printStackTrace();
 			}
 				break;
@@ -132,7 +133,7 @@ public class MainFrame extends JFrame implements KeyListener  {
 			try {
 				gc.moveDown();
 				gc.endGame();
-			} catch (ObjectPositionNotFoundException e1) {
+			} catch (ObjectPositionNotFoundException | WallException | IlegalPositionException e1) {
 				e1.printStackTrace();
 			}
 				break;
@@ -140,7 +141,7 @@ public class MainFrame extends JFrame implements KeyListener  {
 			try {
 				gc.moveLeft();
 				gc.endGame();
-			} catch (ObjectPositionNotFoundException e1) {
+			} catch (ObjectPositionNotFoundException | WallException | IlegalPositionException e1) {
 				e1.printStackTrace();
 			}
 				break;
@@ -148,7 +149,7 @@ public class MainFrame extends JFrame implements KeyListener  {
 			try {
 				gc.moveRight();
 				gc.endGame();
-			} catch (ObjectPositionNotFoundException e1) {
+			} catch (ObjectPositionNotFoundException | WallException | IlegalPositionException e1) {
 				e1.printStackTrace();
 			}
 				break;

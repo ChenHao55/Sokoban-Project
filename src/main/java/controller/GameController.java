@@ -8,14 +8,14 @@ import model.beans.WarehouseMan;
 import model.exceptions.IlegalPositionException;
 import model.exceptions.ObjectPositionNotFoundException;
 import model.exceptions.WallException;
+import model.services.Action;
 import model.services.ActionI;
+import model.services.ActionsFactory;
+import model.services.ActionsFactoryI;
 import model.services.ActionsManager;
+import model.services.ActionsManagerI;
 import model.services.OptionsI;
-import model.services.DownAction;
-import model.services.LeftAction;
 import model.services.Options;
-import model.services.RightAction;
-import model.services.UpAction;
 import view.MainFrame;
 import view.MapPanel;
 
@@ -26,8 +26,11 @@ public class GameController {
 	private ActionI atc;
 	private char[][] level;
 	private WarehouseMan w = new WarehouseMan();
+	private WarehouseMan wClone;
+	private char[][] levelClone;
 	private ArrayList<GoalPosition> gs = new ArrayList<GoalPosition>();
-	private ActionsManager am = new ActionsManager();
+	private ActionsManagerI am = new ActionsManager();
+	private ActionsFactoryI af = new ActionsFactory();
 	private OptionsI o = new Options(); 
 	
 	public GameController(MainFrame mf, MapPanel mp) {
@@ -63,71 +66,51 @@ public class GameController {
 	}
 	
 	public void undoMovement() throws IlegalPositionException, ObjectPositionNotFoundException {
-		ActionI aux;
-		aux = am.undo();
-		
-		if(aux != null) {
-			if(aux instanceof UpAction)
-				atc = new UpAction(w, level);
-			else if(aux instanceof DownAction)
-				atc = new DownAction(w, level);
-			else if(aux instanceof LeftAction)
-				atc = new LeftAction(w, level);
-			else if(aux instanceof RightAction) 
-				atc = new RightAction(w, level);
-
-			try {
-				atc.undo(w, gs, level, aux.isMovedBox());
-				updateMap();
-			} catch (WallException | IlegalPositionException e) {
-				e.printStackTrace();
-			}
-		}
+		atc = am.undo();
+		this.level = ((Action) atc).getMat();
+		this.w = ((Action) atc).getW();
+		updateMap();
 	}
 	
 	//METODOS PARA MOVER EL PERSONAJE
-	public void moveUp() throws ObjectPositionNotFoundException {
-		atc = new UpAction(w, level);
-		try {
-			if(atc.move(w, gs, level))
-				am.newAction(atc);
-			updateMap();
-		} catch (WallException | IlegalPositionException e) {
-			e.printStackTrace();
-		}
+	public void moveUp() throws ObjectPositionNotFoundException, WallException, IlegalPositionException {
+		wClone = this.w.clone();
+		levelClone = new char[this.level.length][];
+		cloneMap(levelClone);
+		atc = af.createAction('u', wClone, levelClone);
+		am.newAction(atc);
+		atc.move(w, gs, level);
+		updateMap();
 	}
 
-	public void moveLeft() throws ObjectPositionNotFoundException {
-		atc = new LeftAction(w, level);
-		try {
-			if(atc.move(w, gs, level))
-				am.newAction(atc);
-			updateMap();
-		} catch (WallException | IlegalPositionException e) {
-			e.printStackTrace();
-		}
+	public void moveLeft() throws ObjectPositionNotFoundException, WallException, IlegalPositionException {
+		wClone = this.w.clone();
+		levelClone = new char[this.level.length][];
+		cloneMap(levelClone);
+		atc = af.createAction('l', wClone, levelClone);
+		am.newAction(atc);
+		atc.move(w, gs, level);
+		updateMap();
 	}
 
-	public void moveDown() throws ObjectPositionNotFoundException {
-		atc = new DownAction(w, level);
-		try {
-			if(atc.move(w, gs, level))
-				am.newAction(atc);
-			updateMap();
-		} catch (WallException | IlegalPositionException e) {
-			e.printStackTrace();
-		}
+	public void moveDown() throws ObjectPositionNotFoundException, WallException, IlegalPositionException {
+		wClone = this.w.clone();
+		levelClone = new char[this.level.length][];
+		cloneMap(levelClone);
+		atc = af.createAction('d', wClone, levelClone);
+		am.newAction(atc);
+		atc.move(w, gs, level);
+		updateMap();
 	}
 	
-	public void moveRight() throws ObjectPositionNotFoundException {
-		atc = new RightAction(w, level);
-		try {
-			if(atc.move(w, gs, level))
-				am.newAction(atc);
-			updateMap();
-		} catch (WallException | IlegalPositionException e) {
-			e.printStackTrace();
-		}
+	public void moveRight() throws ObjectPositionNotFoundException, WallException, IlegalPositionException {
+		wClone = this.w.clone();
+		levelClone = new char[this.level.length][];
+		cloneMap(levelClone);
+		atc = af.createAction('r', wClone, levelClone);
+		am.newAction(atc);
+		atc.move(w, gs, level);
+		updateMap();
 	}
 	
 	//Checks if the game has ended. If it has, it shows the congratulations screen
@@ -149,6 +132,12 @@ public class GameController {
 	private void updateMap() throws IlegalPositionException, ObjectPositionNotFoundException {
 		mp.createMap(level);
 		mf.paintMap(mp);
+	}
+	
+	private void cloneMap(char[][] levelClone) {
+		for(int i = 0; i<this.level.length; i++) {
+			levelClone[i] = this.level[i].clone();
+		}
 	}
 	
 	//GETTERS Y SETTERS

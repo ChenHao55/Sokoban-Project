@@ -2,9 +2,9 @@ package model.services;
 
 import model.beans.WarehouseMan;
 
-public class ActionsFactory {
+public class ActionsFactory implements ActionsFactoryI{
 	
-	ActionI createAction(char direction, WarehouseMan w, char[][] mat) {
+	public ActionI createAction(char direction, WarehouseMan w, char[][] mat) {
 		switch(direction) {
 			case 'l':
 				return new LeftAction(w, mat);

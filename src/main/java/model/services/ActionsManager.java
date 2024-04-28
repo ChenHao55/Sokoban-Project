@@ -2,7 +2,7 @@ package model.services;
 
 import java.util.Stack;
 
-public class ActionsManager{
+public class ActionsManager implements ActionsManagerI {
 	private Stack<ActionI> actions;
 	ActionsFactory aFactory;
 	
@@ -19,9 +19,7 @@ public class ActionsManager{
 		actions.push(a);
 	}
 
-	public ActionI undo() {
-		if(this.actions.empty()) {return null;}
-		ActionI a = actions.pop();
-		return a;
+	public Action undo() {
+		return (Action) actions.pop();
 	}
 }
