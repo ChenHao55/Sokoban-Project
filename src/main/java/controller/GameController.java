@@ -37,23 +37,53 @@ public class GameController {
 	//Aqui añadiria metodos como cambiar de nivel, una vez superado...
 	
 	public void undoMovement() throws IlegalPositionException, ObjectPositionNotFoundException {
-		ActionI a = am.undo();
-		this.level = a == null ? this.level : aux;
-		this.
-		updateMap();
+		ActionI aux;
+		aux = am.undo();
+		if(aux instanceof UpAction) {
+			atc = new UpAction(w, level);
+			try {
+				atc.undo(w, g, level, aux.isMovedBox());
+				updateMap();
+			} catch (WallException | IlegalPositionException e) {
+				e.printStackTrace();
+			}
+		}
+		else if(aux instanceof DownAction) {
+			atc = new DownAction(w, level);
+			try {
+				atc.undo(w, g, level, aux.isMovedBox());
+				updateMap();
+			} catch (WallException | IlegalPositionException e) {
+				e.printStackTrace();
+			}
+		}
+		else if(aux instanceof LeftAction) {
+			atc = new LeftAction(w, level);
+			try {
+				atc.undo(w, g, level, aux.isMovedBox());
+				updateMap();
+			} catch (WallException | IlegalPositionException e) {
+				e.printStackTrace();
+			}
+		}
+		else if(aux instanceof RightAction) {
+			atc = new RightAction(w, level);
+			try {
+				atc.undo(w, g, level, aux.isMovedBox());
+				updateMap();
+			} catch (WallException | IlegalPositionException e) {
+				e.printStackTrace();
+			}
+		}
+//		updateMap();
 	}
 	
 	//METODOS PARA MOVER EL PERSONAJE
 	public void moveUp() throws ObjectPositionNotFoundException {
-		char[][] levelCopy =  new char[this.level.length][];
-		for(int i = 0; i<this.level.length; i++) {
-			levelCopy[i] = this.level[i].clone();
-		}
-		WarehouseMan actualW = this.w.clone();
-		atc = new UpAction(actualW, levelCopy);
-		am.newAction(atc);
+		atc = new UpAction(w, level);
 		try {
-			atc.move(this.w, this.g, this.level);
+			if(atc.move(w, g, level))
+				am.newAction(atc);
 			updateMap();
 		} catch (WallException | IlegalPositionException e) {
 			e.printStackTrace();
@@ -62,9 +92,9 @@ public class GameController {
 
 	public void moveLeft() throws ObjectPositionNotFoundException {
 		atc = new LeftAction(w, level);
-		am.newAction(atc);
 		try {
-			atc.move(w, g, level);
+			if(atc.move(w, g, level))
+				am.newAction(atc);
 			updateMap();
 		} catch (WallException | IlegalPositionException e) {
 			e.printStackTrace();
@@ -73,9 +103,9 @@ public class GameController {
 
 	public void moveDown() throws ObjectPositionNotFoundException {
 		atc = new DownAction(w, level);
-		am.newAction(atc);
 		try {
-			atc.move(w, g, level);
+			if(atc.move(w, g, level))
+				am.newAction(atc);
 			updateMap();
 		} catch (WallException | IlegalPositionException e) {
 			e.printStackTrace();
@@ -84,9 +114,9 @@ public class GameController {
 	
 	public void moveRight() throws ObjectPositionNotFoundException {
 		atc = new RightAction(w, level);
-		am.newAction(atc);
 		try {
-			atc.move(w, g, level);
+			if(atc.move(w, g, level))
+				am.newAction(atc);
 			updateMap();
 		} catch (WallException | IlegalPositionException e) {
 			e.printStackTrace();

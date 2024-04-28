@@ -9,28 +9,19 @@ public class LeftAction implements ActionI{
 	
 	private WarehouseMan w;
 	private char[][] mat;
+	private boolean movedBox;
 
 	public LeftAction(WarehouseMan w, char[][] mat) {
 		this.w = w;
 		this.mat = mat;
-	}
-	
-	@Override
-	public void printMap(char[][] level) {
-		for(int i = 0; i<level.length; i++) {
-			for(int j = 0; j<level[0].length; j++) {
-				System.out.print(level[i][j]);
-			}
-			System.out.println();
-		}
+		movedBox =  false;
 	}
 
-	public char[][] move(WarehouseMan w, GoalPosition g, char[][] mat) throws WallException, IlegalPositionException {
+	public boolean move(WarehouseMan w, GoalPosition g, char[][] mat) throws WallException, IlegalPositionException {
 		int x = w.getX();
 		int y = w.getY();
 		boolean goal = false;
-		
-		goal = (x == g.getX()) && (y == g.getY());
+		boolean moved = false;
 		
 		switch(mat[x][y-1]) {
 			case '+':
@@ -44,6 +35,8 @@ public class LeftAction implements ActionI{
 					mat[x][y] = '.';
 					return true;
 				}*/ else {
+					moved = true;
+					this.movedBox = true;
 					mat[x][y-1] = 'W';
 					mat[x][y-2] = '#';
 					mat[x][y] = '.';
@@ -52,16 +45,46 @@ public class LeftAction implements ActionI{
 					break;
 				}
 			default:
+				moved = true;
 				mat[x][y-1] = 'W';
 				mat[x][y] = '.';
 				w.setY(y-1);
 				w.setCount(w.getCount() + 1);
+		}			
+
+		goal = (mat[g.getX()][g.getY()] == '.');
+		mat[g.getX()][g.getY()] = goal ? '*' : mat[g.getX()][g.getY()];
+		
+		return moved;
+	}
+	public void undo(WarehouseMan w, GoalPosition g, char[][] mat, boolean movedBox) throws WallException, IlegalPositionException {
+		int x = w.getX();
+		int y = w.getY();
+		boolean goal = false;
+		
+		if(mat[x][y-1] == '#' && movedBox) {
+			mat[x][y+1] = 'W';
+			mat[x][y] = '#';
+			mat[x][y-1] = '.';
+			w.setY(y+1);
+			w.setBoxCount(w.getBoxCount() - 1);
+		}
+		else {
+			mat[x][y+1] = 'W';
+			mat[x][y] = '.';
+			w.setY(y+1);
+			w.setCount(w.getCount() - 1);
 		}
 		
-		mat[x][y] = goal ? '*' : mat[x][y];
-		return mat;
+		goal = (mat[g.getX()][g.getY()] == '.');
+		mat[g.getX()][g.getY()] = goal ? '*' : mat[g.getX()][g.getY()];
 	}
 
+
+	public boolean isMovedBox() {
+		return movedBox;
+	}
+	
 	public WarehouseMan getW() {
 		return this.w;
 	}
@@ -78,4 +101,3 @@ public class LeftAction implements ActionI{
 		this.mat = mat;
 	}
 }
-

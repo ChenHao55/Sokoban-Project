@@ -25,11 +25,11 @@ public class MapPanel extends JPanel {
 	private char[][] level;
 	// private int level_map = 1;
 
-	private final ImageIcon wallIcon = new ImageIcon("/home/pproject/eclipse-workspace/sokoban/img/wall.png");
-	private final ImageIcon emptyIcon = new ImageIcon("/home/pproject/eclipse-workspace/sokoban/img/ground.png");
-	private final ImageIcon boxIcon = new ImageIcon("/home/pproject/eclipse-workspace/sokoban/img/box.png");
-	private final ImageIcon playerIcon = new ImageIcon("/home/pproject/eclipse-workspace/sokoban/img/player.png");
-	private final ImageIcon goalIcon = new ImageIcon("/home/pproject/eclipse-workspace/sokoban/img/goal.png");
+	private final ImageIcon wallIcon = new ImageIcon("img/wall.png");
+	private final ImageIcon emptyIcon = new ImageIcon("img/ground.png");
+	private final ImageIcon boxIcon = new ImageIcon("img/box.png");
+	private final ImageIcon playerIcon = new ImageIcon("img/player.png");
+	private final ImageIcon goalIcon = new ImageIcon("img/goal.png");
 
 	private JLabel turnCount;
 	private JLabel turnBox;

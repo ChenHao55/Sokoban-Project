@@ -142,13 +142,15 @@ public class MainFrame extends JFrame implements KeyListener  {
 				e1.printStackTrace();
 			}
 				break;
-			case KeyEvent.VK_CONTROL:
-			try {
-				gc.undoMovement();
-			} catch (IlegalPositionException | ObjectPositionNotFoundException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+			case KeyEvent.VK_Z:
+				if(e.isControlDown()) {
+					try {
+						gc.undoMovement();
+					} catch (IlegalPositionException | ObjectPositionNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
 				break;
 		}
 	}
