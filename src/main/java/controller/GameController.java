@@ -116,6 +116,21 @@ public class GameController {
 		}
 	}
 	
+	//Checks if the game has ended. If it has, it shows the congratulations screen
+	public void endGame() {
+		boolean endGame = true;
+		
+		for (GoalPosition g : gs) {
+			if(level[g.getX()][g.getY()] != '#') {
+				endGame = false;
+				break;
+			}
+		}
+		
+		if(endGame) {
+			mf.showCongrats();
+		}
+	}
 	//Este metodo se encarga de actualizar el mapa despues de los movimientos
 	private void updateMap() throws IlegalPositionException, ObjectPositionNotFoundException {
 		mp.createMap(level);

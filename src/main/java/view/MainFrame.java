@@ -99,6 +99,16 @@ public class MainFrame extends JFrame implements KeyListener  {
 		revalidate();
 		repaint();
 	}
+	
+	public void showCongrats() {
+		getContentPane().removeAll();
+
+        // Add the container to the frame
+        CongratsPanel cp = new CongratsPanel(gc);
+        add(cp, BorderLayout.CENTER);
+        revalidate();
+		repaint();
+	}
 
 	@Override
 	public void keyTyped(KeyEvent e) {
@@ -113,6 +123,7 @@ public class MainFrame extends JFrame implements KeyListener  {
 			case KeyEvent.VK_UP:
 			try {
 				gc.moveUp();
+				gc.endGame();
 			} catch (ObjectPositionNotFoundException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -121,6 +132,7 @@ public class MainFrame extends JFrame implements KeyListener  {
 			case KeyEvent.VK_DOWN:
 			try {
 				gc.moveDown();
+				gc.endGame();
 			} catch (ObjectPositionNotFoundException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -129,6 +141,7 @@ public class MainFrame extends JFrame implements KeyListener  {
 			case KeyEvent.VK_LEFT:
 			try {
 				gc.moveLeft();
+				gc.endGame();
 			} catch (ObjectPositionNotFoundException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -137,6 +150,7 @@ public class MainFrame extends JFrame implements KeyListener  {
 			case KeyEvent.VK_RIGHT:
 			try {
 				gc.moveRight();
+				gc.endGame();
 			} catch (ObjectPositionNotFoundException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
