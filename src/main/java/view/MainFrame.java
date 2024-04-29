@@ -72,7 +72,12 @@ public class MainFrame extends JFrame implements KeyListener  {
 	    
 	    //Load Game Button
 	    loadGame.addActionListener(e -> {
-	    	gc.loadGame();
+	    	try {
+				gc.loadGame();
+			} catch (NumberFormatException | IlegalPositionException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 	    });
 
 	    // Agregar el título al centro del panel principal

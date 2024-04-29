@@ -2,7 +2,7 @@ package model.beans;
 
 import model.exceptions.IlegalPositionException;
 
-public class Box implements ObjectInterface{
+public class Box {
 	private int x;
 	private int y;
 	

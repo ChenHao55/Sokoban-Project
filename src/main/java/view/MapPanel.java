@@ -95,7 +95,12 @@ public class MapPanel extends JPanel {
 	    
 	    //Load Game Button
 	    loadGame.addActionListener(e -> {
-	    	gc.loadGame();
+	    	try {
+				gc.loadGame();
+			} catch (NumberFormatException | IlegalPositionException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 	    });
 	    
 	    //Restart Game Button --> no implementado

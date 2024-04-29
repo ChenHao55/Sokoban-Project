@@ -8,7 +8,9 @@ import java.awt.*;
 
 public class CongratsPanel extends JPanel {
 
-    public CongratsPanel(GameController gc) {
+	private static final long serialVersionUID = 1L;
+
+	public CongratsPanel(GameController gc) {
         setLayout(new BorderLayout());
         setBackground(Color.GREEN);
 

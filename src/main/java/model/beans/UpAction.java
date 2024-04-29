@@ -1,11 +1,10 @@
-package model.services;
+package model.beans;
 
 import java.util.ArrayList;
 
-import model.beans.GoalPosition;
-import model.beans.WarehouseMan;
 import model.exceptions.IlegalPositionException;
 import model.exceptions.WallException;
+import model.services.Action;
 
 public class UpAction extends Action {
 	

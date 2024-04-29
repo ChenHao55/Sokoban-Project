@@ -2,7 +2,11 @@ package model.services;
 
 import java.util.ArrayList;
 
+import model.beans.DownAction;
 import model.beans.GoalPosition;
+import model.beans.LeftAction;
+import model.beans.RightAction;
+import model.beans.UpAction;
 import model.beans.WarehouseMan;
 import model.exceptions.IlegalPositionException;
 import model.exceptions.WallException;

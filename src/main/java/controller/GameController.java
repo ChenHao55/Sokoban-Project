@@ -48,7 +48,7 @@ public class GameController {
 	}
 	
 	public void saveGame() {
-		o.saveGame(level);
+		o.saveGame(level, w, gs);
 		try {
 			updateMap();
 		} catch (IlegalPositionException | ObjectPositionNotFoundException e) {
@@ -56,7 +56,7 @@ public class GameController {
 		}
 	}
 	
-	public void loadGame() {
+	public void loadGame() throws NumberFormatException, IlegalPositionException {
 		this.level = o.loadGame(w, gs);
 		try {
 			updateMap();

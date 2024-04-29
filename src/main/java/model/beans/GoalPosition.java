@@ -7,7 +7,13 @@ public class GoalPosition {
 	private int x;
 	private int y;
 	
-	public GoalPosition() {}
+	public GoalPosition(int x, int y) throws IlegalPositionException {
+		if (x < 0 || y < 0){
+			throw new IlegalPositionException("Invalid initial position");
+		}
+		this.x = x;
+		this.y = y;
+	}
 
 	public int getX() {
 		return x;

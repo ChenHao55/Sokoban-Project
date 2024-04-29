@@ -1,5 +1,9 @@
 package model.services;
 
+import model.beans.DownAction;
+import model.beans.LeftAction;
+import model.beans.RightAction;
+import model.beans.UpAction;
 import model.beans.WarehouseMan;
 
 public class ActionsFactory implements ActionsFactoryI{

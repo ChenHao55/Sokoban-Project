@@ -2,7 +2,7 @@ package model.beans;
 
 import model.exceptions.IlegalPositionException;
 
-public class WarehouseMan implements ObjectInterface, Cloneable{
+public class WarehouseMan implements Cloneable{
 	private int x;
 	private int y;
 	private int count;
