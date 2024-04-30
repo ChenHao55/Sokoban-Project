@@ -3,7 +3,6 @@ package model.services;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
-import model.beans.GoalPosition;
 import model.beans.WarehouseMan;
 import model.exceptions.IlegalPositionException;
 

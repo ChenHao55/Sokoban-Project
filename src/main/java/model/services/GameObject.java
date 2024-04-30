@@ -1,6 +1,5 @@
 package model.services;
 
-import model.beans.WarehouseMan;
 import model.exceptions.IlegalPositionException;
 
 public class GameObject implements GameObjectI, Cloneable {

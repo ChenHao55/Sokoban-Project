@@ -4,7 +4,6 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 import model.beans.DownAction;
-import model.beans.GoalPosition;
 import model.beans.LeftAction;
 import model.beans.RightAction;
 import model.beans.UpAction;
