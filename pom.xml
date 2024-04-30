@@ -112,7 +112,7 @@
 				<version>3.0.0</version>
 				<configuration>
 					<!-- Set the class with your main method -->
-					<mainClass>es.upm.pproject.miniproject.AppTest</mainClass>
+					<mainClass>es.upm.pproject.sokoban.GameMain</mainClass>
 				</configuration>
 			</plugin>
 

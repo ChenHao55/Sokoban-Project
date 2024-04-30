@@ -17,12 +17,9 @@ import model.exceptions.IlegalPositionException;
 
 public class Options implements OptionsI{
 	
-	private final char PLAYER = 'W';
-	private final char GOAL = '*';
-	
 	public Options() {}
 	
-	public char[][] newGame(String fileName, WarehouseMan w, ArrayList<GoalPosition> gs) throws IlegalPositionException {
+	public char[][] newGame(String fileName) {
 		char[][] map = null;
 		try {
 			File file = new File(fileName);
@@ -40,25 +37,18 @@ public class Options implements OptionsI{
 				String row = s.nextLine();
 				for(int j = 0; j<colums; j++) {
 					map[i][j] = row.charAt(j);
-					if (row.charAt(j) == PLAYER) {
-						w.setX(i);
-						w.setY(j);
-					} else if (row.charAt(j) == GOAL) {
-						GoalPosition g = new GoalPosition(i,j);
-						gs.add(g);
-					}
 				}
 			}
 			
 			s.close();
-		} catch (FileNotFoundException | IlegalPositionException e) {
+		} catch (FileNotFoundException e) {
 			e.getMessage();
 		}
 		return map;
 
 	}
 	
-	public void saveGame(char[][] map, WarehouseMan w, ArrayList<GoalPosition> gs) {
+	public void saveGame(char[][] map, WarehouseMan w, ArrayList<GameObjectI> gs) {
 		
 		File file = new File("/home/pproject/eclipse-workspace/sokoban/maps/saved_map.txt");
 		
@@ -75,12 +65,12 @@ public class Options implements OptionsI{
 			writer.newLine();
 			
 			//Escribir las posiciones de las metas
-			Iterator<GoalPosition> it = gs.iterator();
+			Iterator<GameObjectI> it = gs.iterator();
 			//Ecribir el tamaño del ArrayList
 			writer.write(String.valueOf(gs.size()));
 			writer.newLine();
 			while(it.hasNext()) {
-				GoalPosition g = it.next();
+				GoalPosition g = (GoalPosition) it.next();
 				//Cada linea tiene la posicion de una meta
 				writer.write(String.valueOf(g.getX()) + " ");
 				writer.write(String.valueOf(g.getY()));
@@ -99,7 +89,7 @@ public class Options implements OptionsI{
 		}
 	}
 	
-	public char[][] loadGame(WarehouseMan w, ArrayList<GoalPosition> gs) throws NumberFormatException, IlegalPositionException{
+	public char[][] loadGame(WarehouseMan w, ArrayList<GameObjectI> gs) throws NumberFormatException, IlegalPositionException{
 		
 		char[][] map = null;
 		
@@ -125,7 +115,7 @@ public class Options implements OptionsI{
 				posSplit = pos.split(" ");
 				
 				GoalPosition g = new GoalPosition(Integer.parseInt(posSplit[0]), Integer.parseInt(posSplit[1]));
-				gs.add(g);
+				gs.add((GameObjectI) g);
 				
 				n--;
 			}

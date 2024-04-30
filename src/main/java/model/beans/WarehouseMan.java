@@ -1,47 +1,17 @@
 package model.beans;
 
 import model.exceptions.IlegalPositionException;
+import model.services.GameObject;
 
-public class WarehouseMan implements Cloneable{
-	private int x;
-	private int y;
+public class WarehouseMan extends GameObject {
+	
 	private int count;
 	private int boxCount;
 	
-	public WarehouseMan() {
+	public WarehouseMan(int x, int y) throws IlegalPositionException {
+		super(x,y);
+		this.boxCount = 0;
 		this.count = 0;
-		this.boxCount = 0;;
-	}
-	
-	public WarehouseMan clone() {
-		try {
-			return (WarehouseMan) super.clone();
-		} catch (CloneNotSupportedException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-
-	public int getX() {
-		return x;
-	}
-
-	public void setX(int x) throws IlegalPositionException {
-		if (x < 0){
-			throw new IlegalPositionException("Invalid initial position");
-		}
-		this.x = x;
-	}
-
-	public int getY() {
-		return y;
-	}
-
-	public void setY(int y) throws IlegalPositionException {
-		if (y < 0){
-			throw new IlegalPositionException("Invalid initial position");
-		}
-		this.y = y;
 	}
 
 	public int getCount() {

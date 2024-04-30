@@ -5,18 +5,15 @@ import java.util.ArrayList;
 import model.exceptions.IlegalPositionException;
 import model.exceptions.WallException;
 import model.services.Action;
+import model.services.GameObjectI;
 
 public class UpAction extends Action {
-	
-	private WarehouseMan w;
-	private char[][] mat;
-
 
 	public UpAction(WarehouseMan w, char[][] mat) {
 		super(w, mat);
 	}
 
-	public char[][] move(WarehouseMan w, ArrayList<GoalPosition> gs, char[][] mat) throws WallException, IlegalPositionException {
+	public char[][] move(WarehouseMan w, ArrayList<GameObjectI> gs, char[][] mat) throws WallException, IlegalPositionException {
 		int x = w.getX();
 		int y = w.getY();
 		boolean goal = false;
@@ -48,27 +45,11 @@ public class UpAction extends Action {
 				w.setCount(w.getCount() + 1);
 		}			
 		
-		for (GoalPosition g : gs) {
+		for (GameObjectI g : gs) {
 			goal = (mat[g.getX()][g.getY()] == '.');
 			mat[g.getX()][g.getY()] = goal ? '*' : mat[g.getX()][g.getY()];
 		}
 		
 		return mat;
-	}
-	
-	public WarehouseMan getW() {
-		return w;
-	}
-
-	public void setW(WarehouseMan w) {
-		this.w = w;
-	}
-
-	public char[][] getMat() {
-		return mat;
-	}
-
-	public void setMat(char[][] mat) {
-		this.mat = mat;
 	}
 }
