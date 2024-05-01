@@ -24,6 +24,7 @@ import model.exceptions.WallException;
 
 public class MainFrame extends JFrame implements KeyListener  {
 
+	private String fileSeparator = File.separator;
 	private static final long serialVersionUID = 1L;
 	private GameController gc;
 
@@ -66,7 +67,7 @@ public class MainFrame extends JFrame implements KeyListener  {
 	    //New Game Button
 	    newGame.addActionListener(e -> {
 			try {
-				gc.newGame(new File("maps/map_level_1.txt").getAbsolutePath());
+				gc.newGame(new File("maps" + fileSeparator + "map_level_1.txt").getAbsolutePath());
 			} catch (IlegalPositionException | ObjectPositionNotFoundException | FileNotFoundException e1) {
 				e1.printStackTrace();
 			}

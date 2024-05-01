@@ -17,6 +17,8 @@ import model.exceptions.IlegalPositionException;
 
 public class Options implements OptionsI{
 	
+	private String fileSeparator = File.separator;
+	
 	public Options() {}
 	
 	public char[][] newGame(String fileName) {
@@ -50,7 +52,7 @@ public class Options implements OptionsI{
 	
 	public void saveGame(char[][] map, WarehouseMan w, ArrayList<GameObjectI> gs) {
 		
-		File file = new File("/home/pproject/eclipse-workspace/sokoban/maps/saved_map.txt");
+		File file = new File("maps" + fileSeparator + "saved_map.txt");
 		
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))){
 			
@@ -93,7 +95,7 @@ public class Options implements OptionsI{
 		
 		char[][] map = null;
 		
-		try (BufferedReader reader = new BufferedReader(new FileReader("/home/pproject/eclipse-workspace/sokoban/maps/saved_map.txt"))){
+		try (BufferedReader reader = new BufferedReader(new FileReader("maps" + fileSeparator + "saved_map.txt"))){
 			
 			//Obtener las dimensiones del mapa
 			String pos = reader.readLine();

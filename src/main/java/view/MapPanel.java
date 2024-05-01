@@ -31,11 +31,13 @@ public class MapPanel extends JPanel {
 	private char[][] level;
 	// private int level_map = 1;
 
-	private final ImageIcon wallIcon = new ImageIcon("img/wall.png");
-	private final ImageIcon emptyIcon = new ImageIcon("img/ground.png");
-	private final ImageIcon boxIcon = new ImageIcon("img/box.png");
-	private final ImageIcon playerIcon = new ImageIcon("img/player.png");
-	private final ImageIcon goalIcon = new ImageIcon("img/goal.png");
+	private String fileSeparator = File.separator;
+
+	private final ImageIcon wallIcon = new ImageIcon("img" + fileSeparator + "wall.png");
+	private final ImageIcon emptyIcon = new ImageIcon("img" + fileSeparator + "ground.png");
+	private final ImageIcon boxIcon = new ImageIcon("img" + fileSeparator + "box.png");
+	private final ImageIcon playerIcon = new ImageIcon("img" + fileSeparator + "player.png");
+	private final ImageIcon goalIcon = new ImageIcon("img" + fileSeparator + "goal.png");
 
 	private JLabel turnCount;
 	private JLabel turnBox;
@@ -78,7 +80,7 @@ public class MapPanel extends JPanel {
 	    //New Game Button
 	    newGame.addActionListener(e -> {
 			try {
-				gc.newGame(new File("maps/map_level_1.txt").getAbsolutePath());
+				gc.newGame(new File("maps" + fileSeparator + "map_level_1.txt").getAbsolutePath());
 			} catch (IlegalPositionException | ObjectPositionNotFoundException | FileNotFoundException e1) {
 				e1.printStackTrace();
 			}
