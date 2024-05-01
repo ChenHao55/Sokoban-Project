@@ -1,5 +1,6 @@
 package controller;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
@@ -39,6 +40,10 @@ public class GameController {
 	private ActionsFactoryI af = new ActionsFactory();
 	private ObjectFactoryI of = new ObjectFactory();
 	private OptionsI o = new Options(); 
+	private int level_n = 1;
+	private final int total_levels = 2;
+	private String fileSeparator = File.separator;
+
 	
 	public GameController(MainFrame mf, MapPanel mp) {
 		this.mf = mf;
@@ -124,21 +129,34 @@ public class GameController {
 		updateMap();
 	}
 	
-	//Checks if the game has ended. If it has, it shows the congratulations screen
-	public void endGame() {
-		boolean endGame = true;
+	//Checks if the game has ended
+	public boolean isEndLevel() {
+		boolean end= true;
 		
 		for (GameObjectI g : gs) {
 			if(level[g.getX()][g.getY()] != '#') {
-				endGame = false;
+				end= false;
 				break;
 			}
 		}
-		
-		if(endGame) {
-			mf.showCongrats();
-		}
+		return end;
 	}
+	
+	//Restarts the level
+	public void restartLevel() throws FileNotFoundException, IlegalPositionException, ObjectPositionNotFoundException {
+		newGame(new File("maps" + fileSeparator + "map_level_" + level_n + ".txt").getAbsolutePath());
+	}
+	
+	//If the level is completed, it passes to the next one or shows the congratulations screen
+	public void nextLevel() throws FileNotFoundException, IlegalPositionException, ObjectPositionNotFoundException {
+		if(isEndLevel() && level_n != total_levels) {
+			level_n += 1;
+			newGame(new File("maps" + fileSeparator + "map_level_" + level_n + ".txt").getAbsolutePath());
+		}
+		else if(isEndLevel() && level_n == total_levels)
+			mf.showCongrats();
+	}
+	
 	//Este metodo se encarga de actualizar el mapa despues de los movimientos
 	private void updateMap() throws IlegalPositionException, ObjectPositionNotFoundException {
 		mp.createMap(level);

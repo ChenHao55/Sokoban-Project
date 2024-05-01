@@ -135,32 +135,32 @@ public class MainFrame extends JFrame implements KeyListener  {
 			case KeyEvent.VK_UP:
 			try {
 				gc.moveUp();
-				gc.endGame();
-			} catch (ObjectPositionNotFoundException | WallException | IlegalPositionException e1) {
+				gc.nextLevel();
+			} catch (ObjectPositionNotFoundException | WallException | IlegalPositionException | FileNotFoundException e1) {
 				e1.printStackTrace();
 			}
 				break;
 			case KeyEvent.VK_DOWN:
 			try {
 				gc.moveDown();
-				gc.endGame();
-			} catch (ObjectPositionNotFoundException | WallException | IlegalPositionException e1) {
+				gc.nextLevel();
+			} catch (ObjectPositionNotFoundException | WallException | IlegalPositionException | FileNotFoundException e1) {
 				e1.printStackTrace();
 			}
 				break;
 			case KeyEvent.VK_LEFT:
 			try {
 				gc.moveLeft();
-				gc.endGame();
-			} catch (ObjectPositionNotFoundException | WallException | IlegalPositionException e1) {
+				gc.nextLevel();
+			} catch (ObjectPositionNotFoundException | WallException | IlegalPositionException | FileNotFoundException e1) {
 				e1.printStackTrace();
 			}
 				break;
 			case KeyEvent.VK_RIGHT:
 			try {
 				gc.moveRight();
-				gc.endGame();
-			} catch (ObjectPositionNotFoundException | WallException | IlegalPositionException e1) {
+				gc.nextLevel();
+			} catch (ObjectPositionNotFoundException | WallException | IlegalPositionException | FileNotFoundException e1) {
 				e1.printStackTrace();
 			}
 				break;

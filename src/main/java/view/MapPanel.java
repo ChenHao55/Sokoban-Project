@@ -29,7 +29,6 @@ public class MapPanel extends JPanel {
 	private final char PLAYER = 'W';
 
 	private char[][] level;
-	// private int level_map = 1;
 
 	private String fileSeparator = File.separator;
 
@@ -106,12 +105,20 @@ public class MapPanel extends JPanel {
 	    });
 	    
 	    //Restart Game Button --> no implementado
-	    restartLevel.addActionListener(e -> JOptionPane.showMessageDialog(null, "Cargar Partida"));
+	    restartLevel.addActionListener(e -> {
+			try {
+				gc.restartLevel();
+			} catch (FileNotFoundException | IlegalPositionException | ObjectPositionNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		});
 	    JPanel buttonsPanel = new JPanel(new FlowLayout());
 
 	    buttonsPanel.add(newGame);
 	    buttonsPanel.add(loadGame);
 	    buttonsPanel.add(saveGame);
+	    buttonsPanel.add(restartLevel);
 	    
 	    //Creating container for the panels
 	    JPanel container = new JPanel();
