@@ -12,4 +12,7 @@ public interface ActionsManagerI {
 	
 	//Metodo para sacar una accion de la pila
 	public Action undo();
+	
+	//Empty the stack of actions
+	public void clearActions();
 }

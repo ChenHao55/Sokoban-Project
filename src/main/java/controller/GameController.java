@@ -151,10 +151,14 @@ public class GameController {
 	public void nextLevel() throws FileNotFoundException, IlegalPositionException, ObjectPositionNotFoundException {
 		if(isEndLevel() && level_n != total_levels) {
 			level_n += 1;
+			am.clearActions();
 			newGame(new File("maps" + fileSeparator + "map_level_" + level_n + ".txt").getAbsolutePath());
 		}
-		else if(isEndLevel() && level_n == total_levels)
+		else if(isEndLevel() && level_n == total_levels) {
+			level_n = 1;
+			am.clearActions();
 			mf.showCongrats();
+		}
 	}
 	
 	//Este metodo se encarga de actualizar el mapa despues de los movimientos

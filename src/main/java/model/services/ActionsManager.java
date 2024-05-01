@@ -25,4 +25,8 @@ public class ActionsManager implements ActionsManagerI {
 		else
 			return (Action) actions.pop();
 	}
+	
+	public void clearActions() {
+		actions.clear();
+	}
 }
