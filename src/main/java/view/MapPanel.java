@@ -27,7 +27,7 @@ public class MapPanel extends JPanel {
 	private final char GOAL = '*';
 	private final char BOX = '#';
 	private final char PLAYER = 'W';
-
+	private final char GOALBOX = '@';
 	private char[][] level;
 
 	private String fileSeparator = File.separator;
@@ -37,6 +37,8 @@ public class MapPanel extends JPanel {
 	private final ImageIcon boxIcon = new ImageIcon("img" + fileSeparator + "box.png");
 	private final ImageIcon playerIcon = new ImageIcon("img" + fileSeparator + "player.png");
 	private final ImageIcon goalIcon = new ImageIcon("img" + fileSeparator + "goal.png");
+	private final ImageIcon goalBox = new ImageIcon("img" + fileSeparator + "goal_box.png");
+
 
 	public JLabel turnCount;
 	public JLabel turnBox;
@@ -169,6 +171,9 @@ public class MapPanel extends JPanel {
 	                case PLAYER:
 	                    image = playerIcon.getImage();
 	                    break;
+					case GOALBOX:
+						image = goalBox.getImage();
+						break;
 	            }
 	            if (image != null) {
 	                g.drawImage(image, xPos, yPos, cellSize, cellSize, null);

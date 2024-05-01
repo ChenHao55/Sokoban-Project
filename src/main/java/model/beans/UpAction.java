@@ -34,23 +34,31 @@ public class UpAction extends Action {
 			case '+':
 				break;
 			case '#':
+			case '@': // Añadido para manejar el caso de que una caja esté actualmente en una meta
 				if(mat[x-2][y] == '+' || mat[x-2][y] == '#') {
+					// No se puede mover la caja porque está bloqueada
 					break;
-				} /*else if(mat[x+2][y]=='*') {
-					mat[x+1][y] = 'W';
-					mat[x+2][y] = '#';
-					mat[x][y] = '.';
-					return true;
-				}*/ else {
+				} else {
+					// Mover WarehouseMan a la posición de la caja
 					mat[x-1][y] = 'W';
-					mat[x-2][y] = '#';
+					// Restablecer la posición original del WarehouseMan
 					mat[x][y] = '.';
+					// Mover la caja a la nueva posición
+					if(mat[x-2][y] == '*') {
+						mat[x-2][y] = '@'; // La caja se mueve a otra meta
+					} else {
+						mat[x-2][y] = '#'; // La caja se mueve a un espacio vacío
+					}
+					// Si la caja se movió desde una meta, restablecer la antigua posición de la caja a meta
+					if(mat[x-1][y] == '@') {
+						mat[x-1][y] = '*';
+					}
+					// Actualizar la posición del WarehouseMan
 					w.setX(x-1);
 					w.setBoxCount(w.getBoxCount() + 1);
 					lastBox = true;
-					//return false;
-					break;
 				}
+				break;
 			default:
 				mat[x-1][y] = 'W';
 				mat[x][y] = '.';

@@ -34,22 +34,27 @@ public class LeftAction extends Action{
 			case '+':
 				break;
 			case '#':
-				if(mat[x][y-2] == '+' || mat[x][y-2] == '#') {
+			case '@': // Incluyendo el caso de que la caja está en una meta
+				if (mat[x][y - 2] == '+' || mat[x][y - 2] == '#') {
 					break;
-				} /*else if(mat[x][y-2] == '*') {
-					mat[x][y-1] = 'W';
-					mat[x][y-2] = '#';
-					mat[x][y] = '.';
-					return true;
-				}*/ else {
-					mat[x][y-1] = 'W';
-					mat[x][y-2] = '#';
-					mat[x][y] = '.';
-					w.setY(y-1);
+				} else {
+					mat[x][y - 1] = 'W'; // Mueve WarehouseMan
+					mat[x][y] = '.'; // Vacía la posición anterior del WarehouseMan
+					if (mat[x][y - 2] == '*') {
+						mat[x][y - 2] = '@'; // Mueve la caja a una nueva meta
+					} else {
+						mat[x][y - 2] = '#'; // Mueve la caja a un espacio vacío
+					}
+					// Si la caja se movió desde una meta, restablecer la antigua posición de la caja a meta
+					if (mat[x][y - 1] == '@') {
+						mat[x][y - 1] = '*';
+					}
+					w.setY(y - 1);
 					w.setBoxCount(w.getBoxCount() + 1);
 					lastBox = true;
-					break;
 				}
+				break;
+
 			default:
 				mat[x][y-1] = 'W';
 				mat[x][y] = '.';

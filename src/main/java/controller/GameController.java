@@ -41,7 +41,7 @@ public class GameController {
 	private ObjectFactoryI of = new ObjectFactory();
 	private OptionsI o = new Options(); 
 	private int level_n = 1;
-	private final int total_levels = 2;
+	private final int total_levels = 3;
 	private String fileSeparator = File.separator;
 	
 	public GameController(MainFrame mf, MapPanel mp) {
@@ -165,7 +165,7 @@ public class GameController {
 		boolean end= true;
 		
 		for (GameObjectI g : gs) {
-			if(level[g.getX()][g.getY()] != '#') {
+			if(level[g.getX()][g.getY()] != '@') {
 				end= false;
 				break;
 			}
