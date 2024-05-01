@@ -45,6 +45,8 @@ public class MainFrame extends JFrame implements KeyListener  {
 	
 	//Metodo para crear los botones de "Nueva Partida" o "Cargar Partida"
 	public void createButtons() {
+		getContentPane().removeAll();
+		
 		JPanel panel = new JPanel(new BorderLayout()); // Usamos BorderLayout para organizar los componentes
 
 	    // Crear el JLabel para el título
@@ -91,6 +93,9 @@ public class MainFrame extends JFrame implements KeyListener  {
 
 	    // Agregar el panel principal al centro del JFrame
 	    add(panel, BorderLayout.CENTER);
+	    
+	    revalidate();
+		repaint();
 	}
 
 	public GameController getGc() {
@@ -113,7 +118,7 @@ public class MainFrame extends JFrame implements KeyListener  {
 		getContentPane().removeAll();
 
         // Add the container to the frame
-        CongratsPanel cp = new CongratsPanel(gc);
+        CongratsPanel cp = new CongratsPanel(this);
         add(cp, BorderLayout.CENTER);
         revalidate();
 		repaint();

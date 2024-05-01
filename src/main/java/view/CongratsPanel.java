@@ -10,24 +10,29 @@ public class CongratsPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
-	public CongratsPanel(GameController gc) {
+	public CongratsPanel(MainFrame mf) {
         setLayout(new BorderLayout());
-        setBackground(Color.GREEN);
+        setBackground(Color.BLACK);
 
         // Create a label for the congratulations message
-        JLabel congratsLabel = new JLabel("Congratulations! You've completed the Sokoban game!", SwingConstants.CENTER);
+        JLabel congratsLabel = new JLabel("<html><div style='text-align: center;'>Congratulations!<br>"
+        		+ "You've completed the Sokoban game!</div></html>", SwingConstants.CENTER);
         congratsLabel.setFont(new Font("Serif", Font.BOLD, 24));
-        congratsLabel.setForeground(Color.BLUE);
-
+        congratsLabel.setForeground(Color.WHITE);
+        
         // Add the label to the panel
         add(congratsLabel, BorderLayout.CENTER);
 
         // Create a button that allows the user to play again
-        JButton playAgainButton = new JButton("Play Again");
-        playAgainButton.addActionListener(e -> {
+        JPanel buttonPanel = new JPanel(new FlowLayout());
+	    buttonPanel.setBackground(Color.BLACK);
+        JButton continueButton = new JButton("Continue");
+        continueButton.addActionListener(e -> {
+        	mf.createButtons();
         });
 
         // Add the button to the panel
-        add(playAgainButton, BorderLayout.SOUTH);
+        buttonPanel.add(continueButton, BorderLayout.SOUTH);
+        add(buttonPanel, BorderLayout.SOUTH);
     }
 }
