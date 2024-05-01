@@ -7,6 +7,10 @@ public class GameObject implements GameObjectI, Cloneable {
 	private int x;
 	private int y;
 	
+	private int count = 0;
+	private int boxCount = 0;
+	private int globalCount = 0;
+	
 	public GameObject(int x, int y) throws IlegalPositionException {
 		this.setX(x);
 		this.setY(y);
@@ -46,6 +50,36 @@ public class GameObject implements GameObjectI, Cloneable {
 			throw new IlegalPositionException("Invalid initial position");
 		}
 		this.y = y;
+	}
+	
+	@Override
+	public int getCount() {
+		return count;
+	}
+	
+	@Override
+	public void setCount(int count) {
+		this.count = count;
+	}
+	
+	@Override
+	public int getBoxCount() {
+		return boxCount;
+	}
+
+	@Override
+	public void setBoxCount(int boxCount) {
+		this.boxCount = boxCount;
+	}
+	
+	@Override
+	public int getGlobalCount() {
+		return globalCount;
+	}
+	
+	@Override
+	public void setGlobalCount(int globalCount) {
+		this.globalCount = globalCount;
 	}
 
 }

@@ -7,6 +7,7 @@ public class WarehouseMan extends GameObject {
 	
 	private int count;
 	private int boxCount;
+	private int globalCount;
 	
 	public WarehouseMan(int x, int y) throws IlegalPositionException {
 		super(x,y);
@@ -28,5 +29,13 @@ public class WarehouseMan extends GameObject {
 
 	public void setBoxCount(int boxCount) {
 		this.boxCount = boxCount;
+	}
+
+	public int getGlobalCount() {
+		return globalCount;
+	}
+
+	public void setGlobalCount(int globalCount) {
+		this.globalCount = globalCount;
 	}
 }

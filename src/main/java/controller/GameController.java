@@ -43,7 +43,6 @@ public class GameController {
 	private int level_n = 1;
 	private final int total_levels = 2;
 	private String fileSeparator = File.separator;
-
 	
 	public GameController(MainFrame mf, MapPanel mp) {
 		this.mf = mf;
@@ -57,6 +56,7 @@ public class GameController {
 		level = o.newGame(fileName);
 		this.w = of.createWarehouseMan(level);
 		this.gs = of.createGoals(level);
+		updatecounters();
 		mp.createMap(level);
 		mf.paintMap(mp);
 	}
@@ -72,6 +72,7 @@ public class GameController {
 	
 	public void loadGame() throws NumberFormatException, IlegalPositionException {
 		this.level = o.loadGame((WarehouseMan) w, gs);
+		updatecounters();
 		try {
 			updateMap();
 		} catch (IlegalPositionException | ObjectPositionNotFoundException e) {
@@ -79,9 +80,35 @@ public class GameController {
 		}
 	}
 	
+	public void decrementBoxCounter() throws NumberFormatException{
+		w.setBoxCount(w.getBoxCount()-1);
+	}
+	
+	public void decrementWMCounter() throws NumberFormatException{
+		w.setCount(w.getCount()-1);
+	}
+	
+	public void decrementGlobalCounter() throws NumberFormatException{
+		w.setGlobalCount(w.getGlobalCount()-1);
+	}
+	
+	public void updatecounters() {
+		this.mp.turnBox.setText("P: " + w.getBoxCount());
+		this.mp.turnWarehouseman.setText("W: " + w.getCount());
+		this.mp.turnCount.setText("T: " + w.getGlobalCount());
+	}
+	
 	public void undoMovement() throws IlegalPositionException, ObjectPositionNotFoundException {
 		atc = am.undo();
 		if(atc != null) {
+			if(atc.isLastBox()) {
+				decrementBoxCounter();
+			}
+			else {
+				decrementWMCounter();
+			}		
+			decrementGlobalCounter();
+			updatecounters();
 			this.level = ((Action) atc).getMat();
 			this.w = ((Action) atc).getW();
 			updateMap();
@@ -96,6 +123,7 @@ public class GameController {
 		atc = af.createAction('u', (WarehouseMan) wClone, levelClone);
 		am.newAction(atc);
 		((UpAction) atc).move((WarehouseMan) w, gs, level);
+		updatecounters();
 		updateMap();
 	}
 
@@ -106,6 +134,7 @@ public class GameController {
 		atc = af.createAction('l', (WarehouseMan) wClone, levelClone);
 		am.newAction(atc);
 		((LeftAction) atc).move((WarehouseMan) w, gs, level);
+		updatecounters();
 		updateMap();
 	}
 
@@ -116,6 +145,7 @@ public class GameController {
 		atc = af.createAction('d', (WarehouseMan) wClone, levelClone);
 		am.newAction(atc);
 		((DownAction) atc).move((WarehouseMan) w, gs, level);
+		updatecounters();
 		updateMap();
 	}
 	
@@ -126,6 +156,7 @@ public class GameController {
 		atc = af.createAction('r', (WarehouseMan) wClone, levelClone);
 		am.newAction(atc);
 		((RightAction) atc).move((WarehouseMan) w, gs, level);
+		updatecounters();
 		updateMap();
 	}
 	
@@ -145,6 +176,7 @@ public class GameController {
 	//Restarts the level
 	public void restartLevel() throws FileNotFoundException, IlegalPositionException, ObjectPositionNotFoundException {
 		newGame(new File("maps" + fileSeparator + "map_level_" + level_n + ".txt").getAbsolutePath());
+		updatecounters();
 	}
 	
 	//If the level is completed, it passes to the next one or shows the congratulations screen

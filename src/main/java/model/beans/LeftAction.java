@@ -8,9 +8,21 @@ import model.services.Action;
 import model.services.GameObjectI;
 
 public class LeftAction extends Action{
-
+	boolean lastBox;
+	
 	public LeftAction(WarehouseMan w, char[][] mat) {
 		super(w, mat);
+		this.lastBox = false;
+	}
+	
+	@Override
+	public boolean isLastBox() {
+		return lastBox;
+	}
+
+	@Override
+	public void setLastBox(boolean lastBox) {
+		this.lastBox = lastBox;
 	}
 
 	public char[][] move(WarehouseMan w, ArrayList<GameObjectI> gs, char[][] mat) throws WallException, IlegalPositionException {
@@ -35,6 +47,7 @@ public class LeftAction extends Action{
 					mat[x][y] = '.';
 					w.setY(y-1);
 					w.setBoxCount(w.getBoxCount() + 1);
+					lastBox = true;
 					break;
 				}
 			default:
@@ -42,8 +55,10 @@ public class LeftAction extends Action{
 				mat[x][y] = '.';
 				w.setY(y-1);
 				w.setCount(w.getCount() + 1);
+				lastBox = false;
 		}			
-
+		
+		w.setGlobalCount(w.getGlobalCount() + 1);
 		for (GameObjectI g : gs) {
 			goal = (mat[g.getX()][g.getY()] == '.');
 			mat[g.getX()][g.getY()] = goal ? '*' : mat[g.getX()][g.getY()];

@@ -9,4 +9,6 @@ public interface ActionI {
 	
 	void setMat(char[][] level);
 	void setW(WarehouseMan w);
+	boolean isLastBox();
+	void setLastBox(boolean lastBox);
 }

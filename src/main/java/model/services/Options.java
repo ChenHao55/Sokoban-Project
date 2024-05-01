@@ -79,13 +79,22 @@ public class Options implements OptionsI{
 				writer.newLine();
 			}
 			
-			//Ecribir el mapa
+			//Escribir el mapa
 			for(int i = 0; i<map.length; i++) {
 				for(int j = 0; j<map[0].length; j++) {
 					writer.write(map[i][j]);
 				}
 				writer.newLine();
 			}
+			
+			//Escribir contadores
+			writer.write(String.valueOf(w.getBoxCount()));
+			writer.newLine();
+			writer.write(String.valueOf(w.getCount()));
+			writer.newLine();
+			writer.write(String.valueOf(w.getGlobalCount()));
+			writer.newLine();
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -99,6 +108,7 @@ public class Options implements OptionsI{
 			
 			//Obtener las dimensiones del mapa
 			String pos = reader.readLine();
+			String cont;
 			String[] posSplit = pos.split(" ");
 			
 			map = new char[Integer.parseInt(posSplit[0])][Integer.parseInt(posSplit[1])];
@@ -130,6 +140,15 @@ public class Options implements OptionsI{
 				}
 			}
 			
+			//leer contadores
+			cont = reader.readLine();
+			w.setBoxCount(Integer.parseInt(cont));
+			
+			cont = reader.readLine();
+			w.setCount(Integer.parseInt(cont));
+			
+			cont = reader.readLine();
+			w.setGlobalCount(Integer.parseInt(cont));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

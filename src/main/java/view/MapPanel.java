@@ -38,9 +38,9 @@ public class MapPanel extends JPanel {
 	private final ImageIcon playerIcon = new ImageIcon("img" + fileSeparator + "player.png");
 	private final ImageIcon goalIcon = new ImageIcon("img" + fileSeparator + "goal.png");
 
-	private JLabel turnCount;
-	private JLabel turnBox;
-	private JLabel turnWarehouseman;
+	public JLabel turnCount;
+	public JLabel turnBox;
+	public JLabel turnWarehouseman;
 	
 	private GameController gc;
 	
