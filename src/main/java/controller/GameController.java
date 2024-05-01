@@ -76,9 +76,11 @@ public class GameController {
 	
 	public void undoMovement() throws IlegalPositionException, ObjectPositionNotFoundException {
 		atc = am.undo();
-		this.level = ((Action) atc).getMat();
-		this.w = ((Action) atc).getW();
-		updateMap();
+		if(atc != null) {
+			this.level = ((Action) atc).getMat();
+			this.w = ((Action) atc).getW();
+			updateMap();
+		}
 	}
 	
 	//METODOS PARA MOVER EL PERSONAJE

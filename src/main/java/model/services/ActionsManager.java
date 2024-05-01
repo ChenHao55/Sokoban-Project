@@ -20,6 +20,9 @@ public class ActionsManager implements ActionsManagerI {
 	}
 
 	public Action undo() {
-		return (Action) actions.pop();
+		if(actions.isEmpty())
+			return null;
+		else
+			return (Action) actions.pop();
 	}
 }
