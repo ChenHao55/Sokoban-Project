@@ -35,7 +35,7 @@ public class DownAction extends Action {
 				break;
 			case '#':
 			case '@': // Añadido para manejar el caso de que una caja esté actualmente en una meta
-				if(mat[x+2][y] == '+' || mat[x+2][y] == '#') {
+				if(mat[x+2][y] == '+' || mat[x+2][y] == '#' || mat[x+2][y] == '@') {
 					// No se puede mover la caja porque está bloqueada
 					break;
 				} else {

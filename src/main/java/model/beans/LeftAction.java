@@ -35,7 +35,7 @@ public class LeftAction extends Action{
 				break;
 			case '#':
 			case '@': // Incluyendo el caso de que la caja está en una meta
-				if (mat[x][y - 2] == '+' || mat[x][y - 2] == '#') {
+				if (mat[x][y - 2] == '+' || mat[x][y - 2] == '#' || mat[x][y-2] == '@') {
 					break;
 				} else {
 					mat[x][y - 1] = 'W'; // Mueve WarehouseMan

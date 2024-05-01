@@ -41,7 +41,7 @@ public class GameController {
 	private ObjectFactoryI of = new ObjectFactory();
 	private OptionsI o = new Options(); 
 	private int level_n = 1;
-	private final int total_levels = 3;
+	private final int total_levels = 10;
 	private String fileSeparator = File.separator;
 	
 	public GameController(MainFrame mf, MapPanel mp) {

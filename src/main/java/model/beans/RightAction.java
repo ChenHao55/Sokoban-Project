@@ -35,7 +35,7 @@ public class RightAction extends Action {
 				break;
 			case '#':
 			case '@': // Manejar el caso de que una caja esté en una meta
-				if(mat[x][y+2] == '+' || mat[x][y+2] == '#') {
+				if(mat[x][y+2] == '+' || mat[x][y+2] == '#'|| mat[x][y+2] == '@') {
 					break;
 				} else {
 					mat[x][y+1] = 'W';
