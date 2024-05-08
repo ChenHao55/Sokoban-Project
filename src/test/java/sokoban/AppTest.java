@@ -2,7 +2,7 @@ package sokoban;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Stack;
+import java.util.List;
 import java.io.IOException;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -19,9 +20,6 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import miniproject.Course;
-import miniproject.InvalidPreConditionException;
-import miniproject.Student;
 import model.beans.Box;
 import model.beans.DownAction;
 import model.beans.GoalPosition;
@@ -37,6 +35,7 @@ import model.services.ActionsFactory;
 import model.services.ActionsFactoryI;
 import model.services.ActionsManager;
 import model.services.ActionsManagerI;
+import model.services.ActionsFactory;
 import model.services.GameObjectI;
 import model.services.ObjectFactory;
 import model.services.ObjectFactoryI;
@@ -196,6 +195,96 @@ public class AppTest {
 	        }
 			
 			assertEquals(true, equals);
+		}
+	}
+	
+	@DisplayName("Test for object factory")
+	@Nested
+	class ObjectFactoryTest {
+		
+		@Test
+		void WarehouseManCreation() throws IOException, IlegalPositionException {
+			log.info("Trying to create a WarehouseMan");
+			Options o = new Options();
+			char[][] level =  o.newGame((new File("maps" + fileSeparator + "map_level_1.txt").getAbsolutePath()));
+			
+			ObjectFactory of = new ObjectFactory();
+			assertDoesNotThrow(() -> of.createWarehouseMan(level));
+		}
+		
+		@Test
+		void WarehouseManCreationNull() throws IOException, IlegalPositionException {
+			log.info("Trying to create a WarehouseMan");
+			char[][] level =  {
+				    {'+', '+', '+', '+', '.', '.', '.', '.'},
+				    {'+', '.', '.', '+', '.', '.', '.', '.'},
+				    {'+', '.', '.', '+', '+', '+', '+', '+'},
+				    {'+', '.', '.', '.', '.', '.', '.', '+'},
+				    {'+', '+', '.', '*', '+', '#', '.', '+'},
+				    {'+', '.', '.', '.', '+', '.', '.', '+'},
+				    {'+', '.', '.', '.', '+', '+', '+', '+'},
+				    {'+', '+', '+', '+', '+', '.', '.', '.'}
+				};
+			
+			ObjectFactory of = new ObjectFactory();
+			assertNull(of.createWarehouseMan(level));
+		}
+		
+		@Test
+		void BoxCreation() throws IOException, IlegalPositionException {
+			log.info("Trying to create a Box");
+			Options o = new Options();
+			char[][] level =  o.newGame((new File("maps" + fileSeparator + "map_level_1.txt").getAbsolutePath()));
+			
+			ObjectFactory of = new ObjectFactory();
+			assertDoesNotThrow(() -> of.createBox(level));
+		}
+		
+		@Test
+		void BoxCreationNull() throws IOException, IlegalPositionException {
+			log.info("Trying to create a Box");
+			char[][] level =  {
+				    {'+', '+', '+', '+', '.', '.', '.', '.'},
+				    {'+', '.', '.', '+', '.', '.', '.', '.'},
+				    {'+', '.', '.', '+', '+', '+', '+', '+'},
+				    {'+', '.', '.', '.', '.', '.', '.', '+'},
+				    {'+', '+', 'W', '*', '+', '.', '.', '+'},
+				    {'+', '.', '.', '.', '+', '.', '.', '+'},
+				    {'+', '.', '.', '.', '+', '+', '+', '+'},
+				    {'+', '+', '+', '+', '+', '.', '.', '.'}
+				};
+			
+			ObjectFactory of = new ObjectFactory();
+			assertNull(of.createBox(level));
+		}
+		
+		@Test
+		void GoalsCreation() throws IOException, IlegalPositionException {
+			log.info("Trying to create a Box");
+			Options o = new Options();
+			char[][] level =  o.newGame((new File("maps" + fileSeparator + "map_level_1.txt").getAbsolutePath()));
+			
+			ObjectFactory of = new ObjectFactory();
+			assertDoesNotThrow(() -> of.createGoals(level));
+		}
+		
+		@Test
+		void GoalsCreationNull() throws IOException, IlegalPositionException {
+			log.info("Trying to create a Box");
+			char[][] level =  {
+				    {'+', '+', '+', '+', '.', '.', '.', '.'},
+				    {'+', '.', '.', '+', '.', '.', '.', '.'},
+				    {'+', '.', '.', '+', '+', '+', '+', '+'},
+				    {'+', '.', '.', '.', '.', '.', '.', '+'},
+				    {'+', '+', 'W', '.', '+', '#', '.', '+'},
+				    {'+', '.', '.', '.', '+', '.', '.', '+'},
+				    {'+', '.', '.', '.', '+', '+', '+', '+'},
+				    {'+', '+', '+', '+', '+', '.', '.', '.'}
+				};
+			
+			ObjectFactory of = new ObjectFactory();
+			List<Object> exp = new ArrayList<>();
+			assertEquals(exp, of.createGoals(level));
 		}
 	}
 	
@@ -396,7 +485,7 @@ public class AppTest {
 				    {'+', '+', '+', '+', '+', '.', '.', '.'}
 				};;
 			boolean equals = true;
-			WarehouseMan w = new WarehouseMan(2, 4);
+			WarehouseMan w = new WarehouseMan(4, 2);
 			LeftAction action = new LeftAction(w, mat);
 			gs = of.createGoals(o.newGame(new File("maps" + File.separator + "map_level_" + 1 + ".txt").getAbsolutePath()));
 			char[][] matRes = action.move(w, gs, mat);
@@ -438,7 +527,7 @@ public class AppTest {
 				    {'+', '+', '+', '+', '+', '.', '.', '.'}
 				};
 			boolean equals = true;
-			WarehouseMan w = new WarehouseMan(2, 4);
+			WarehouseMan w = new WarehouseMan(4, 2);
 			RightAction action = new RightAction(w, mat);
 			gs = of.createGoals(o.newGame(new File("maps" + File.separator + "map_level_" + 1 + ".txt").getAbsolutePath()));
 			char[][] matRes = action.move(w, gs, mat);
@@ -449,9 +538,9 @@ public class AppTest {
 	                }
 	            }
 	        }
-			assertEquals(matExp, matRes);
+			assertEquals(true, equals);
 		}
-		
+
 		@Test
 		void correctUpActionMove() throws IlegalPositionException, FileNotFoundException, WallException {
 			log.info("Executing test to check the incorrect creation of a UpAction Object");
@@ -479,7 +568,7 @@ public class AppTest {
 				    {'+', '+', '+', '+', '+', '.', '.', '.'}
 				};
 			boolean equals = true;
-			WarehouseMan w = new WarehouseMan(2, 4);
+			WarehouseMan w = new WarehouseMan(4, 2);
 			UpAction action = new UpAction(w, mat);
 			gs = of.createGoals(o.newGame(new File("maps" + File.separator + "map_level_" + 1 + ".txt").getAbsolutePath()));
 			char[][] matRes = action.move(w, gs, mat);
@@ -490,7 +579,7 @@ public class AppTest {
 	                }
 	            }
 	        }
-			assertEquals(matExp, matRes);
+			assertEquals(true, equals);
 			}
 		
 		@Test
@@ -520,7 +609,7 @@ public class AppTest {
 				    {'+', '+', '+', '+', '+', '.', '.', '.'}
 				};
 			boolean equals = true;
-			WarehouseMan w = new WarehouseMan(4, 6);
+			WarehouseMan w = new WarehouseMan(4, 2);
 			DownAction action = new DownAction(w, mat);
 			gs = of.createGoals(o.newGame(new File("maps" + File.separator + "map_level_" + 1 + ".txt").getAbsolutePath()));
 			char[][] matRes = action.move(w, gs, mat);
@@ -531,7 +620,7 @@ public class AppTest {
 	                }
 	            }
 	        }
-			assertEquals(matExp, matRes);
+			assertEquals(true, equals);
 		}
 	}
 	
@@ -643,4 +732,61 @@ public class AppTest {
 		}
 	}
 	
+	@DisplayName("Test for actions factory")
+	@Nested
+	class ActionsFactoryTest {
+		
+		@Test
+		void RightActionCreation() throws IOException, IlegalPositionException {
+			log.info("Trying to create a RightAction");
+			Options o = new Options();
+			char[][] level =  o.newGame((new File("maps" + fileSeparator + "map_level_1.txt").getAbsolutePath()));
+			WarehouseMan w = new WarehouseMan(4, 2);
+			ActionsFactory af = new ActionsFactory();	
+			RightAction resExp = new RightAction(w, level);
+			RightAction res =  (RightAction) af.createAction('r', w, level);
+			assertEquals(resExp.getMat(), res.getMat());
+			assertEquals(resExp.getW(), res.getW());
+		}
+		
+		@Test
+		void LeftActionCreation() throws IOException, IlegalPositionException {
+			log.info("Trying to create a LeftAction");
+			Options o = new Options();
+			char[][] level =  o.newGame((new File("maps" + fileSeparator + "map_level_1.txt").getAbsolutePath()));
+			WarehouseMan w = new WarehouseMan(4, 2);
+			ActionsFactory af = new ActionsFactory();	
+			LeftAction resExp = new LeftAction(w, level);
+			LeftAction res =  (LeftAction) af.createAction('l', w, level);
+			assertEquals(resExp.getMat(), res.getMat());
+			assertEquals(resExp.getW(), res.getW());
+		}
+		
+		@Test
+		void UpActionCreation() throws IOException, IlegalPositionException {
+			log.info("Trying to create a UpAction");
+			Options o = new Options();
+			char[][] level =  o.newGame((new File("maps" + fileSeparator + "map_level_1.txt").getAbsolutePath()));
+			WarehouseMan w = new WarehouseMan(4, 2);
+			ActionsFactory af = new ActionsFactory();	
+			UpAction resExp = new UpAction(w, level);
+			UpAction res =  (UpAction) af.createAction('u', w, level);
+			assertEquals(resExp.getMat(), res.getMat());
+			assertEquals(resExp.getW(), res.getW());
+		}
+		
+		@Test
+		void DownActionCreation() throws IOException, IlegalPositionException {
+			log.info("Trying to create a DownAction");
+			Options o = new Options();
+			char[][] level =  o.newGame((new File("maps" + fileSeparator + "map_level_1.txt").getAbsolutePath()));
+			WarehouseMan w = new WarehouseMan(4, 2);
+			ActionsFactory af = new ActionsFactory();	
+			DownAction resExp = new DownAction(w, level);
+			DownAction res =  (DownAction) af.createAction('d', w, level);
+			assertEquals(resExp.getMat(), res.getMat());
+			assertEquals(resExp.getW(), res.getW());
+		}
+		
+	}
 }
