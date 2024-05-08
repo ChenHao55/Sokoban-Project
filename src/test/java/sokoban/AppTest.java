@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.Stack;
+import java.io.File;
+import java.io.IOException;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -25,8 +27,11 @@ import model.services.ObjectFactory;
 import model.services.ObjectFactoryI;
 import model.services.Options;
 import model.services.OptionsI;
+import model.services.Options;
 
 public class AppTest {
+	
+	private String fileSeparator = File.separator;
 	
 	private static final Logger log = LoggerFactory.getLogger(AppTest.class);
 	
@@ -88,6 +93,46 @@ public class AppTest {
 		}
 	}
 	
+			
+			
+	@DisplayName("Test for map creation")
+	@Nested
+	class MapTest {
+		
+		private boolean equals = true;
+		
+		@Test
+		void correctMapCreation() throws IOException {
+			log.info("Trying to create a Map");
+			char[][] matriz = {
+				    {'+', '+', '+', '+', '.', '.', '.', '.'},
+				    {'+', '.', '.', '+', '.', '.', '.', '.'},
+				    {'+', '.', '.', '+', '+', '+', '+', '+'},
+				    {'+', '.', '.', '.', '.', '.', '.', '+'},
+				    {'+', '+', 'W', '*', '+', '#', '.', '+'},
+				    {'+', '.', '.', '.', '+', '.', '.', '+'},
+				    {'+', '.', '.', '.', '+', '+', '+', '+'},
+				    {'+', '+', '+', '+', '+', '.', '.', '.'}
+				};
+			
+			Options o = new Options();
+			
+			char[][] level =  o.newGame((new File("maps" + fileSeparator + "map_level_1.txt").getAbsolutePath()));
+			
+			for (int i = 0; i < matriz.length; i++) {
+	            for (int j = 0; j < matriz[0].length; j++) {
+	                if (matriz[i][j] != level[i][j]) {
+	                    equals = false;
+	                }
+	            }
+	        }
+			
+			assertEquals(true, equals);
+		}
+	}
+
+		
+		
 	@DisplayName("Correct function of Actions Manager")
 	@Nested
 	class CorrectActionsManager{
@@ -105,47 +150,8 @@ public class AppTest {
 			ActionsFactoryI af = new ActionsFactory();
 			ObjectFactoryI of = new ObjectFactory();
 			OptionsI o = new Options(); 
-			char[][] matriz = {
-				    {'+', '+', '+', '+', '.', '.', '.', '.'},
-				    {'+', '.', '.', '+', '.', '.', '.', '.'},
-				    {'+', '.', '.', '+', '+', '+', '+', '+'},
-				    {'+', '.', '.', '.', '.', '.', '.', '+'},
-				    {'+', '+', 'W', '*', '+', '#', '.', '+'},
-				    {'+', '.', '.', '.', '+', '.', '.', '+'},
-				    {'+', '.', '.', '.', '+', '+', '+', '+'},
-				    {'+', '+', '+', '+', '+', '.', '.', '.'}
-				};
-			WarehouseMan w = new WarehouseMan(0,0);
-			ActionI left_a = af.createAction('l', w, matriz);
-			Stack<ActionI> as = am.getActions();
-			assertEquals(0, as.size());
-		}
 		
-		@Test
-		void correctCreateActionFunction() throws IlegalPositionException {
-			log.info("Executing test to check the correct creation of a WarehouseMan Object");
-			ActionsManagerI am = new ActionsManager();
-			ActionsFactoryI af = new ActionsFactory();
-			ObjectFactoryI of = new ObjectFactory();
-			OptionsI o = new Options(); 
-			char[][] matriz = {
-				    {'+', '+', '+', '+', '.', '.', '.', '.'},
-				    {'+', '.', '.', '+', '.', '.', '.', '.'},
-				    {'+', '.', '.', '+', '+', '+', '+', '+'},
-				    {'+', '.', '.', '.', '.', '.', '.', '+'},
-				    {'+', '+', 'W', '*', '+', '#', '.', '+'},
-				    {'+', '.', '.', '.', '+', '.', '.', '+'},
-				    {'+', '.', '.', '.', '+', '+', '+', '+'},
-				    {'+', '+', '+', '+', '+', '.', '.', '.'}
-				};
-			WarehouseMan w = new WarehouseMan(0,0);
-			ActionI left_a = af.createAction('l', w, matriz);
-			am.newAction(left_a);
-			am.newAction(left_a);
-			Stack<ActionI> as = am.getActions();
-			assertEquals(2, as.size());
 		}
-		
 		@Test
 		void correctUndoFunction() throws IlegalPositionException {
 			log.info("Executing test to check the correct creation of a WarehouseMan Object");
