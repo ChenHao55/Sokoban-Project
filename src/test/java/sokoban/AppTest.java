@@ -384,7 +384,7 @@ public class AppTest {
 				    {'+', '+', '+', '+', '+', '.', '.', '.'}
 				};;
 			boolean equals = true;
-			WarehouseMan w = new WarehouseMan(2, 4);
+			WarehouseMan w = new WarehouseMan(4, 2);
 			LeftAction action = new LeftAction(w, mat);
 			gs = of.createGoals(o.newGame(new File("maps" + File.separator + "map_level_" + 1 + ".txt").getAbsolutePath()));
 			char[][] matRes = action.move(w, gs, mat);
@@ -426,7 +426,7 @@ public class AppTest {
 				    {'+', '+', '+', '+', '+', '.', '.', '.'}
 				};
 			boolean equals = true;
-			WarehouseMan w = new WarehouseMan(2, 4);
+			WarehouseMan w = new WarehouseMan(4, 2);
 			RightAction action = new RightAction(w, mat);
 			gs = of.createGoals(o.newGame(new File("maps" + File.separator + "map_level_" + 1 + ".txt").getAbsolutePath()));
 			char[][] matRes = action.move(w, gs, mat);
@@ -437,9 +437,9 @@ public class AppTest {
 	                }
 	            }
 	        }
-			assertEquals(matExp, matRes);
+			assertEquals(true, equals);
 		}
-		
+
 		@Test
 		void correctUpActionMove() throws IlegalPositionException, FileNotFoundException, WallException {
 			log.info("Executing test to check the incorrect creation of a UpAction Object");
@@ -467,7 +467,7 @@ public class AppTest {
 				    {'+', '+', '+', '+', '+', '.', '.', '.'}
 				};
 			boolean equals = true;
-			WarehouseMan w = new WarehouseMan(2, 4);
+			WarehouseMan w = new WarehouseMan(4, 2);
 			UpAction action = new UpAction(w, mat);
 			gs = of.createGoals(o.newGame(new File("maps" + File.separator + "map_level_" + 1 + ".txt").getAbsolutePath()));
 			char[][] matRes = action.move(w, gs, mat);
@@ -478,7 +478,7 @@ public class AppTest {
 	                }
 	            }
 	        }
-			assertEquals(matExp, matRes);
+			assertEquals(true, equals);
 			}
 		
 		@Test
@@ -508,7 +508,7 @@ public class AppTest {
 				    {'+', '+', '+', '+', '+', '.', '.', '.'}
 				};
 			boolean equals = true;
-			WarehouseMan w = new WarehouseMan(4, 6);
+			WarehouseMan w = new WarehouseMan(4, 2);
 			DownAction action = new DownAction(w, mat);
 			gs = of.createGoals(o.newGame(new File("maps" + File.separator + "map_level_" + 1 + ".txt").getAbsolutePath()));
 			char[][] matRes = action.move(w, gs, mat);
@@ -519,7 +519,7 @@ public class AppTest {
 	                }
 	            }
 	        }
-			assertEquals(matExp, matRes);
+			assertEquals(true, equals);
 		}
 	}
 	
