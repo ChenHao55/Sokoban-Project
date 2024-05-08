@@ -1,7 +1,11 @@
 package sokoban;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import java.io.File;
+import java.io.IOException;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -13,8 +17,11 @@ import model.beans.Box;
 import model.beans.GoalPosition;
 import model.beans.WarehouseMan;
 import model.exceptions.IlegalPositionException;
+import model.services.Options;
 
 public class AppTest {
+	
+	private String fileSeparator = File.separator;
 	
 	private static final Logger log = LoggerFactory.getLogger(AppTest.class);
 	
@@ -133,6 +140,42 @@ public class AppTest {
 		void correctDownActionCreation() {
 			log.info("Executing test to check the incorrect creation of a DownAction Object");
 			assertThrows(IlegalPositionException.class, () -> new WarehouseMan(1, 1));
+		}
+	}
+	
+	@DisplayName("Test for map creation")
+	@Nested
+	class MapTest {
+		
+		private boolean equals = true;
+		
+		@Test
+		void correctMapCreation() throws IOException {
+			log.info("Trying to create a Map");
+			char[][] matriz = {
+				    {'+', '+', '+', '+', '.', '.', '.', '.'},
+				    {'+', '.', '.', '+', '.', '.', '.', '.'},
+				    {'+', '.', '.', '+', '+', '+', '+', '+'},
+				    {'+', '.', '.', '.', '.', '.', '.', '+'},
+				    {'+', '+', 'W', '*', '+', '#', '.', '+'},
+				    {'+', '.', '.', '.', '+', '.', '.', '+'},
+				    {'+', '.', '.', '.', '+', '+', '+', '+'},
+				    {'+', '+', '+', '+', '+', '.', '.', '.'}
+				};
+			
+			Options o = new Options();
+			
+			char[][] level =  o.newGame((new File("maps" + fileSeparator + "map_level_1.txt").getAbsolutePath()));
+			
+			for (int i = 0; i < matriz.length; i++) {
+	            for (int j = 0; j < matriz[0].length; j++) {
+	                if (matriz[i][j] != level[i][j]) {
+	                    equals = false;
+	                }
+	            }
+	        }
+			
+			assertEquals(true, equals);
 		}
 	}
 	
