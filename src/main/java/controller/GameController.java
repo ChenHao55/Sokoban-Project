@@ -176,6 +176,7 @@ public class GameController {
 	//Restarts the level
 	public void restartLevel() throws FileNotFoundException, IlegalPositionException, ObjectPositionNotFoundException {
 		newGame(new File("maps" + fileSeparator + "map_level_" + level_n + ".txt").getAbsolutePath());
+		am.clearActions();
 		updatecounters();
 	}
 	
