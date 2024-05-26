@@ -17,6 +17,7 @@ import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 
 import controller.GameController;
+import controller.GameService;
 import model.exceptions.IlegalPositionException;
 import model.exceptions.ObjectPositionNotFoundException;
 import model.exceptions.WallException;
@@ -27,10 +28,11 @@ public class MainFrame extends JFrame implements KeyListener  {
 	private String fileSeparator = File.separator;
 	private static final long serialVersionUID = 1L;
 	private GameController gc;
+	private GameService gs;
 
 	public MainFrame() throws IlegalPositionException, ObjectPositionNotFoundException {
 
-		setSize(400,500);  
+		setSize(450,550);  
 		setTitle("Sokoban");
         setLocationRelativeTo(null);
         
@@ -100,7 +102,7 @@ public class MainFrame extends JFrame implements KeyListener  {
 	}
 
 	public GameController getGc() {
-		return gc;
+		return this.gc;
 	}
 
 	public void setGc(GameController gc) {
@@ -180,6 +182,10 @@ public class MainFrame extends JFrame implements KeyListener  {
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public void setGs(GameService gs) {
+		this.gs = gs;
 	}
 
 }

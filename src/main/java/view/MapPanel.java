@@ -16,6 +16,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import controller.GameController;
+import controller.GameService;
 import model.exceptions.IlegalPositionException;
 import model.exceptions.ObjectPositionNotFoundException;
 
@@ -45,9 +46,10 @@ public class MapPanel extends JPanel {
 	public JLabel turnWarehouseman;
 	
 	private GameController gc;
+	private GameService gs;
 	
 	public GameController getGc() {
-		return gc;
+		return this.gc;
 	}
 
 	public void setGc(GameController gc) {
@@ -191,6 +193,10 @@ public class MapPanel extends JPanel {
 	    int numCols = level[0].length;
 	    int cellSize = Math.min(getWidth() / numCols, getHeight() / numRows);
 	    return new Dimension(numCols * cellSize, numRows * cellSize);
+	}
+
+	public void setGs(GameService gs) {
+		this.gs = gs;
 	}
 
 }
