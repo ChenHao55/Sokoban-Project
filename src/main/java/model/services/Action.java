@@ -1,24 +1,16 @@
 package model.services;
 
-import model.beans.WarehouseMan;
-
 public class Action implements ActionI {
 	
-	private WarehouseMan w;
+	private int x;
+	private int y;
 	private char[][] mat;
 	boolean lastBox = false;
 	
-	public Action(WarehouseMan w, char[][] level) {
+	public Action(int x, int y, char[][] level) {
 		this.setMat(level);
-		this.setW(w);
-	}
-	
-	public WarehouseMan getW() {
-		return w;
-	}
-
-	public void setW(WarehouseMan w) {
-		this.w = w;
+		this.setX(x);
+		this.setY(y);
 	}
 
 	public char[][] getMat() {
@@ -37,5 +29,21 @@ public class Action implements ActionI {
 	@Override
 	public void setLastBox(boolean lastBox) {
 		this.lastBox = lastBox;
+	}
+
+	public int getX() {
+		return x;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
 	}
 }

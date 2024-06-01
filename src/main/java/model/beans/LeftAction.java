@@ -10,8 +10,8 @@ import model.services.GameObjectI;
 public class LeftAction extends Action{
 	boolean lastBox;
 	
-	public LeftAction(WarehouseMan w, char[][] mat) {
-		super(w, mat);
+	public LeftAction(int x, int y, char[][] mat) {
+		super(x, y, mat);
 		this.lastBox = false;
 	}
 	

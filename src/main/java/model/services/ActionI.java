@@ -1,14 +1,14 @@
 package model.services;
 
-import model.beans.WarehouseMan;
-
 public interface ActionI {
 	
 	char[][] getMat();
-	WarehouseMan getW();
-	
 	void setMat(char[][] level);
-	void setW(WarehouseMan w);
+	int getX();
+	int getY();
+	void setX(int x);
+	void setY(int y);
+	
 	boolean isLastBox();
 	void setLastBox(boolean lastBox);
 }

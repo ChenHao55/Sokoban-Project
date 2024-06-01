@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 
 import controller.GameController;
 import controller.GameService;
+import model.exceptions.IlegalMap;
 import model.exceptions.IlegalPositionException;
 import model.exceptions.ObjectPositionNotFoundException;
 
@@ -84,7 +85,7 @@ public class MapPanel extends JPanel {
 	    newGame.addActionListener(e -> {
 			try {
 				gc.newGame(new File("maps" + fileSeparator + "map_level_1.txt").getAbsolutePath());
-			} catch (IlegalPositionException | ObjectPositionNotFoundException | FileNotFoundException e1) {
+			} catch (IlegalPositionException | ObjectPositionNotFoundException | FileNotFoundException | IlegalMap e1) {
 				e1.printStackTrace();
 			}
 		});
@@ -112,7 +113,7 @@ public class MapPanel extends JPanel {
 	    restartLevel.addActionListener(e -> {
 			try {
 				gc.restartLevel();
-			} catch (FileNotFoundException | IlegalPositionException | ObjectPositionNotFoundException e1) {
+			} catch (FileNotFoundException | IlegalPositionException | ObjectPositionNotFoundException | IlegalMap e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}

@@ -2,7 +2,7 @@ package model.services;
 
 import model.exceptions.IlegalPositionException;
 
-public class GameObject implements GameObjectI, Cloneable {
+public class GameObject implements GameObjectI {
 	
 	private int x;
 	private int y;
@@ -16,16 +16,6 @@ public class GameObject implements GameObjectI, Cloneable {
 		this.setY(y);
 	}
 	
-	@Override
-	public GameObject clone() {
-		try {
-			return (GameObject) super.clone();
-		} catch (CloneNotSupportedException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-
 	@Override
 	public int getX() {
 		return this.x;

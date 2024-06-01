@@ -2,6 +2,7 @@ package controller;
 
 import java.io.FileNotFoundException;
 
+import model.exceptions.IlegalMap;
 import model.exceptions.IlegalPositionException;
 import model.exceptions.ObjectPositionNotFoundException;
 import model.exceptions.WallException;
@@ -14,7 +15,7 @@ public class GameController {
 		this.gs = gs;
 	}
 	
-	public void newGame(String fileName) throws FileNotFoundException, IlegalPositionException, ObjectPositionNotFoundException {
+	public void newGame(String fileName) throws FileNotFoundException, IlegalPositionException, ObjectPositionNotFoundException, IlegalMap {
 		gs.newGame(fileName);
 	}
 	
@@ -46,11 +47,11 @@ public class GameController {
 		gs.moveLeft();
 	}
 	
-	public void restartLevel() throws FileNotFoundException, IlegalPositionException, ObjectPositionNotFoundException {
+	public void restartLevel() throws FileNotFoundException, IlegalPositionException, ObjectPositionNotFoundException, IlegalMap {
 		gs.restartLevel();
 	}
 	
-	public void nextLevel() throws FileNotFoundException, IlegalPositionException, ObjectPositionNotFoundException {
+	public void nextLevel() throws FileNotFoundException, IlegalPositionException, ObjectPositionNotFoundException, IlegalMap {
 		gs.nextLevel();
 	}
 	

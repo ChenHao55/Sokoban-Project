@@ -24,6 +24,4 @@ public interface GameObjectI {
 	int getGlobalCount();
 
 	void setGlobalCount(int globalCount);
-	
-	GameObjectI clone();
 }

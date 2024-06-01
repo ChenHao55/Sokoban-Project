@@ -18,6 +18,7 @@ import javax.swing.WindowConstants;
 
 import controller.GameController;
 import controller.GameService;
+import model.exceptions.IlegalMap;
 import model.exceptions.IlegalPositionException;
 import model.exceptions.ObjectPositionNotFoundException;
 import model.exceptions.WallException;
@@ -70,7 +71,7 @@ public class MainFrame extends JFrame implements KeyListener  {
 	    newGame.addActionListener(e -> {
 			try {
 				gc.newGame(new File("maps" + fileSeparator + "map_level_1.txt").getAbsolutePath());
-			} catch (IlegalPositionException | ObjectPositionNotFoundException | FileNotFoundException e1) {
+			} catch (IlegalPositionException | ObjectPositionNotFoundException | FileNotFoundException | IlegalMap e1) {
 				e1.printStackTrace();
 			}
 		});
@@ -138,7 +139,7 @@ public class MainFrame extends JFrame implements KeyListener  {
 			try {
 				gc.moveUp();
 				gc.nextLevel();
-			} catch (ObjectPositionNotFoundException | WallException | IlegalPositionException | FileNotFoundException e1) {
+			} catch (ObjectPositionNotFoundException | WallException | IlegalPositionException | FileNotFoundException | IlegalMap e1) {
 				e1.printStackTrace();
 			}
 				break;
@@ -146,7 +147,7 @@ public class MainFrame extends JFrame implements KeyListener  {
 			try {
 				gc.moveDown();
 				gc.nextLevel();
-			} catch (ObjectPositionNotFoundException | WallException | IlegalPositionException | FileNotFoundException e1) {
+			} catch (ObjectPositionNotFoundException | WallException | IlegalPositionException | FileNotFoundException | IlegalMap e1) {
 				e1.printStackTrace();
 			}
 				break;
@@ -154,7 +155,7 @@ public class MainFrame extends JFrame implements KeyListener  {
 			try {
 				gc.moveLeft();
 				gc.nextLevel();
-			} catch (ObjectPositionNotFoundException | WallException | IlegalPositionException | FileNotFoundException e1) {
+			} catch (ObjectPositionNotFoundException | WallException | IlegalPositionException | FileNotFoundException | IlegalMap e1) {
 				e1.printStackTrace();
 			}
 				break;
@@ -162,7 +163,7 @@ public class MainFrame extends JFrame implements KeyListener  {
 			try {
 				gc.moveRight();
 				gc.nextLevel();
-			} catch (ObjectPositionNotFoundException | WallException | IlegalPositionException | FileNotFoundException e1) {
+			} catch (ObjectPositionNotFoundException | WallException | IlegalPositionException | FileNotFoundException | IlegalMap e1) {
 				e1.printStackTrace();
 			}
 				break;
