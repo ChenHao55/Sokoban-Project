@@ -19,7 +19,8 @@ public class ActionsFactory implements ActionsFactoryI{
 				return new UpAction(x, y, mat);
 			case 'd':
 				return new DownAction(x, y, mat);
+			default:
+				return null;
 		}
-		return null;
 	}
 }

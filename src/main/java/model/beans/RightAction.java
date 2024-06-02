@@ -8,21 +8,9 @@ import model.services.Action;
 import model.services.GameObjectI;
 
 public class RightAction extends Action {
-	boolean lastBox;
 	
 	public RightAction(int x, int y, char[][] mat) {
 		super(x, y, mat);
-		this.lastBox = false;
-	}
-	
-	@Override
-	public boolean isLastBox() {
-		return lastBox;
-	}
-
-	@Override
-	public void setLastBox(boolean lastBox) {
-		this.lastBox = lastBox;
 	}
 	
 	public char[][] move(WarehouseMan w, ArrayList<GameObjectI> gs, char[][] mat) throws WallException, IlegalPositionException {
@@ -50,7 +38,7 @@ public class RightAction extends Action {
 					mat[x][y] = '.';
 					w.setY(y+1);
 					w.setBoxCount(w.getBoxCount() + 1);
-					lastBox = true;
+					this.setLastBox(true);
 				}
 				break;
 			default:
@@ -58,7 +46,7 @@ public class RightAction extends Action {
 				mat[x][y] = '.';
 				w.setY(y+1);
 				w.setCount(w.getCount() + 1);
-				lastBox = false;
+				this.setLastBox(false);
 		}			
 		
 		w.setGlobalCount(w.getGlobalCount() + 1);

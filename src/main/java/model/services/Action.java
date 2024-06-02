@@ -5,13 +5,16 @@ public class Action implements ActionI {
 	private int x;
 	private int y;
 	private char[][] mat;
-	boolean lastBox = false;
+	private boolean lastBox;
 	
 	public Action(int x, int y, char[][] level) {
 		this.setMat(level);
 		this.setX(x);
 		this.setY(y);
+		this.setLastBox(false);
 	}
+	
+	public Action() {}
 
 	public char[][] getMat() {
 		return mat;
@@ -21,12 +24,10 @@ public class Action implements ActionI {
 		this.mat = mat;
 	}
 	
-	@Override
 	public boolean isLastBox() {
 		return lastBox;
 	}
 	
-	@Override
 	public void setLastBox(boolean lastBox) {
 		this.lastBox = lastBox;
 	}

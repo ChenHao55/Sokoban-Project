@@ -32,7 +32,7 @@ public class GameService {
 		
 		private MainFrame mf;
 		private MapPanel mp;
-		private ActionI atc;
+		private ActionI atc = new Action();
 		private char[][] level;
 		private GameObjectI w;
 		private ArrayList<GameObjectI> gs;
@@ -40,9 +40,9 @@ public class GameService {
 		private ActionsFactoryI af = new ActionsFactory();
 		private ObjectFactoryI of = new ObjectFactory();
 		private OptionsI o = new Options();
-		private char[][] levelClone;
-		private int level_n = 1;
-		private int total_levels = 10;
+		private char[][] levelClone = new char[0][0];
+		private int levelNumber = 1;
+		private int totalLevels = 10;
 		private String fileSeparator = File.separator;
 		
 		public GameService(MainFrame mf, MapPanel mp) {
@@ -119,21 +119,8 @@ public void undoMovement() throws IlegalPositionException, ObjectPositionNotFoun
 		this.level = ((Action) atc).getMat();
 		this.w.setX(atc.getX());
 		this.w.setY(atc.getY());
-		
-		System.out.println(this.w.getX() + this.w.getY());
-		
-		this.printCharMatrix(level);
 		updateMap();
 	}
-}
-
-private void printCharMatrix(char[][] matrix) {
-    for (int i = 0; i < matrix.length; i++) {
-        for (int j = 0; j < matrix[i].length; j++) {
-            System.out.print(matrix[i][j] + " ");
-        }
-        System.out.println(); // Move to the next line after printing each row
-    }
 }
 
 //METODOS PARA MOVER EL PERSONAJE
@@ -192,20 +179,20 @@ public boolean isEndLevel() {
 
 //Restarts the level
 public void restartLevel() throws FileNotFoundException, IlegalPositionException, ObjectPositionNotFoundException, IlegalMap {
-	newGame(new File("maps" + fileSeparator + "map_level_" + level_n + ".txt").getAbsolutePath());
+	newGame(new File("maps" + fileSeparator + "map_level_" + levelNumber + ".txt").getAbsolutePath());
 	am.clearActions();
 	updatecounters();
 }
 
 //If the level is completed, it passes to the next one or shows the congratulations screen
 public void nextLevel() throws FileNotFoundException, IlegalPositionException, ObjectPositionNotFoundException, IlegalMap {
-	if(isEndLevel() && level_n != total_levels) {
-		level_n += 1;
+	if(isEndLevel() && levelNumber != totalLevels) {
+		levelNumber += 1;
 		am.clearActions();
-		newGame(new File("maps" + fileSeparator + "map_level_" + level_n + ".txt").getAbsolutePath());
+		newGame(new File("maps" + fileSeparator + "map_level_" + levelNumber + ".txt").getAbsolutePath());
 	}
-	else if(isEndLevel() && level_n == total_levels) {
-		level_n = 1;
+	else if(isEndLevel() && levelNumber == totalLevels) {
+		levelNumber = 1;
 		am.clearActions();
 		mf.showCongrats();
 	}

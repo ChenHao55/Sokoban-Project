@@ -2,8 +2,6 @@ package view;
 
 import javax.swing.*;
 
-import controller.GameController;
-
 import java.awt.*;
 
 public class CongratsPanel extends JPanel {

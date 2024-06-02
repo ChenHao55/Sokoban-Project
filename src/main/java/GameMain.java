@@ -14,8 +14,6 @@ public class GameMain {
 		GameService gs = new GameService(mf, mp);
 		GameController gc = new GameController(gs);
 		
-		mf.setGs(gs);
-		mp.setGs(gs);
 		mf.setGc(gc);
 		mp.setGc(gc);
 		mf.setVisible(true);

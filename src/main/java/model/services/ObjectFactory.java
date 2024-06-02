@@ -9,11 +9,13 @@ import model.exceptions.IlegalMap;
 import model.exceptions.IlegalPositionException;
 
 public class ObjectFactory implements ObjectFactoryI {
+	
+	private String msg = "Incorrect map dimensions";
 
 	@Override
 	public GameObjectI createWarehouseMan(char[][] level) throws IlegalPositionException, IlegalMap {
 	
-		if(level.length < 0 || level[0].length < 0) {throw new IlegalMap("Incorrect map dimensions");}
+		if(level.length == 0 || level[0].length == 0) {throw new IlegalMap(msg);}
 		
 		for(int i=0; i<level.length; i++) {
 			for(int j=0; j<level[0].length; j++) {
@@ -28,7 +30,7 @@ public class ObjectFactory implements ObjectFactoryI {
 	@Override
 	public GameObjectI createBox(char[][] level) throws IlegalPositionException, IlegalMap {
 		
-		if(level.length < 0 || level[0].length < 0) {throw new IlegalMap("Incorrect map dimensions");}
+		if(level.length == 0 || level[0].length == 0) {throw new IlegalMap(msg);}
 		
 		for(int i=0; i<level.length; i++) {
 			for(int j=0; j<level[0].length; j++) {
@@ -43,7 +45,7 @@ public class ObjectFactory implements ObjectFactoryI {
 	@Override
 	public ArrayList<GameObjectI> createGoals(char[][] level) throws IlegalPositionException, IlegalMap {
 		
-		if(level.length < 0 || level[0].length < 0) {throw new IlegalMap("Incorrect map dimensions");}
+		if(level.length == 0 || level[0].length == 0) {throw new IlegalMap(msg);}
 		
 		ArrayList<GameObjectI> gs = new ArrayList<GameObjectI>();
 		

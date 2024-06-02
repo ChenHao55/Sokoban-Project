@@ -17,7 +17,6 @@ import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 
 import controller.GameController;
-import controller.GameService;
 import model.exceptions.IlegalMap;
 import model.exceptions.IlegalPositionException;
 import model.exceptions.ObjectPositionNotFoundException;
@@ -29,7 +28,6 @@ public class MainFrame extends JFrame implements KeyListener  {
 	private String fileSeparator = File.separator;
 	private static final long serialVersionUID = 1L;
 	private GameController gc;
-	private GameService gs;
 
 	public MainFrame() throws IlegalPositionException, ObjectPositionNotFoundException {
 
@@ -183,10 +181,6 @@ public class MainFrame extends JFrame implements KeyListener  {
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
 		
-	}
-
-	public void setGs(GameService gs) {
-		this.gs = gs;
 	}
 
 }

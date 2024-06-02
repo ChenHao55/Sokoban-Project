@@ -27,7 +27,8 @@ public class Options implements OptionsI{
 			File file = new File(fileName);
 			Scanner s = new Scanner(file);
 			
-			String levelName = s.nextLine();
+			//String levelName = s.nextLine();
+			s.nextLine();
 			int rows = s.nextInt();
 			int colums = s.nextInt();
 			
