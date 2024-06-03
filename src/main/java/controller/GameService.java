@@ -32,7 +32,6 @@ public class GameService {
 		
 		private MainFrame mf;
 		private MapPanel mp;
-		private ActionI atc = new Action();
 		private char[][] level;
 		private GameObjectI w;
 		private ArrayList<GameObjectI> gs;
@@ -40,7 +39,6 @@ public class GameService {
 		private ActionsFactoryI af = new ActionsFactory();
 		private ObjectFactoryI of = new ObjectFactory();
 		private OptionsI o = new Options();
-		private char[][] levelClone = new char[0][0];
 		private int levelNumber = 1;
 		private int totalLevels = 10;
 		private String fileSeparator = File.separator;
@@ -106,7 +104,7 @@ private void cloneMap(char[][] levelClone) {
 }
 
 public void undoMovement() throws IlegalPositionException, ObjectPositionNotFoundException {
-	atc = am.undo();
+	ActionI atc = am.undo();
 	if(atc != null) {
 		if(atc.isLastBox()) {
 			decrementBoxCounter();
@@ -125,9 +123,9 @@ public void undoMovement() throws IlegalPositionException, ObjectPositionNotFoun
 
 //METODOS PARA MOVER EL PERSONAJE
 public void moveUp() throws ObjectPositionNotFoundException, WallException, IlegalPositionException {
-	levelClone = new char[this.level.length][];
+	char[][] levelClone = new char[this.level.length][];
 	cloneMap(levelClone);
-	atc = af.createAction('u', this.w.getX(), this.w.getY(), levelClone);
+	ActionI atc = af.createAction('u', this.w.getX(), this.w.getY(), levelClone);
 	am.newAction(atc);
 	((UpAction) atc).move((WarehouseMan) w, gs, level);
 	updatecounters();
@@ -135,9 +133,9 @@ public void moveUp() throws ObjectPositionNotFoundException, WallException, Ileg
 }
 
 public void moveLeft() throws ObjectPositionNotFoundException, WallException, IlegalPositionException {
-	levelClone = new char[this.level.length][];
+	char[][] levelClone = new char[this.level.length][];
 	cloneMap(levelClone);
-	atc = af.createAction('l', this.w.getX(), this.w.getY(), levelClone);
+	ActionI atc = af.createAction('l', this.w.getX(), this.w.getY(), levelClone);
 	am.newAction(atc);
 	((LeftAction) atc).move((WarehouseMan) w, gs, level);
 	updatecounters();
@@ -145,9 +143,9 @@ public void moveLeft() throws ObjectPositionNotFoundException, WallException, Il
 }
 
 public void moveDown() throws ObjectPositionNotFoundException, WallException, IlegalPositionException {
-	levelClone = new char[this.level.length][];
+	char[][] levelClone = new char[this.level.length][];
 	cloneMap(levelClone);
-	atc = af.createAction('d', this.w.getX(), this.w.getY(), levelClone);
+	ActionI atc = af.createAction('d', this.w.getX(), this.w.getY(), levelClone);
 	am.newAction(atc);
 	((DownAction) atc).move((WarehouseMan) w, gs, level);
 	updatecounters();
@@ -155,9 +153,9 @@ public void moveDown() throws ObjectPositionNotFoundException, WallException, Il
 }
 
 public void moveRight() throws ObjectPositionNotFoundException, WallException, IlegalPositionException {
-	levelClone = new char[this.level.length][];
+	char[][] levelClone = new char[this.level.length][];
 	cloneMap(levelClone);
-	atc = af.createAction('r', this.w.getX(), this.w.getY(), levelClone);
+	ActionI atc = af.createAction('r', this.w.getX(), this.w.getY(), levelClone);
 	am.newAction(atc);
 	((RightAction) atc).move((WarehouseMan) w, gs, level);
 	updatecounters();
