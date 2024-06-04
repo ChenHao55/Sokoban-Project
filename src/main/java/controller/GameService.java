@@ -73,6 +73,7 @@ public void saveGame() {
 
 public void loadGame() throws NumberFormatException, IlegalPositionException {
 	this.level = o.loadGame((WarehouseMan) w, gs, am, levelNumber);
+
 	updatecounters();
 	try {
 		updateMap();
@@ -157,9 +158,11 @@ public void moveDown() throws ObjectPositionNotFoundException, WallException, Il
 public void moveRight() throws ObjectPositionNotFoundException, WallException, IlegalPositionException {
 	char[][] levelClone = new char[this.level.length][];
 	cloneMap(levelClone);
+
 	ActionI atc = af.createAction('r', this.w.getX(), this.w.getY(), levelClone);
 	am.newAction(atc);
-	((RightAction) atc).move((WarehouseMan) w, gs, level);
+	((RightAction) atc).move((WarehouseMan) w, gs, level);	
+
 	updatecounters();
 	updateMap();
 }
@@ -179,6 +182,7 @@ public boolean isEndLevel() {
 
 //Restarts the level
 public void restartLevel() throws FileNotFoundException, IlegalPositionException, ObjectPositionNotFoundException, IlegalMap {
+	levelNumber = 1;
 	newGame(new File("maps" + fileSeparator + "map_level_" + levelNumber + ".txt").getAbsolutePath());
 	am.clearActions();
 	updatecounters();

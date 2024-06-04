@@ -174,6 +174,7 @@ public class Options implements OptionsI{
 				pos = reader.readLine();
 				int n = Integer.parseInt(pos);
 				
+				gs = new ArrayList<GameObjectI>();
 				while(n>0) {
 					pos = reader.readLine();
 					posSplit = pos.split(" ");
