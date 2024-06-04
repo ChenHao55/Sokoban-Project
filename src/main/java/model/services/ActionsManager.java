@@ -23,6 +23,10 @@ public class ActionsManager implements ActionsManagerI {
 		actions.push(a);
 	}
 
+	public void deleteAction(ActionI a) {
+		actions.pop();
+	}
+	
 	public Action undo() {
 		if(actions.isEmpty())
 			return null;

@@ -127,41 +127,53 @@ public void undoMovement() throws IlegalPositionException, ObjectPositionNotFoun
 //METODOS PARA MOVER EL PERSONAJE
 public void moveUp() throws ObjectPositionNotFoundException, WallException, IlegalPositionException {
 	char[][] levelClone = new char[this.level.length][];
+	int globalCounter = w.getGlobalCount();
 	cloneMap(levelClone);
 	ActionI atc = af.createAction('u', this.w.getX(), this.w.getY(), levelClone);
 	am.newAction(atc);
 	((UpAction) atc).move((WarehouseMan) w, gs, level);
+	if(w.getGlobalCount() == globalCounter)
+		am.deleteAction(atc);
 	updatecounters();
 	updateMap();
 }
 
 public void moveLeft() throws ObjectPositionNotFoundException, WallException, IlegalPositionException {
 	char[][] levelClone = new char[this.level.length][];
+	int globalCounter = w.getGlobalCount();
 	cloneMap(levelClone);
 	ActionI atc = af.createAction('l', this.w.getX(), this.w.getY(), levelClone);
 	am.newAction(atc);
 	((LeftAction) atc).move((WarehouseMan) w, gs, level);
+	if(w.getGlobalCount() == globalCounter)
+		am.deleteAction(atc);
 	updatecounters();
 	updateMap();
 }
 
 public void moveDown() throws ObjectPositionNotFoundException, WallException, IlegalPositionException {
 	char[][] levelClone = new char[this.level.length][];
+	int globalCounter = w.getGlobalCount();
 	cloneMap(levelClone);
 	ActionI atc = af.createAction('d', this.w.getX(), this.w.getY(), levelClone);
 	am.newAction(atc);
 	((DownAction) atc).move((WarehouseMan) w, gs, level);
+	if(w.getGlobalCount() == globalCounter)
+		am.deleteAction(atc);
 	updatecounters();
 	updateMap();
 }
 
 public void moveRight() throws ObjectPositionNotFoundException, WallException, IlegalPositionException {
 	char[][] levelClone = new char[this.level.length][];
+	int globalCounter = w.getGlobalCount();
 	cloneMap(levelClone);
 
 	ActionI atc = af.createAction('r', this.w.getX(), this.w.getY(), levelClone);
 	am.newAction(atc);
-	((RightAction) atc).move((WarehouseMan) w, gs, level);	
+	((RightAction) atc).move((WarehouseMan) w, gs, level);
+	if(w.getGlobalCount() == globalCounter)
+		am.deleteAction(atc);
 
 	updatecounters();
 	updateMap();
