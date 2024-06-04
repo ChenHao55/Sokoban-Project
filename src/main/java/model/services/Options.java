@@ -59,7 +59,7 @@ public class Options implements OptionsI{
 
 	}
 	
-	public void saveGame(char[][] map, WarehouseMan w, ArrayList<GameObjectI> gs, Stack<ActionI> s) {
+	public void saveGame(char[][] map, WarehouseMan w, ArrayList<GameObjectI> gs, Stack<ActionI> s, int levelNumber) {
 		
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setCurrentDirectory(new File(System.getProperty("user.dir") + fileSeparator + "games_saved"));
@@ -79,6 +79,10 @@ public class Options implements OptionsI{
 			
 			try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))){
 				
+				//Escribir el número del nivel
+				writer.write(String.valueOf(levelNumber));
+				writer.newLine();
+
 				//Escribir las dimensiones de la matriz
 				writer.write(String.valueOf(map.length) + " ");
 				writer.write(String.valueOf(map[0].length));
@@ -133,7 +137,7 @@ public class Options implements OptionsI{
 		}
 	}
 	
-	public char[][] loadGame(WarehouseMan w, ArrayList<GameObjectI> gs, ActionsManagerI am) throws NumberFormatException, IlegalPositionException{
+	public char[][] loadGame(WarehouseMan w, ArrayList<GameObjectI> gs, ActionsManagerI am, int levelNumber) throws NumberFormatException, IlegalPositionException{
 		
         char[][] map = null;
 
@@ -150,6 +154,10 @@ public class Options implements OptionsI{
 			
 			try (BufferedReader reader = new BufferedReader(new FileReader(file))){
 				
+				//Obtener el número del nivel
+				String ln = reader.readLine();
+				levelNumber = Integer.parseInt(ln);
+
 				//Obtener las dimensiones del mapa
 				String pos = reader.readLine();
 				String cont;

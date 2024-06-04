@@ -13,8 +13,8 @@ public interface OptionsI {
 	char[][] newGame(String fileName) throws FileNotFoundException, IlegalPositionException;
 	
 	//Metodo para guardar una partida
-	void saveGame(char[][] map, WarehouseMan w, ArrayList<GameObjectI> gs, Stack<ActionI> s);
+	void saveGame(char[][] map, WarehouseMan w, ArrayList<GameObjectI> gs, Stack<ActionI> s, int levelNumber);
 	
 	//Metodo para cargar una partida
-	char[][] loadGame(WarehouseMan w, ArrayList<GameObjectI> gs, ActionsManagerI am) throws NumberFormatException, IlegalPositionException;
+	char[][] loadGame(WarehouseMan w, ArrayList<GameObjectI> gs, ActionsManagerI am, int levelNumber) throws NumberFormatException, IlegalPositionException;
 }

@@ -48,7 +48,9 @@ public class GameService {
 			this.mp = mp;
 		}
 		
+		
 		//Aqui añadiria metodos como cambiar de nivel, una vez superado...
+
 
 //Este metodo se encarga de crear el mapa desde el principio
 public void newGame(String fileName) throws IlegalPositionException, ObjectPositionNotFoundException, FileNotFoundException, IlegalMap {
@@ -61,7 +63,7 @@ public void newGame(String fileName) throws IlegalPositionException, ObjectPosit
 }
 
 public void saveGame() {
-	o.saveGame(level, (WarehouseMan) w, gs, am.getActions());
+	o.saveGame(level, (WarehouseMan) w, gs, am.getActions(), levelNumber);
 	try {
 		updateMap();
 	} catch (IlegalPositionException | ObjectPositionNotFoundException e) {
@@ -70,7 +72,7 @@ public void saveGame() {
 }
 
 public void loadGame() throws NumberFormatException, IlegalPositionException {
-	this.level = o.loadGame((WarehouseMan) w, gs, am);
+	this.level = o.loadGame((WarehouseMan) w, gs, am, levelNumber);
 	updatecounters();
 	try {
 		updateMap();
