@@ -61,7 +61,7 @@ public void newGame(String fileName) throws IlegalPositionException, ObjectPosit
 }
 
 public void saveGame() {
-	o.saveGame(level, (WarehouseMan) w, gs);
+	o.saveGame(level, (WarehouseMan) w, gs, am.getActions());
 	try {
 		updateMap();
 	} catch (IlegalPositionException | ObjectPositionNotFoundException e) {
@@ -70,7 +70,7 @@ public void saveGame() {
 }
 
 public void loadGame() throws NumberFormatException, IlegalPositionException {
-	this.level = o.loadGame((WarehouseMan) w, gs);
+	this.level = o.loadGame((WarehouseMan) w, gs, am);
 	updatecounters();
 	try {
 		updateMap();

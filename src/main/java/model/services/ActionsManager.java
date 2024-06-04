@@ -15,6 +15,10 @@ public class ActionsManager implements ActionsManagerI {
 		return actions;
 	}
 	
+	public void setActions(Stack<ActionI> actions) {
+		this.actions = actions;
+	}
+	
 	public void newAction(ActionI a) {
 		actions.push(a);
 	}
@@ -25,7 +29,7 @@ public class ActionsManager implements ActionsManagerI {
 		else
 			return (Action) actions.pop();
 	}
-	
+
 	public void clearActions() {
 		actions.clear();
 	}

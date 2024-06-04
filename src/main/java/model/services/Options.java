@@ -3,13 +3,18 @@ package model.services;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
+import java.util.Stack;
 
 import model.beans.GoalPosition;
 import model.beans.WarehouseMan;
@@ -51,7 +56,7 @@ public class Options implements OptionsI{
 
 	}
 	
-	public void saveGame(char[][] map, WarehouseMan w, ArrayList<GameObjectI> gs) {
+	public void saveGame(char[][] map, WarehouseMan w, ArrayList<GameObjectI> gs, Stack<ActionI> s) {
 		
 		File file = new File("maps" + fileSeparator + "saved_map.txt");
 		
@@ -96,16 +101,25 @@ public class Options implements OptionsI{
 			writer.write(String.valueOf(w.getGlobalCount()));
 			writer.newLine();
 			
+			//Escribir pila de acciones
+			try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("maps" + fileSeparator + "stack_info" + fileSeparator + "saved_map_stack.txt"))) {
+	            oos.writeObject(s);
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public char[][] loadGame(WarehouseMan w, ArrayList<GameObjectI> gs) throws NumberFormatException, IlegalPositionException{
+	public char[][] loadGame(WarehouseMan w, ArrayList<GameObjectI> gs, ActionsManagerI am) throws NumberFormatException, IlegalPositionException{
 		
+		File file = new File("maps" + fileSeparator + "saved_map.txt");
+
 		char[][] map = null;
 		
-		try (BufferedReader reader = new BufferedReader(new FileReader("maps" + fileSeparator + "saved_map.txt"))){
+		try (BufferedReader reader = new BufferedReader(new FileReader(file))){
 			
 			//Obtener las dimensiones del mapa
 			String pos = reader.readLine();
@@ -150,6 +164,15 @@ public class Options implements OptionsI{
 			
 			cont = reader.readLine();
 			w.setGlobalCount(Integer.parseInt(cont));
+			
+			//leer stack
+			try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("maps" + fileSeparator + "stack_info" + fileSeparator + "saved_map_stack.txt"))) {
+	            Stack<ActionI> restoredStack = (Stack<ActionI>) ois.readObject();
+	            am.setActions(restoredStack);
+	        } catch (IOException | ClassNotFoundException e) {
+	            e.printStackTrace();
+	        }
+
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

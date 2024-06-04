@@ -2,6 +2,7 @@ package model.services;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Stack;
 
 import model.beans.WarehouseMan;
 import model.exceptions.IlegalPositionException;
@@ -12,8 +13,8 @@ public interface OptionsI {
 	char[][] newGame(String fileName) throws FileNotFoundException, IlegalPositionException;
 	
 	//Metodo para guardar una partida
-	void saveGame(char[][] map, WarehouseMan w, ArrayList<GameObjectI> gs);
+	void saveGame(char[][] map, WarehouseMan w, ArrayList<GameObjectI> gs, Stack<ActionI> s);
 	
 	//Metodo para cargar una partida
-	char[][] loadGame(WarehouseMan w, ArrayList<GameObjectI> gs) throws NumberFormatException, IlegalPositionException;
+	char[][] loadGame(WarehouseMan w, ArrayList<GameObjectI> gs, ActionsManagerI am) throws NumberFormatException, IlegalPositionException;
 }

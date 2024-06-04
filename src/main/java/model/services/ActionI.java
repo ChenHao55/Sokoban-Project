@@ -1,6 +1,8 @@
 package model.services;
 
-public interface ActionI {
+import java.io.Serializable;
+
+public interface ActionI extends Serializable{
 	
 	char[][] getMat();
 	void setMat(char[][] level);

@@ -7,6 +7,9 @@ public interface ActionsManagerI {
 	//Metodo para obtener la pila de acciones realizadas
 	public Stack<ActionI> getActions();
 	
+	//Metodo para  la pila de acciones realizadas
+	public void setActions(Stack<ActionI> actions);
+
 	//Metodo para insertar una nueva accion en la pila
 	public void newAction(ActionI a);
 	
