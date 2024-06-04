@@ -16,6 +16,9 @@ import java.util.Iterator;
 import java.util.Scanner;
 import java.util.Stack;
 
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
 import model.beans.GoalPosition;
 import model.beans.WarehouseMan;
 import model.exceptions.IlegalPositionException;
@@ -58,126 +61,156 @@ public class Options implements OptionsI{
 	
 	public void saveGame(char[][] map, WarehouseMan w, ArrayList<GameObjectI> gs, Stack<ActionI> s) {
 		
-		File file = new File("maps" + fileSeparator + "saved_map.txt");
+		JFileChooser fileChooser = new JFileChooser();
+		fileChooser.setCurrentDirectory(new File(System.getProperty("user.dir") + fileSeparator + "games_saved"));
 		
-		try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))){
+		// Filtrar a .txt
+	    FileNameExtensionFilter filter = new FileNameExtensionFilter("TEXT FILES", "txt", "text");
+	    fileChooser.setFileFilter(filter);
+	    fileChooser.setAcceptAllFileFilterUsed(false);
+	    
+		if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+			File file = fileChooser.getSelectedFile();
 			
-			//Escribir las dimensiones de la matriz
-			writer.write(String.valueOf(map.length) + " ");
-			writer.write(String.valueOf(map[0].length));
-			writer.newLine();
-			
-			//Escribir la posicion del jugador
-			writer.write(String.valueOf(w.getX()) + " ");
-			writer.write(String.valueOf(w.getY()));
-			writer.newLine();
-			
-			//Escribir las posiciones de las metas
-			Iterator<GameObjectI> it = gs.iterator();
-			//Ecribir el tamaño del ArrayList
-			writer.write(String.valueOf(gs.size()));
-			writer.newLine();
-			while(it.hasNext()) {
-				GoalPosition g = (GoalPosition) it.next();
-				//Cada linea tiene la posicion de una meta
-				writer.write(String.valueOf(g.getX()) + " ");
-				writer.write(String.valueOf(g.getY()));
-				writer.newLine();
-			}
-			
-			//Escribir el mapa
-			for(int i = 0; i<map.length; i++) {
-				for(int j = 0; j<map[0].length; j++) {
-					writer.write(map[i][j]);
-				}
-				writer.newLine();
-			}
-			
-			//Escribir contadores
-			writer.write(String.valueOf(w.getBoxCount()));
-			writer.newLine();
-			writer.write(String.valueOf(w.getCount()));
-			writer.newLine();
-			writer.write(String.valueOf(w.getGlobalCount()));
-			writer.newLine();
-			
-			//Escribir pila de acciones
-			try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("maps" + fileSeparator + "stack_info" + fileSeparator + "saved_map_stack.txt"))) {
-	            oos.writeObject(s);
-	        } catch (IOException e) {
-	            e.printStackTrace();
+			//Añade .txt al fichero si no lo tiene ya
+			if (!file.getPath().endsWith(".txt")) {
+	            file = new File(file.getPath() + ".txt");
 	        }
 			
-		} catch (IOException e) {
-			e.printStackTrace();
+			try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))){
+				
+				//Escribir las dimensiones de la matriz
+				writer.write(String.valueOf(map.length) + " ");
+				writer.write(String.valueOf(map[0].length));
+				writer.newLine();
+				
+				//Escribir la posicion del jugador
+				writer.write(String.valueOf(w.getX()) + " ");
+				writer.write(String.valueOf(w.getY()));
+				writer.newLine();
+				
+				//Escribir las posiciones de las metas
+				Iterator<GameObjectI> it = gs.iterator();
+				//Ecribir el tamaño del ArrayList
+				writer.write(String.valueOf(gs.size()));
+				writer.newLine();
+				while(it.hasNext()) {
+					GoalPosition g = (GoalPosition) it.next();
+					//Cada linea tiene la posicion de una meta
+					writer.write(String.valueOf(g.getX()) + " ");
+					writer.write(String.valueOf(g.getY()));
+					writer.newLine();
+				}
+				
+				//Escribir el mapa
+				for(int i = 0; i<map.length; i++) {
+					for(int j = 0; j<map[0].length; j++) {
+						writer.write(map[i][j]);
+					}
+					writer.newLine();
+				}
+				
+				//Escribir contadores
+				writer.write(String.valueOf(w.getBoxCount()));
+				writer.newLine();
+				writer.write(String.valueOf(w.getCount()));
+				writer.newLine();
+				writer.write(String.valueOf(w.getGlobalCount()));
+				writer.newLine();
+				
+				//Escribir pila de acciones
+				String fileNameWithoutExtension = file.getName().substring(0, file.getName().lastIndexOf("."));
+				File stackFile = new File("games_saved" + fileSeparator + "stack_info" + fileSeparator + fileNameWithoutExtension + "_stack.dat");
+				try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(stackFile))) {
+		            oos.writeObject(s);
+		        } catch (IOException e) {
+		            e.printStackTrace();
+		        }
+				
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	
 	public char[][] loadGame(WarehouseMan w, ArrayList<GameObjectI> gs, ActionsManagerI am) throws NumberFormatException, IlegalPositionException{
 		
-		File file = new File("maps" + fileSeparator + "saved_map.txt");
+        char[][] map = null;
 
-		char[][] map = null;
-		
-		try (BufferedReader reader = new BufferedReader(new FileReader(file))){
+		JFileChooser fileChooser = new JFileChooser();
+		fileChooser.setCurrentDirectory(new File(System.getProperty("user.dir") + fileSeparator + "games_saved"));
+
+		// Filtrar a .txt
+	    FileNameExtensionFilter filter = new FileNameExtensionFilter("TEXT FILES", "txt", "text");
+	    fileChooser.setFileFilter(filter);
+	    fileChooser.setAcceptAllFileFilterUsed(false);
+	    
+	    if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+	        File file = fileChooser.getSelectedFile();
 			
-			//Obtener las dimensiones del mapa
-			String pos = reader.readLine();
-			String cont;
-			String[] posSplit = pos.split(" ");
-			
-			map = new char[Integer.parseInt(posSplit[0])][Integer.parseInt(posSplit[1])];
-			
-			//Falta leer las metas y la pos del jugador
-			pos = reader.readLine();
-			posSplit = pos.split(" ");
-			w.setX(Integer.parseInt(posSplit[0]));
-			w.setY(Integer.parseInt(posSplit[1]));
-			
-			pos = reader.readLine();
-			int n = Integer.parseInt(pos);
-			
-			while(n>0) {
+			try (BufferedReader reader = new BufferedReader(new FileReader(file))){
+				
+				//Obtener las dimensiones del mapa
+				String pos = reader.readLine();
+				String cont;
+				String[] posSplit = pos.split(" ");
+				
+				map = new char[Integer.parseInt(posSplit[0])][Integer.parseInt(posSplit[1])];
+				
+				//Falta leer las metas y la pos del jugador
 				pos = reader.readLine();
 				posSplit = pos.split(" ");
+				w.setX(Integer.parseInt(posSplit[0]));
+				w.setY(Integer.parseInt(posSplit[1]));
 				
-				GoalPosition g = new GoalPosition(Integer.parseInt(posSplit[0]), Integer.parseInt(posSplit[1]));
-				gs.add((GameObjectI) g);
+				pos = reader.readLine();
+				int n = Integer.parseInt(pos);
 				
-				n--;
-			}
-			
-			//Obtener el mapa
-			for(int i = 0; i<map.length; i++) {
-				String line = reader.readLine();
-				for(int j = 0; j<map[0].length; j++) {
-					map[i][j] = line.charAt(j);
+				while(n>0) {
+					pos = reader.readLine();
+					posSplit = pos.split(" ");
+					
+					GoalPosition g = new GoalPosition(Integer.parseInt(posSplit[0]), Integer.parseInt(posSplit[1]));
+					gs.add((GameObjectI) g);
+					
+					n--;
 				}
-			}
-			
-			//leer contadores
-			cont = reader.readLine();
-			w.setBoxCount(Integer.parseInt(cont));
-			
-			cont = reader.readLine();
-			w.setCount(Integer.parseInt(cont));
-			
-			cont = reader.readLine();
-			w.setGlobalCount(Integer.parseInt(cont));
-			
-			//leer stack
-			try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("maps" + fileSeparator + "stack_info" + fileSeparator + "saved_map_stack.txt"))) {
-	            Stack<ActionI> restoredStack = (Stack<ActionI>) ois.readObject();
-	            am.setActions(restoredStack);
-	        } catch (IOException | ClassNotFoundException e) {
-	            e.printStackTrace();
-	        }
+				
+				//Obtener el mapa
+				for(int i = 0; i<map.length; i++) {
+					String line = reader.readLine();
+					for(int j = 0; j<map[0].length; j++) {
+						map[i][j] = line.charAt(j);
+					}
+				}
+				
+				//leer contadores
+				cont = reader.readLine();
+				w.setBoxCount(Integer.parseInt(cont));
+				
+				cont = reader.readLine();
+				w.setCount(Integer.parseInt(cont));
+				
+				cont = reader.readLine();
+				w.setGlobalCount(Integer.parseInt(cont));
+				
+				//leer stack
+				String fileNameWithoutExtension = file.getName().substring(0, file.getName().lastIndexOf("."));
+				File stackFile = new File("games_saved" + fileSeparator + "stack_info" + fileSeparator + fileNameWithoutExtension + "_stack.dat");
+				try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(stackFile))) {
+		            Stack<ActionI> restoredStack = (Stack<ActionI>) ois.readObject();
+		            am.setActions(restoredStack);
+		        } catch (IOException | ClassNotFoundException e) {
+		            e.printStackTrace();
+		        }
 
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+	    }
+	        
 		return map;
 	}
 }
