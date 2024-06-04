@@ -31,7 +31,7 @@ public class GameService {
 
 		
 		private MainFrame mf;
-		private MapPanel mp;
+		public MapPanel mp;
 		private char[][] level;
 		private GameObjectI w;
 		private ArrayList<GameObjectI> gs;
@@ -205,12 +205,13 @@ public void nextLevel() throws FileNotFoundException, IlegalPositionException, O
 	if(isEndLevel() && levelNumber != totalLevels) {
 		levelNumber += 1;
 		am.clearActions();
+		this.mp.levelName.setText("Nivel: " + levelNumber);
 		newGame(new File("maps" + fileSeparator + "map_level_" + levelNumber + ".txt").getAbsolutePath());
 	}
 	else if(isEndLevel() && levelNumber == totalLevels) {
 		levelNumber = 1;
 		am.clearActions();
-		mf.showCongrats();
+		mf.showCongrats(w.getGlobalCount());
 	}
 }
 
