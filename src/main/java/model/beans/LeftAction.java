@@ -41,6 +41,7 @@ public class LeftAction extends Action{
 					w.setBoxCount(w.getBoxCount() + 1);
 					this.setLastBox(true);
 				}
+				w.setGlobalCount(w.getGlobalCount() + 1);
 				break;
 
 			default:
@@ -49,9 +50,8 @@ public class LeftAction extends Action{
 				w.setY(y-1);
 				w.setCount(w.getCount() + 1);
 				this.setLastBox(false);
+				w.setGlobalCount(w.getGlobalCount() + 1);
 		}			
-		
-		w.setGlobalCount(w.getGlobalCount() + 1);
 		for (GameObjectI g : gs) {
 			goal = (mat[g.getX()][g.getY()] == '.');
 			mat[g.getX()][g.getY()] = goal ? '*' : mat[g.getX()][g.getY()];

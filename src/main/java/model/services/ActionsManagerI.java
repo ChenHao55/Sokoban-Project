@@ -12,7 +12,10 @@ public interface ActionsManagerI {
 
 	//Metodo para insertar una nueva accion en la pila
 	public void newAction(ActionI a);
-	
+
+	//Metodo para borrar una acción
+	public void deleteAction(ActionI a);
+
 	//Metodo para sacar una accion de la pila
 	public Action undo();
 	

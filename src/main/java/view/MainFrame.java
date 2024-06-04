@@ -116,11 +116,11 @@ public class MainFrame extends JFrame implements KeyListener  {
 		repaint();
 	}
 	
-	public void showCongrats() {
+	public void showCongrats(int punctuation) {
 		getContentPane().removeAll();
 
         // Add the container to the frame
-        CongratsPanel cp = new CongratsPanel(this);
+        CongratsPanel cp = new CongratsPanel(this, punctuation);
         add(cp, BorderLayout.CENTER);
         revalidate();
 		repaint();

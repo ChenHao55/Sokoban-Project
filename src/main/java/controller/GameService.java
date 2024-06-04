@@ -31,7 +31,7 @@ public class GameService {
 
 		
 		private MainFrame mf;
-		private MapPanel mp;
+		public MapPanel mp;
 		private char[][] level;
 		private GameObjectI w;
 		private ArrayList<GameObjectI> gs;
@@ -48,7 +48,9 @@ public class GameService {
 			this.mp = mp;
 		}
 		
+		
 		//Aqui añadiria metodos como cambiar de nivel, una vez superado...
+
 
 //Este metodo se encarga de crear el mapa desde el principio
 public void newGame(String fileName) throws IlegalPositionException, ObjectPositionNotFoundException, FileNotFoundException, IlegalMap {
@@ -61,7 +63,7 @@ public void newGame(String fileName) throws IlegalPositionException, ObjectPosit
 }
 
 public void saveGame() {
-	o.saveGame(level, (WarehouseMan) w, gs, am.getActions());
+	o.saveGame(level, (WarehouseMan) w, gs, am.getActions(), levelNumber);
 	try {
 		updateMap();
 	} catch (IlegalPositionException | ObjectPositionNotFoundException e) {
@@ -70,7 +72,8 @@ public void saveGame() {
 }
 
 public void loadGame() throws NumberFormatException, IlegalPositionException {
-	this.level = o.loadGame((WarehouseMan) w, gs, am);
+	this.level = o.loadGame((WarehouseMan) w, gs, am, levelNumber);
+
 	updatecounters();
 	try {
 		updateMap();
@@ -124,40 +127,54 @@ public void undoMovement() throws IlegalPositionException, ObjectPositionNotFoun
 //METODOS PARA MOVER EL PERSONAJE
 public void moveUp() throws ObjectPositionNotFoundException, WallException, IlegalPositionException {
 	char[][] levelClone = new char[this.level.length][];
+	int globalCounter = w.getGlobalCount();
 	cloneMap(levelClone);
 	ActionI atc = af.createAction('u', this.w.getX(), this.w.getY(), levelClone);
 	am.newAction(atc);
 	((UpAction) atc).move((WarehouseMan) w, gs, level);
+	if(w.getGlobalCount() == globalCounter)
+		am.deleteAction(atc);
 	updatecounters();
 	updateMap();
 }
 
 public void moveLeft() throws ObjectPositionNotFoundException, WallException, IlegalPositionException {
 	char[][] levelClone = new char[this.level.length][];
+	int globalCounter = w.getGlobalCount();
 	cloneMap(levelClone);
 	ActionI atc = af.createAction('l', this.w.getX(), this.w.getY(), levelClone);
 	am.newAction(atc);
 	((LeftAction) atc).move((WarehouseMan) w, gs, level);
+	if(w.getGlobalCount() == globalCounter)
+		am.deleteAction(atc);
 	updatecounters();
 	updateMap();
 }
 
 public void moveDown() throws ObjectPositionNotFoundException, WallException, IlegalPositionException {
 	char[][] levelClone = new char[this.level.length][];
+	int globalCounter = w.getGlobalCount();
 	cloneMap(levelClone);
 	ActionI atc = af.createAction('d', this.w.getX(), this.w.getY(), levelClone);
 	am.newAction(atc);
 	((DownAction) atc).move((WarehouseMan) w, gs, level);
+	if(w.getGlobalCount() == globalCounter)
+		am.deleteAction(atc);
 	updatecounters();
 	updateMap();
 }
 
 public void moveRight() throws ObjectPositionNotFoundException, WallException, IlegalPositionException {
 	char[][] levelClone = new char[this.level.length][];
+	int globalCounter = w.getGlobalCount();
 	cloneMap(levelClone);
+
 	ActionI atc = af.createAction('r', this.w.getX(), this.w.getY(), levelClone);
 	am.newAction(atc);
 	((RightAction) atc).move((WarehouseMan) w, gs, level);
+	if(w.getGlobalCount() == globalCounter)
+		am.deleteAction(atc);
+
 	updatecounters();
 	updateMap();
 }
@@ -177,6 +194,7 @@ public boolean isEndLevel() {
 
 //Restarts the level
 public void restartLevel() throws FileNotFoundException, IlegalPositionException, ObjectPositionNotFoundException, IlegalMap {
+	levelNumber = 1;
 	newGame(new File("maps" + fileSeparator + "map_level_" + levelNumber + ".txt").getAbsolutePath());
 	am.clearActions();
 	updatecounters();
@@ -187,12 +205,13 @@ public void nextLevel() throws FileNotFoundException, IlegalPositionException, O
 	if(isEndLevel() && levelNumber != totalLevels) {
 		levelNumber += 1;
 		am.clearActions();
+		this.mp.levelName.setText("Nivel: " + levelNumber);
 		newGame(new File("maps" + fileSeparator + "map_level_" + levelNumber + ".txt").getAbsolutePath());
 	}
 	else if(isEndLevel() && levelNumber == totalLevels) {
 		levelNumber = 1;
 		am.clearActions();
-		mf.showCongrats();
+		mf.showCongrats(w.getGlobalCount());
 	}
 }
 

@@ -45,6 +45,8 @@ public class MapPanel extends JPanel {
 	public JLabel turnBox;
 	public JLabel turnWarehouseman;
 	
+	public JLabel levelName;
+	
 	private GameController gc;
 	
 	public GameController getGc() {
@@ -70,6 +72,12 @@ public class MapPanel extends JPanel {
 
 		turnCount = new JLabel("T: 0");
 		CountPanel.add(turnCount);
+		
+		//Creating count panel
+		JPanel LevelPanel = new JPanel(new FlowLayout());
+		
+		levelName = new JLabel("Level: 1");
+		LevelPanel.add(levelName);
 		
 		//Creating buttons panel
 		JButton newGame = new JButton("New Game");
@@ -129,6 +137,7 @@ public class MapPanel extends JPanel {
         
         container.add(CountPanel);
         container.add(buttonsPanel);
+        container.add(LevelPanel);
 
 		add(container, BorderLayout.AFTER_LAST_LINE);
 	}
