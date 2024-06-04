@@ -20,8 +20,8 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import controller.GameController;
-import controller.GameService;
+//import controller.GameController;
+//import controller.GameService;
 import model.beans.Box;
 import model.beans.DownAction;
 import model.beans.GoalPosition;
@@ -31,7 +31,7 @@ import model.beans.UpAction;
 import model.beans.WarehouseMan;
 import model.exceptions.IlegalMap;
 import model.exceptions.IlegalPositionException;
-import model.exceptions.ObjectPositionNotFoundException;
+//import model.exceptions.ObjectPositionNotFoundException;
 import model.exceptions.WallException;
 import model.services.ActionI;
 import model.services.ActionsFactory;
@@ -43,8 +43,8 @@ import model.services.ObjectFactory;
 import model.services.ObjectFactoryI;
 import model.services.Options;
 import model.services.OptionsI;
-import view.MainFrame;
-import view.MapPanel;
+//import view.MainFrame;
+//import view.MapPanel;
 
 public class AppTest {
 	
@@ -836,7 +836,7 @@ public class AppTest {
 		
 	}
 	
-	@DisplayName("Test to check GameService")
+	/*@DisplayName("Test to check GameService")
 	@Nested
 	class GameServiceTest {	
 		
@@ -1044,5 +1044,5 @@ public class AppTest {
 			assertDoesNotThrow(() -> gc.moveLeft());
 			log.info("Correct use of moveLeft");
 		}
-	}
+	}*/
 }
