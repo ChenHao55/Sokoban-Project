@@ -20,8 +20,6 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-//import controller.GameController;
-//import controller.GameService;
 import model.beans.Box;
 import model.beans.DownAction;
 import model.beans.GoalPosition;
@@ -31,7 +29,7 @@ import model.beans.UpAction;
 import model.beans.WarehouseMan;
 import model.exceptions.IlegalMap;
 import model.exceptions.IlegalPositionException;
-//import model.exceptions.ObjectPositionNotFoundException;
+import model.exceptions.ObjectPositionNotFoundException;
 import model.exceptions.WallException;
 import model.services.ActionI;
 import model.services.ActionsFactory;
@@ -43,8 +41,6 @@ import model.services.ObjectFactory;
 import model.services.ObjectFactoryI;
 import model.services.Options;
 import model.services.OptionsI;
-//import view.MainFrame;
-//import view.MapPanel;
 
 public class AppTest {
 	
@@ -294,8 +290,7 @@ public class AppTest {
 		@Test
 		void creationOfABoxFromAnEmptyMap() throws IlegalPositionException, IlegalMap {
 			log.info("Trying to create a Box");
-			char[][] level = {{}};
-			
+			char[][] level = new char [0][];
 			ObjectFactory of = new ObjectFactory();
 			assertThrows(IlegalMap.class, () -> of.createBox(level));
 		}
@@ -303,8 +298,7 @@ public class AppTest {
 		@Test
 		void creationOfAWarehouseManFromAnEmptyMap() throws IlegalPositionException, IlegalMap {
 			log.info("Trying to create a Box");
-			char[][] level = {{}};
-			
+			char[][] level = new char[0][];
 			ObjectFactory of = new ObjectFactory();
 			assertThrows(IlegalMap.class, () -> of.createWarehouseMan(level));
 		}
@@ -312,8 +306,31 @@ public class AppTest {
 		@Test
 		void creationOfAGoalsFromAnEmptyMap() throws IlegalPositionException, IlegalMap {
 			log.info("Trying to create a Box");
-			char[][] level = {{}};
-			
+			char[][] level = new char[0][];
+			ObjectFactory of = new ObjectFactory();
+			assertThrows(IlegalMap.class, () -> of.createGoals(level));
+		}
+		
+		@Test
+		void creationOfABoxFromAnEmptyMap2() throws IlegalPositionException, IlegalMap {
+			log.info("Trying to create a Box");
+			char[][] level = new char[1][0];
+			ObjectFactory of = new ObjectFactory();
+			assertThrows(IlegalMap.class, () -> of.createBox(level));
+		}
+		
+		@Test
+		void creationOfAWarehouseManFromAnEmptyMap2() throws IlegalPositionException, IlegalMap {
+			log.info("Trying to create a Box");
+			char[][] level = new char[1][0];
+			ObjectFactory of = new ObjectFactory();
+			assertThrows(IlegalMap.class, () -> of.createWarehouseMan(level));
+		}
+		
+		@Test
+		void creationOfAGoalsFromAnEmptyMap2() throws IlegalPositionException, IlegalMap {
+			log.info("Trying to create a Box");
+			char[][] level = new char[1][0];
 			ObjectFactory of = new ObjectFactory();
 			assertThrows(IlegalMap.class, () -> of.createGoals(level));
 		}
@@ -691,6 +708,29 @@ public class AppTest {
 		}
 		
 		@Test
+		void correctSetAction() {
+			Stack<ActionI> stack = new Stack<ActionI>();
+			stack.add(left_a);
+			stack.add(down_a);
+			stack.add(right_a);
+			stack.add(up_a);
+			am.setActions(stack);
+			assertEquals(4, am.getActions().size());
+		}
+		
+		@Test
+		void correctDeleteAction() {
+			Stack<ActionI> stack = new Stack<ActionI>();
+			stack.add(left_a);
+			stack.add(down_a);
+			stack.add(right_a);
+			stack.add(up_a);
+			am.setActions(stack);
+			am.deleteAction(down_a);
+			assertEquals(3, am.getActions().size());
+		}
+		
+		@Test
 		void correctGetActionsFunction() throws IlegalPositionException{
 			log.info("Executing test to check the correct funtion of a get actions in Actions Manager");
 			
@@ -836,213 +876,18 @@ public class AppTest {
 		
 	}
 	
-	/*@DisplayName("Test to check GameService")
+	@DisplayName("Test to check Options")
 	@Nested
-	class GameServiceTest {	
+	class GameServiceTest {
+		
+		private Options o = new Options();
+		String path = new File("maps" + fileSeparator + "map_level_1.txt").getAbsolutePath();
 		
 		@Test
 		void newGame() throws IlegalPositionException, ObjectPositionNotFoundException {
 			log.info("Trying to use correctly newGame method");
-			String path = new File("maps" + fileSeparator + "map_level_1.txt").getAbsolutePath();
-			MapPanel mp = new MapPanel();
-			MainFrame mf = new MainFrame();
-			GameService gs = new GameService(mf, mp);
-			assertDoesNotThrow(() -> gs.newGame(path));
-			log.info("Correct creation of a new game");
-		}
-		
-		@Test
-		void saveGame() throws IlegalPositionException, ObjectPositionNotFoundException {
-			log.info("Trying to use saveGame option correctly");
-			String path = new File("maps" + fileSeparator + "map_level_1.txt").getAbsolutePath();
-			MapPanel mp = new MapPanel();
-			MainFrame mf = new MainFrame();
-			GameService gs = new GameService(mf, mp);
-			assertDoesNotThrow(() -> gs.newGame(path));
-			assertDoesNotThrow(() -> gs.saveGame());
-			log.info("Correct use of save game");
-		}
-		
-		@Test
-		void loadGame() throws IlegalPositionException, ObjectPositionNotFoundException {
-			log.info("Trying to use correctly loadGame method");
-			String path = new File("maps" + fileSeparator + "map_level_1.txt").getAbsolutePath();
-			MapPanel mp = new MapPanel();
-			MainFrame mf = new MainFrame();
-			GameService gs = new GameService(mf, mp);
-			assertDoesNotThrow(() -> gs.newGame(path));
-			assertDoesNotThrow(() -> gs.saveGame());
-			assertDoesNotThrow(() -> gs.loadGame());
-			log.info("Correct use of load game");
-		}
-		
-		@Test
-		void undo() throws IlegalPositionException, ObjectPositionNotFoundException {
-			log.info("Trying to use correctly undoMovement method");
-			String path = new File("maps" + fileSeparator + "map_level_1.txt").getAbsolutePath();
-			MapPanel mp = new MapPanel();
-			MainFrame mf = new MainFrame();
-			GameService gs = new GameService(mf, mp);
-			assertDoesNotThrow(() -> gs.newGame(path));
-			assertDoesNotThrow(() -> gs.undoMovement());
-			log.info("Correct use of undo");
-		}
-		
-		@Test
-		void moveUp() throws IlegalPositionException, ObjectPositionNotFoundException {
-			log.info("Trying to use correctly moveUp method");
-			String path = new File("maps" + fileSeparator + "map_level_1.txt").getAbsolutePath();
-			MapPanel mp = new MapPanel();
-			MainFrame mf = new MainFrame();
-			GameService gs = new GameService(mf, mp);
-			assertDoesNotThrow(() -> gs.newGame(path));
-			assertDoesNotThrow(() -> gs.moveUp());
-			log.info("Correct use of moveUp");
-		}
-		
-		@Test
-		void moveDown() throws IlegalPositionException, ObjectPositionNotFoundException {
-			log.info("Trying to use moveDown method correctly");
-			String path = new File("maps" + fileSeparator + "map_level_1.txt").getAbsolutePath();
-			MapPanel mp = new MapPanel();
-			MainFrame mf = new MainFrame();
-			GameService gs = new GameService(mf, mp);
-			assertDoesNotThrow(() -> gs.newGame(path));
-			assertDoesNotThrow(() -> gs.moveDown());
-			log.info("Correct use of moveDown");
-		}
-		
-		@Test
-		void moveRight() throws IlegalPositionException, ObjectPositionNotFoundException {
-			log.info("Trying to use correctly moveRight method");
-			String path = new File("maps" + fileSeparator + "map_level_1.txt").getAbsolutePath();
-			MapPanel mp = new MapPanel();
-			MainFrame mf = new MainFrame();
-			GameService gs = new GameService(mf, mp);
-			assertDoesNotThrow(() -> gs.newGame(path));
-			assertDoesNotThrow(() -> gs.moveRight());
-			log.info("Correct use of moveRight");
-		}
-		
-		@Test
-		void moveLeft() throws IlegalPositionException, ObjectPositionNotFoundException {
-			log.info("Trying to use moveLeft method correctly");
-			String path = new File("maps" + fileSeparator + "map_level_1.txt").getAbsolutePath();
-			MapPanel mp = new MapPanel();
-			MainFrame mf = new MainFrame();
-			GameService gs = new GameService(mf, mp);
-			assertDoesNotThrow(() -> gs.newGame(path));
-			assertDoesNotThrow(() -> gs.moveLeft());
-			log.info("Correct use of moveLeft");
+			assertDoesNotThrow(() -> o.newGame(path));
+			log.info("Correct use of newGame method");
 		}
 	}
-	
-	@DisplayName("Test to check GameController")
-	@Nested
-	class GameControllerTest {	
-		
-		@Test
-		void newGame() throws IlegalPositionException, ObjectPositionNotFoundException {
-			log.info("Trying to use correctly newGame method");
-			String path = new File("maps" + fileSeparator + "map_level_1.txt").getAbsolutePath();
-			MapPanel mp = new MapPanel();
-			MainFrame mf = new MainFrame();
-			GameService gs = new GameService(mf, mp);
-			GameController gc = new GameController(gs);
-			assertDoesNotThrow(() -> gc.newGame(path));
-			log.info("Correct creation of a new game");
-		}
-		
-		@Test
-		void saveGame() throws IlegalPositionException, ObjectPositionNotFoundException {
-			log.info("Trying to use saveGame option correctly");
-			String path = new File("maps" + fileSeparator + "map_level_1.txt").getAbsolutePath();
-			MapPanel mp = new MapPanel();
-			MainFrame mf = new MainFrame();
-			GameService gs = new GameService(mf, mp);
-			GameController gc = new GameController(gs);
-			assertDoesNotThrow(() -> gc.newGame(path));
-			assertDoesNotThrow(() -> gc.saveGame());
-			log.info("Correct use of save game");
-		}
-		
-		@Test
-		void loadGame() throws IlegalPositionException, ObjectPositionNotFoundException {
-			log.info("Trying to use correctly loadGame method");
-			String path = new File("maps" + fileSeparator + "map_level_1.txt").getAbsolutePath();
-			MapPanel mp = new MapPanel();
-			MainFrame mf = new MainFrame();
-			GameService gs = new GameService(mf, mp);
-			GameController gc = new GameController(gs);
-			assertDoesNotThrow(() -> gc.newGame(path));
-			assertDoesNotThrow(() -> gc.saveGame());
-			assertDoesNotThrow(() -> gc.loadGame());
-			log.info("Correct use of load game");
-		}
-		
-		@Test
-		void undo() throws IlegalPositionException, ObjectPositionNotFoundException {
-			log.info("Trying to use correctly undoMovement method");
-			String path = new File("maps" + fileSeparator + "map_level_1.txt").getAbsolutePath();
-			MapPanel mp = new MapPanel();
-			MainFrame mf = new MainFrame();
-			GameService gs = new GameService(mf, mp);
-			GameController gc = new GameController(gs);
-			assertDoesNotThrow(() -> gc.newGame(path));
-			assertDoesNotThrow(() -> gc.undoMovement());
-			log.info("Correct use of undo");
-		}
-		
-		@Test
-		void moveUp() throws IlegalPositionException, ObjectPositionNotFoundException {
-			log.info("Trying to use correctly moveUp method");
-			String path = new File("maps" + fileSeparator + "map_level_1.txt").getAbsolutePath();
-			MapPanel mp = new MapPanel();
-			MainFrame mf = new MainFrame();
-			GameService gs = new GameService(mf, mp);
-			GameController gc = new GameController(gs);
-			assertDoesNotThrow(() -> gc.newGame(path));
-			assertDoesNotThrow(() -> gc.moveUp());
-			log.info("Correct use of moveUp");
-		}
-		
-		@Test
-		void moveDown() throws IlegalPositionException, ObjectPositionNotFoundException {
-			log.info("Trying to use moveDown method correctly");
-			String path = new File("maps" + fileSeparator + "map_level_1.txt").getAbsolutePath();
-			MapPanel mp = new MapPanel();
-			MainFrame mf = new MainFrame();
-			GameService gs = new GameService(mf, mp);
-			GameController gc = new GameController(gs);
-			assertDoesNotThrow(() -> gc.newGame(path));
-			assertDoesNotThrow(() -> gc.moveDown());
-			log.info("Correct use of moveDown");
-		}
-		
-		@Test
-		void moveRight() throws IlegalPositionException, ObjectPositionNotFoundException {
-			log.info("Trying to use correctly moveRight method");
-			String path = new File("maps" + fileSeparator + "map_level_1.txt").getAbsolutePath();
-			MapPanel mp = new MapPanel();
-			MainFrame mf = new MainFrame();
-			GameService gs = new GameService(mf, mp);
-			GameController gc = new GameController(gs);
-			assertDoesNotThrow(() -> gc.newGame(path));
-			assertDoesNotThrow(() -> gc.moveRight());
-			log.info("Correct use of moveRight");
-		}
-		
-		@Test
-		void moveLeft() throws IlegalPositionException, ObjectPositionNotFoundException {
-			log.info("Trying to use moveLeft method correctly");
-			String path = new File("maps" + fileSeparator + "map_level_1.txt").getAbsolutePath();
-			MapPanel mp = new MapPanel();
-			MainFrame mf = new MainFrame();
-			GameService gs = new GameService(mf, mp);
-			GameController gc = new GameController(gs);
-			assertDoesNotThrow(() -> gc.newGame(path));
-			assertDoesNotThrow(() -> gc.moveLeft());
-			log.info("Correct use of moveLeft");
-		}
-	}*/
 }

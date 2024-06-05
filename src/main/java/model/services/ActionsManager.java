@@ -24,7 +24,7 @@ public class ActionsManager implements ActionsManagerI {
 	}
 
 	public void deleteAction(ActionI a) {
-		actions.pop();
+		actions.remove(a);
 	}
 	
 	public Action undo() {
