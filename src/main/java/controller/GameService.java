@@ -91,6 +91,9 @@ public void loadGame() throws NumberFormatException, IlegalPositionException {
 	} catch (IlegalPositionException | ObjectPositionNotFoundException e) {
 		e.printStackTrace();
 	}
+	for(GameObjectI g : gs) {
+		System.out.println(g.getX() + " " + g.getY() + ", ");
+	}
 }
 
 public void decrementBoxCounter() throws NumberFormatException{
@@ -182,6 +185,7 @@ public void moveRight() throws ObjectPositionNotFoundException, WallException, I
 
 	ActionI atc = af.createAction('r', this.w.getX(), this.w.getY(), levelClone);
 	am.newAction(atc);
+	
 	((RightAction) atc).move((WarehouseMan) w, gs, level);
 	if(w.getGlobalCount() == globalCounter)
 		am.deleteAction(atc);
