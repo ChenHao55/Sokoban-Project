@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
+import org.javatuples.Pair;
+
 import model.beans.DownAction;
 import model.beans.LeftAction;
 import model.beans.RightAction;
@@ -78,8 +80,11 @@ public void saveGame() {
 }
 
 public void loadGame() throws NumberFormatException, IlegalPositionException {
-	this.level = o.loadGame((WarehouseMan) w, gs, am, levelNumber);
+	Pair<Integer, char[][]> p = o.loadGame((WarehouseMan) w, gs, am);
 
+	level = p.getValue1();
+	levelNumber = p.getValue0();
+	
 	updatecounters();
 	try {
 		updateMap();

@@ -19,6 +19,8 @@ import java.util.Stack;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import org.javatuples.Pair;
+
 import model.beans.GoalPosition;
 import model.beans.WarehouseMan;
 import model.exceptions.IlegalPositionException;
@@ -137,9 +139,10 @@ public class Options implements OptionsI{
 		}
 	}
 	
-	public char[][] loadGame(WarehouseMan w, ArrayList<GameObjectI> gs, ActionsManagerI am, int levelNumber) throws NumberFormatException, IlegalPositionException{
+	public Pair<Integer, char[][]> loadGame(WarehouseMan w, ArrayList<GameObjectI> gs, ActionsManagerI am) throws NumberFormatException, IlegalPositionException{
 		
         char[][] map = null;
+        int levelNumber = 1;
 
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setCurrentDirectory(new File(System.getProperty("user.dir") + fileSeparator + "games_saved"));
@@ -219,7 +222,8 @@ public class Options implements OptionsI{
 				e.printStackTrace();
 			}
 	    }
-	        
-		return map;
+	    
+	    Pair<Integer, char[][]> level = new Pair<Integer, char[][]>(levelNumber, map);
+		return level;
 	}
 }
