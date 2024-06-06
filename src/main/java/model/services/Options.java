@@ -16,6 +16,8 @@ import java.util.Iterator;
 import java.util.Scanner;
 import java.util.Stack;
 
+import org.javatuples.Pair;
+
 import model.beans.GoalPosition;
 import model.beans.WarehouseMan;
 import model.exceptions.IlegalPositionException;
@@ -115,14 +117,15 @@ public class Options implements OptionsI{
 		} catch (IOException e) {
 			e.getMessage();
 		}
+
 	}
 	
-	public char[][] loadGame(WarehouseMan w, ArrayList<GameObjectI> gs, ActionsManagerI am, int levelNumber, File file) throws NumberFormatException, IlegalPositionException{
+	public Pair<Integer, char[][]> loadGame(WarehouseMan w, ArrayList<GameObjectI> gs, ActionsManagerI am, File file) throws NumberFormatException, IlegalPositionException{
 		
         char[][] map = null;
+        int levelNumber = 1;
 
-			
-		try (BufferedReader reader = new BufferedReader(new FileReader(file))){
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))){
 			
 			//Obtener el número del nivel
 			String ln = reader.readLine();
@@ -144,7 +147,7 @@ public class Options implements OptionsI{
 			pos = reader.readLine();
 			int n = Integer.parseInt(pos);
 			
-			gs = new ArrayList<GameObjectI>();
+			gs.clear();;
 			while(n>0) {
 				pos = reader.readLine();
 				posSplit = pos.split(" ");
@@ -188,6 +191,8 @@ public class Options implements OptionsI{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return map;
-	}
+		
+		Pair<Integer, char[][]> level = new Pair<Integer, char[][]>(levelNumber, map);
+		return level;
+    }
 }

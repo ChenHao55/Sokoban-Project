@@ -5,6 +5,8 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Stack;
 
+import org.javatuples.Pair;
+
 import model.beans.WarehouseMan;
 import model.exceptions.IlegalPositionException;
 
@@ -17,5 +19,5 @@ public interface OptionsI {
 	void saveGame(char[][] map, WarehouseMan w, ArrayList<GameObjectI> gs, Stack<ActionI> s, int levelNumber, File file);
 	
 	//Metodo para cargar una partida
-	char[][] loadGame(WarehouseMan w, ArrayList<GameObjectI> gs, ActionsManagerI am, int levelNumber, File file) throws NumberFormatException, IlegalPositionException;
+	Pair<Integer, char[][]> loadGame(WarehouseMan w, ArrayList<GameObjectI> gs, ActionsManagerI am, File file) throws NumberFormatException, IlegalPositionException;
 }

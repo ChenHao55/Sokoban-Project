@@ -13,6 +13,7 @@ import java.util.Stack;
 import java.util.List;
 import java.io.IOException;
 
+import org.javatuples.Pair;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -986,7 +987,8 @@ public class AppTest {
 				    {'+', '+', '+', '+', '+', '.', '.', '.'}
 				};
 			boolean equals = true;
-			char[][] res = o.loadGame(w, gs, am, 0, f);
+			Pair<Integer, char[][]> p = o.loadGame(w, gs, am, f);
+			char[][] res = p.getValue1();
 			for (int i = 0; i < matExp.length; i++) {
 	            for (int j = 0; j < matExp[0].length; j++) {
 	                if (matExp[i][j] != res[i][j]) {
