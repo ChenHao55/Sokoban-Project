@@ -6,6 +6,7 @@ import model.exceptions.IlegalMap;
 import model.exceptions.IlegalPositionException;
 import model.exceptions.ObjectPositionNotFoundException;
 import model.exceptions.WallException;
+import model.services.GameService;
 
 public class GameController {
 	

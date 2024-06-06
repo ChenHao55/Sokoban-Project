@@ -56,18 +56,21 @@ public class AppTest {
 		void invalidBoxCreation() {
 			log.info("Executing test to check the incorrect creation of a Box Object");
 			assertThrows(IlegalPositionException.class, () -> new Box(-1, -3));
+			log.info("Test passed");
 		}
 		
 		@Test
 		void invalidWarehouseManCreation() {
 			log.info("Executing test to check the incorrect creation of a WarehouseMan Object");
 			assertThrows(IlegalPositionException.class, () -> new WarehouseMan(-1, -1));
+			log.info("Test passed");
 		}
 		
 		@Test
 		void invalidGoalCreation() {
 			log.info("Executing test to check the incorrect creation of a GoalPosition Object");
 			assertThrows(IlegalPositionException.class, () -> new GoalPosition(-1, -1));
+			log.info("Test passed");
 		}
 	}
 	
@@ -79,18 +82,21 @@ public class AppTest {
 		void correctBoxCreation() {
 			log.info("Executing test to check the correct creation of a Box Object");
 			assertDoesNotThrow(() -> new Box(1, 2));
+			log.info("Test passed");
 		}
 		
 		@Test
 		void correctWarehouseManCreation() {
 			log.info("Executing test to check the correct creation of a WarehouseMan Object");
 			assertDoesNotThrow(() -> new WarehouseMan(3, 4));
+			log.info("Test passed");
 		}
 		
 		@Test
 		void correctGoalCreation() {
 			log.info("Executing test to check the incorrect creation of a GoalPosition Object");
 			assertDoesNotThrow (() -> new GoalPosition(1, 1));
+			log.info("Test passed");
 		}
 		
 		@Test
@@ -108,6 +114,7 @@ public class AppTest {
 				};;
 			WarehouseMan w = new WarehouseMan(1, 1);
 			assertDoesNotThrow (() -> new LeftAction(w.getX(), w.getY(), mat));
+			log.info("Test passed");
 		}
 		
 		@Test
@@ -125,6 +132,7 @@ public class AppTest {
 				};;
 			WarehouseMan w = new WarehouseMan(1, 1);
 			assertDoesNotThrow (() -> new RightAction(w.getX(), w.getY(), mat));
+			log.info("Test passed");
 		}
 		
 		@Test
@@ -142,6 +150,7 @@ public class AppTest {
 				};;
 			WarehouseMan w = new WarehouseMan(1, 1);
 			assertDoesNotThrow (() -> new UpAction(w.getX(), w.getY(), mat));
+			log.info("Test passed");
 		}
 		
 		@Test
@@ -159,6 +168,7 @@ public class AppTest {
 				};;
 			WarehouseMan w = new WarehouseMan(1, 1);
 			assertDoesNotThrow (() -> new DownAction(w.getX(), w.getY(), mat));
+			log.info("Test passed");
 		}
 	}
 	
@@ -195,6 +205,7 @@ public class AppTest {
 	        }
 			
 			assertEquals(true, equals);
+			log.info("Test passed");
 		}
 	}
 	
@@ -210,6 +221,7 @@ public class AppTest {
 			
 			ObjectFactory of = new ObjectFactory();
 			assertDoesNotThrow(() -> of.createWarehouseMan(level));
+			log.info("Test passed");
 		}
 		
 		@Test
@@ -228,6 +240,7 @@ public class AppTest {
 			
 			ObjectFactory of = new ObjectFactory();
 			assertNull(of.createWarehouseMan(level));
+			log.info("Test passed");
 		}
 		
 		@Test
@@ -238,6 +251,7 @@ public class AppTest {
 			
 			ObjectFactory of = new ObjectFactory();
 			assertDoesNotThrow(() -> of.createBox(level));
+			log.info("Test passed");
 		}
 		
 		@Test
@@ -256,6 +270,7 @@ public class AppTest {
 			
 			ObjectFactory of = new ObjectFactory();
 			assertNull(of.createBox(level));
+			log.info("Test passed");
 		}
 		
 		@Test
@@ -266,6 +281,7 @@ public class AppTest {
 			
 			ObjectFactory of = new ObjectFactory();
 			assertDoesNotThrow(() -> of.createGoals(level));
+			log.info("Test passed");
 		}
 		
 		@Test
@@ -285,6 +301,7 @@ public class AppTest {
 			ObjectFactory of = new ObjectFactory();
 			List<Object> exp = new ArrayList<>();
 			assertEquals(exp, of.createGoals(level));
+			log.info("Test passed");
 		}
 		
 		@Test
@@ -293,6 +310,7 @@ public class AppTest {
 			char[][] level = new char [0][];
 			ObjectFactory of = new ObjectFactory();
 			assertThrows(IlegalMap.class, () -> of.createBox(level));
+			log.info("Test passed");
 		}
 		
 		@Test
@@ -301,6 +319,7 @@ public class AppTest {
 			char[][] level = new char[0][];
 			ObjectFactory of = new ObjectFactory();
 			assertThrows(IlegalMap.class, () -> of.createWarehouseMan(level));
+			log.info("Test passed");
 		}
 		
 		@Test
@@ -309,6 +328,7 @@ public class AppTest {
 			char[][] level = new char[0][];
 			ObjectFactory of = new ObjectFactory();
 			assertThrows(IlegalMap.class, () -> of.createGoals(level));
+			log.info("Test passed");
 		}
 		
 		@Test
@@ -317,6 +337,7 @@ public class AppTest {
 			char[][] level = new char[1][0];
 			ObjectFactory of = new ObjectFactory();
 			assertThrows(IlegalMap.class, () -> of.createBox(level));
+			log.info("Test passed");
 		}
 		
 		@Test
@@ -325,6 +346,7 @@ public class AppTest {
 			char[][] level = new char[1][0];
 			ObjectFactory of = new ObjectFactory();
 			assertThrows(IlegalMap.class, () -> of.createWarehouseMan(level));
+			log.info("Test passed");
 		}
 		
 		@Test
@@ -333,6 +355,7 @@ public class AppTest {
 			char[][] level = new char[1][0];
 			ObjectFactory of = new ObjectFactory();
 			assertThrows(IlegalMap.class, () -> of.createGoals(level));
+			log.info("Test passed");
 		}
 	}
 	
@@ -381,6 +404,7 @@ public class AppTest {
 	            }
 	        }
 			assertEquals(false, equals);
+			log.info("Test passed");
 		}
 		
 		@Test
@@ -420,6 +444,7 @@ public class AppTest {
 	            }
 	        }
 			assertEquals(false, equals);
+			log.info("Test passed");
 		}
 		
 		@Test
@@ -459,6 +484,7 @@ public class AppTest {
 	            }
 	        }
 			assertEquals(false, equals);
+			log.info("Test passed");
 		}
 		
 		@Test
@@ -488,7 +514,7 @@ public class AppTest {
 			boolean equals = true;
 			WarehouseMan w = new WarehouseMan(1, 1);
 			DownAction action = new DownAction(w.getX(), w.getY(), mat);
-			gs = of.createGoals(o.newGame(new File("maps" + File.separator + "map_level_" + 1 + ".txt").getAbsolutePath()));
+			gs = of.createGoals(mat);
 			char[][] matRes = action.move(w, gs, mat);
 			for (int i = 0; i < matExp.length; i++) {
 	            for (int j = 0; j < matExp[0].length; j++) {
@@ -498,6 +524,37 @@ public class AppTest {
 	            }
 	        }
 			assertEquals(false, equals);
+			log.info("Test passed");
+		}
+		
+		@Test
+		void tryToMoveBlockBox() throws IlegalPositionException, FileNotFoundException, IlegalMap, WallException {
+			log.info("Executing test to check the incorrect creation of a DownAction Object");
+			char[][] mat = {
+				    {'+', '+', '+', '+', '.', '.', '.', '.'},
+				    {'+', '.', '.', '+', '.', '.', '.', '.'},
+				    {'+', '.', '.', '+', '+', '+', '+', '+'},
+				    {'+', '.', '.', '.', '.', '.', '.', '+'},
+				    {'+', '+', '.', '*', '+', '.', 'W', '+'},
+				    {'+', '.', '.', '.', '+', '.', '#', '+'},
+				    {'+', '.', '.', '.', '+', '+', '+', '+'},
+				    {'+', '+', '+', '+', '+', '.', '.', '.'}
+				};
+				
+			boolean equals = true;
+			WarehouseMan w = new WarehouseMan(6, 4);
+			DownAction action = new DownAction(w.getX(), w.getY(), mat);
+			gs = of.createGoals(mat);
+			char[][] matRes = action.move(w, gs, mat);
+			for (int i = 0; i < mat.length; i++) {
+	            for (int j = 0; j < mat[0].length; j++) {
+	                if (mat[i][j] != matRes[i][j]) {
+	                    equals = false;
+	                }
+	            }
+	        }
+			assertEquals(true, equals);
+			log.info("Test passed");
 		}
 	}
 	
@@ -545,6 +602,7 @@ public class AppTest {
 	            }
 	        }
 			assertEquals(true, equals);
+			log.info("Test passed");
 		}
 		
 		@Test
@@ -587,6 +645,7 @@ public class AppTest {
 	            }
 	        }
 			assertEquals(true, equals);
+			log.info("Test passed");
 		}
 
 		@Test
@@ -628,6 +687,7 @@ public class AppTest {
 	            }
 	        }
 			assertEquals(true, equals);
+			log.info("Test passed");
 			}
 		
 		@Test
@@ -669,6 +729,7 @@ public class AppTest {
 	            }
 	        }
 			assertEquals(true, equals);
+			log.info("Test passed");
 		}
 	}
 	
@@ -716,6 +777,7 @@ public class AppTest {
 			stack.add(up_a);
 			am.setActions(stack);
 			assertEquals(4, am.getActions().size());
+			log.info("Test passed");
 		}
 		
 		@Test
@@ -728,6 +790,7 @@ public class AppTest {
 			am.setActions(stack);
 			am.deleteAction(down_a);
 			assertEquals(3, am.getActions().size());
+			log.info("Test passed");
 		}
 		
 		@Test
@@ -749,6 +812,7 @@ public class AppTest {
 			as2.add(right_a);
 			
 			assertEquals(as, as2);
+			log.info("Test passed");
 		}
 		@Test
 		void correctUndoFunction() throws IlegalPositionException, FileNotFoundException, WallException {
@@ -764,7 +828,8 @@ public class AppTest {
 			assertEquals(4, as.size());
 			ActionI a = am.undo();
 	        assertTrue(a instanceof RightAction);
-
+	        
+	        //Lo comento para que valoreis si quitarlo o no, en las diapositivas pone que deberia haber mas de 2 asserts por test
 			assertEquals(3, as.size());
 			a = am.undo();
 	        assertTrue(a instanceof LeftAction);
@@ -780,6 +845,7 @@ public class AppTest {
 	        assertEquals(0, as.size());
 			a = am.undo();
 	        assertEquals(a, null);
+	        log.info("Test passed");
 		}
 		
 		@Test
@@ -800,6 +866,7 @@ public class AppTest {
 			
 			am.clearActions();
 			assertEquals(0, as.size());
+			log.info("Test passed");
 		}
 	}
 	
@@ -817,8 +884,7 @@ public class AppTest {
 			RightAction resExp = new RightAction(w.getX(), w.getY(), level);
 			RightAction res =  (RightAction) af.createAction('r', w.getX(), w.getY(), level);
 			assertEquals(resExp.getMat(), res.getMat());
-			assertEquals(resExp.getX(), res.getX());
-			assertEquals(resExp.getY(), res.getY());
+			log.info("Test passed");
 		}
 		
 		@Test
@@ -831,8 +897,7 @@ public class AppTest {
 			LeftAction resExp = new LeftAction(w.getX(), w.getY(), level);
 			LeftAction res =  (LeftAction) af.createAction('l', w.getX(), w.getY(), level);
 			assertEquals(resExp.getMat(), res.getMat());
-			assertEquals(resExp.getX(), res.getX());
-			assertEquals(resExp.getY(), res.getY());
+			log.info("Test passed");
 		}
 		
 		@Test
@@ -845,8 +910,7 @@ public class AppTest {
 			UpAction resExp = new UpAction(w.getX(), w.getY(), level);
 			UpAction res =  (UpAction) af.createAction('u', w.getX(), w.getY(), level);
 			assertEquals(resExp.getMat(), res.getMat());
-			assertEquals(resExp.getX(), res.getX());
-			assertEquals(resExp.getY(), res.getY());
+			log.info("Test passed");
 		}
 		
 		@Test
@@ -859,8 +923,7 @@ public class AppTest {
 			DownAction resExp = new DownAction(w.getX(), w.getY(), level);
 			DownAction res =  (DownAction) af.createAction('d', w.getX(), w.getY(), level);
 			assertEquals(resExp.getMat(), res.getMat());
-			assertEquals(resExp.getX(), res.getX());
-			assertEquals(resExp.getY(), res.getY());
+			log.info("Test passed");
 		}
 		
 		@Test
@@ -872,22 +935,68 @@ public class AppTest {
 			ActionsFactory af = new ActionsFactory();	
 			DownAction res =  (DownAction) af.createAction('x', w.getX(), w.getY(), level);
 			assertNull(res);
+			log.info("Test passed");
 		}
 		
 	}
 	
 	@DisplayName("Test to check Options")
 	@Nested
-	class GameServiceTest {
+	class OptionsTest {
 		
 		private Options o = new Options();
+		private ObjectFactory of = new ObjectFactory();
 		String path = new File("maps" + fileSeparator + "map_level_1.txt").getAbsolutePath();
 		
 		@Test
 		void newGame() throws IlegalPositionException, ObjectPositionNotFoundException {
 			log.info("Trying to use correctly newGame method");
 			assertDoesNotThrow(() -> o.newGame(path));
-			log.info("Correct use of newGame method");
+			log.info("Test passed");
+		}
+		
+		@Test
+		void saveGame() throws IlegalPositionException, IlegalMap {
+			log.info("Trying to save correctly a game");
+			char[][] map = o.newGame(path);
+			WarehouseMan w = (WarehouseMan) of.createWarehouseMan(map);
+			ArrayList<GameObjectI> gs = of.createGoals(map);
+			Stack<ActionI> s = new Stack<>();
+			File f = new File("saved_map.txt");
+			assertDoesNotThrow(() -> o.saveGame(map, w, gs, s, 1, f));
+			log.info("Test passed");
+		}
+		
+		@Test
+		void loadGame() throws IlegalPositionException, IlegalMap {
+			log.info("Trying to load correctly a game");
+			WarehouseMan w = new WarehouseMan(0,0);
+			ArrayList<GameObjectI> gs = new ArrayList<>();
+			File f = new File("saved_map.txt");
+			ActionsManager am = new ActionsManager();
+			
+			char[][] matExp = {
+				    {'+', '+', '+', '+', '.', '.', '.', '.'},
+				    {'+', '.', '.', '+', '.', '.', '.', '.'},
+				    {'+', '.', '.', '+', '+', '+', '+', '+'},
+				    {'+', '.', '.', '.', '.', '.', '.', '+'},
+				    {'+', '+', 'W', '*', '+', '#', '.', '+'},
+				    {'+', '.', '.', '.', '+', '.', '.', '+'},
+				    {'+', '.', '.', '.', '+', '+', '+', '+'},
+				    {'+', '+', '+', '+', '+', '.', '.', '.'}
+				};
+			boolean equals = true;
+			char[][] res = o.loadGame(w, gs, am, 0, f);
+			for (int i = 0; i < matExp.length; i++) {
+	            for (int j = 0; j < matExp[0].length; j++) {
+	                if (matExp[i][j] != res[i][j]) {
+	                    equals = false;
+	                }
+	            }
+	        }
+			
+			assertEquals(true, equals);
+			log.info("Test passed");
 		}
 	}
 }

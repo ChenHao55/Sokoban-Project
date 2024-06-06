@@ -1,5 +1,6 @@
 package model.services;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Stack;
@@ -13,8 +14,8 @@ public interface OptionsI {
 	char[][] newGame(String fileName) throws FileNotFoundException, IlegalPositionException;
 	
 	//Metodo para guardar una partida
-	void saveGame(char[][] map, WarehouseMan w, ArrayList<GameObjectI> gs, Stack<ActionI> s, int levelNumber);
+	void saveGame(char[][] map, WarehouseMan w, ArrayList<GameObjectI> gs, Stack<ActionI> s, int levelNumber, File file);
 	
 	//Metodo para cargar una partida
-	char[][] loadGame(WarehouseMan w, ArrayList<GameObjectI> gs, ActionsManagerI am, int levelNumber) throws NumberFormatException, IlegalPositionException;
+	char[][] loadGame(WarehouseMan w, ArrayList<GameObjectI> gs, ActionsManagerI am, int levelNumber, File file) throws NumberFormatException, IlegalPositionException;
 }

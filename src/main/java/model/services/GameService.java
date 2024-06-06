@@ -1,4 +1,4 @@
-package controller;
+package model.services;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -13,25 +13,16 @@ import model.exceptions.IlegalMap;
 import model.exceptions.IlegalPositionException;
 import model.exceptions.ObjectPositionNotFoundException;
 import model.exceptions.WallException;
-import model.services.Action;
-import model.services.ActionI;
-import model.services.ActionsFactory;
-import model.services.ActionsFactoryI;
-import model.services.ActionsManager;
-import model.services.ActionsManagerI;
-import model.services.GameObjectI;
-import model.services.ObjectFactory;
-import model.services.ObjectFactoryI;
-import model.services.OptionsI;
-import model.services.Options;
 import view.MainFrame;
 import view.MapPanel;
+import view.OptionsGamePanel;
 
 public class GameService {
 
 		
 		private MainFrame mf;
 		public MapPanel mp;
+		private OptionsGamePanel op = new OptionsGamePanel(); //He creado este objeto para no tener Swing en el options.java
 		private char[][] level;
 		private GameObjectI w;
 		private ArrayList<GameObjectI> gs;
@@ -47,9 +38,6 @@ public class GameService {
 			this.mf = mf;
 			this.mp = mp;
 		}
-		
-		
-		//Aqui añadiria metodos como cambiar de nivel, una vez superado...
 
 
 //Este metodo se encarga de crear el mapa desde el principio
@@ -62,8 +50,10 @@ public void newGame(String fileName) throws IlegalPositionException, ObjectPosit
 	mf.paintMap(mp);
 }
 
+//Metodo para guardar la partida
 public void saveGame() {
-	o.saveGame(level, (WarehouseMan) w, gs, am.getActions(), levelNumber);
+	File f = op.saveGame('s'); 
+	o.saveGame(level, (WarehouseMan) w, gs, am.getActions(), levelNumber, f); 
 	try {
 		updateMap();
 	} catch (IlegalPositionException | ObjectPositionNotFoundException e) {
@@ -71,8 +61,10 @@ public void saveGame() {
 	}
 }
 
+//Metodo para cargar una partida guardada
 public void loadGame() throws NumberFormatException, IlegalPositionException {
-	this.level = o.loadGame((WarehouseMan) w, gs, am, levelNumber);
+	File file = op.saveGame('l');
+	this.level = o.loadGame((WarehouseMan) w, gs, am, levelNumber, file);
 
 	updatecounters();
 	try {

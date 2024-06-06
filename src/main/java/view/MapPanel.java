@@ -99,10 +99,6 @@ public class MapPanel extends JPanel {
 	    //Save Game Button
 	    saveGame.addActionListener(e -> {
 	    	gc.saveGame();
-	    	int response = JOptionPane.showConfirmDialog(null, "Game saved correctly, continue playing?", "Confirm", JOptionPane.YES_NO_OPTION);
-	    	if(response == JOptionPane.NO_OPTION) {
-	    		//Volver a frame inicial
-	    	}
 	    });
 	    
 	    //Load Game Button

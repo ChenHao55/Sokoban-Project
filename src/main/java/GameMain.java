@@ -1,7 +1,7 @@
 import controller.GameController;
-import controller.GameService;
 import model.exceptions.IlegalPositionException;
 import model.exceptions.ObjectPositionNotFoundException;
+import model.services.GameService;
 import view.MainFrame;
 import view.MapPanel;
 
