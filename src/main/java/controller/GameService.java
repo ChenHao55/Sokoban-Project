@@ -81,18 +81,17 @@ public void saveGame() {
 
 public void loadGame() throws NumberFormatException, IlegalPositionException {
 	Pair<Integer, char[][]> p = o.loadGame((WarehouseMan) w, gs, am);
-
-	level = p.getValue1();
-	levelNumber = p.getValue0();
+	
+	if(p != null) {
+		level = p.getValue1();
+		levelNumber = p.getValue0();
+	}
 	
 	updatecounters();
 	try {
 		updateMap();
 	} catch (IlegalPositionException | ObjectPositionNotFoundException e) {
 		e.printStackTrace();
-	}
-	for(GameObjectI g : gs) {
-		System.out.println(g.getX() + " " + g.getY() + ", ");
 	}
 }
 

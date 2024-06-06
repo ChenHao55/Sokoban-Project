@@ -137,6 +137,7 @@ public class Options implements OptionsI{
 				e.printStackTrace();
 			}
 		}
+
 	}
 	
 	public Pair<Integer, char[][]> loadGame(WarehouseMan w, ArrayList<GameObjectI> gs, ActionsManagerI am) throws NumberFormatException, IlegalPositionException{
@@ -221,9 +222,12 @@ public class Options implements OptionsI{
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+			
+			Pair<Integer, char[][]> level = new Pair<Integer, char[][]>(levelNumber, map);
+			return level;
 	    }
-	    
-	    Pair<Integer, char[][]> level = new Pair<Integer, char[][]>(levelNumber, map);
-		return level;
+	    else {
+	    	return null;
+	    }
 	}
 }
