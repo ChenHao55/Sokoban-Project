@@ -54,6 +54,7 @@ public class GameService {
 
 //Este metodo se encarga de crear el mapa desde el principio
 public void newGame(String fileName) throws IlegalPositionException, ObjectPositionNotFoundException, FileNotFoundException, IlegalMap {
+	levelNumber = 1;
 	level = o.newGame(fileName);
 	this.w = of.createWarehouseMan(level);
 	this.gs = of.createGoals(level);
