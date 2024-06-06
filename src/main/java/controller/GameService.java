@@ -55,6 +55,11 @@ public class GameService {
 //Este metodo se encarga de crear el mapa desde el principio
 public void newGame(String fileName) throws IlegalPositionException, ObjectPositionNotFoundException, FileNotFoundException, IlegalMap {
 	levelNumber = 1;
+	game(fileName);
+}
+
+//Este metodo se encarga de crear el mapa
+public void game(String fileName) throws IlegalPositionException, ObjectPositionNotFoundException, FileNotFoundException, IlegalMap {
 	level = o.newGame(fileName);
 	this.w = of.createWarehouseMan(level);
 	this.gs = of.createGoals(level);
@@ -195,8 +200,7 @@ public boolean isEndLevel() {
 
 //Restarts the level
 public void restartLevel() throws FileNotFoundException, IlegalPositionException, ObjectPositionNotFoundException, IlegalMap {
-	levelNumber = 1;
-	newGame(new File("maps" + fileSeparator + "map_level_" + levelNumber + ".txt").getAbsolutePath());
+	game(new File("maps" + fileSeparator + "map_level_" + levelNumber + ".txt").getAbsolutePath());
 	am.clearActions();
 	updatecounters();
 }
@@ -207,7 +211,7 @@ public void nextLevel() throws FileNotFoundException, IlegalPositionException, O
 		levelNumber += 1;
 		am.clearActions();
 		this.mp.levelName.setText("Nivel: " + levelNumber);
-		newGame(new File("maps" + fileSeparator + "map_level_" + levelNumber + ".txt").getAbsolutePath());
+		game(new File("maps" + fileSeparator + "map_level_" + levelNumber + ".txt").getAbsolutePath());
 	}
 	else if(isEndLevel() && levelNumber == totalLevels) {
 		levelNumber = 1;
