@@ -65,7 +65,7 @@ public void saveGame() {
 	try {
 		updateMap();
 	} catch (IlegalPositionException | ObjectPositionNotFoundException e) {
-		e.printStackTrace();
+		e.getMessage();
 	}
 }
 
@@ -83,7 +83,7 @@ public void loadGame() throws NumberFormatException, IlegalPositionException {
 	try {
 		updateMap();
 	} catch (IlegalPositionException | ObjectPositionNotFoundException e) {
-		e.printStackTrace();
+		e.getMessage();
 	}
 }
 

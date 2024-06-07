@@ -92,7 +92,7 @@ public class MapPanel extends JPanel {
 			try {
 				gc.newGame(new File("maps" + fileSeparator + "map_level_1.txt").getAbsolutePath());
 			} catch (IlegalPositionException | ObjectPositionNotFoundException | FileNotFoundException | IlegalMap e1) {
-				e1.printStackTrace();
+				e1.getMessage();
 			}
 		});
 	    
@@ -107,7 +107,7 @@ public class MapPanel extends JPanel {
 				gc.loadGame();
 			} catch (NumberFormatException | IlegalPositionException e1) {
 				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				e1.getMessage();
 			}
 	    });
 	    
@@ -117,7 +117,7 @@ public class MapPanel extends JPanel {
 				gc.restartLevel();
 			} catch (FileNotFoundException | IlegalPositionException | ObjectPositionNotFoundException | IlegalMap e1) {
 				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				e1.getMessage();
 			}
 		});
 	    JPanel buttonsPanel = new JPanel(new FlowLayout());

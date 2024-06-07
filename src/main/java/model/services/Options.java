@@ -183,13 +183,13 @@ public class Options implements OptionsI{
 	            Stack<ActionI> restoredStack = (Stack<ActionI>) ois.readObject();
 	            am.setActions(restoredStack);
 	        } catch (IOException | ClassNotFoundException e) {
-	            e.printStackTrace();
+	            e.getMessage();
 	        }
 
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			e.getMessage();
 		} catch (IOException e) {
-			e.printStackTrace();
+			e.getMessage();
 		}
 		
 		Pair<Integer, char[][]> level = new Pair<Integer, char[][]>(levelNumber, map);
