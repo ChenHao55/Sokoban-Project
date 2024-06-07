@@ -50,12 +50,24 @@ public void newGame(String fileName) throws IlegalPositionException, ObjectPosit
 
 //Este metodo se encarga de crear el mapa
 public void game(String fileName) throws IlegalPositionException, ObjectPositionNotFoundException, FileNotFoundException, IlegalMap {
-	level = o.newGame(fileName);
-	this.w = of.createWarehouseMan(level);
-	this.gs = of.createGoals(level);
-	updatecounters();
-	mp.createMap(level);
-	mf.paintMap(mp);
+	boolean mapCreated = false;
+	while(!mapCreated) {
+		level = o.newGame(fileName);
+		this.w = of.createWarehouseMan(level);
+		if(w != null) {
+			this.gs = of.createGoals(level);
+			if(gs != null) {
+				updatecounters();
+				mp.createMap(level);
+				mf.paintMap(mp);
+				mapCreated = true;
+			}
+			else
+				levelNumber ++;
+		}
+		else
+			levelNumber ++;
+	}
 }
 
 //Metodo para guardar la partida
