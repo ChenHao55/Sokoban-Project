@@ -47,7 +47,6 @@ public class ObjectFactory implements ObjectFactoryI {
 				}
 				else if(level[i][j] == '#') {
 					box_goal_n --;
-					gs.add((GameObjectI) new GoalPosition(i,j));
 				}
 			}
 		}

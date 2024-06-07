@@ -50,23 +50,15 @@ public void newGame(String fileName) throws IlegalPositionException, ObjectPosit
 
 //Este metodo se encarga de crear el mapa
 public void game(String fileName) throws IlegalPositionException, ObjectPositionNotFoundException, FileNotFoundException, IlegalMap {
-	boolean mapCreated = false;
-	while(!mapCreated) {
-		level = o.newGame(fileName);
-		this.w = of.createWarehouseMan(level);
-		if(w != null) {
-			this.gs = of.createGoals(level);
-			if(gs != null) {
-				updatecounters();
-				mp.createMap(level);
-				mf.paintMap(mp);
-				mapCreated = true;
-			}
-			else
-				levelNumber ++;
+	level = o.newGame(fileName);
+	this.w = of.createWarehouseMan(level);
+	if(w != null) {
+		this.gs = of.createGoals(level);
+		if(gs != null) {
+			updatecounters();
+			mp.createMap(level);
+			mf.paintMap(mp);
 		}
-		else
-			levelNumber ++;
 	}
 }
 
@@ -219,16 +211,27 @@ public void restartLevel() throws FileNotFoundException, IlegalPositionException
 
 //If the level is completed, it passes to the next one or shows the congratulations screen
 public void nextLevel() throws FileNotFoundException, IlegalPositionException, ObjectPositionNotFoundException, IlegalMap {
-	if(isEndLevel() && levelNumber != totalLevels) {
-		levelNumber += 1;
-		am.clearActions();
-		this.mp.levelName.setText("Nivel: " + levelNumber);
-		game(new File("maps" + fileSeparator + "level_" + levelNumber + ".txt").getAbsolutePath());
-	}
-	else if(isEndLevel() && levelNumber == totalLevels) {
-		levelNumber = 1;
-		am.clearActions();
-		mf.showCongrats(w.getGlobalCount());
+	if(isEndLevel()) {
+		
+		boolean correctLevel = false;
+		while(!correctLevel) {
+			
+			if(levelNumber != totalLevels) {
+				levelNumber += 1;
+				am.clearActions();
+				this.mp.levelName.setText("Nivel: " + levelNumber);
+				game(new File("maps" + fileSeparator + "level_" + levelNumber + ".txt").getAbsolutePath());
+			}
+			else if(levelNumber == totalLevels) {
+				levelNumber = 1;
+				am.clearActions();
+				mf.showCongrats(w.getGlobalCount());
+				correctLevel = true;
+			}
+
+			if(gs != null && gs.size() > 0 && w != null)
+				correctLevel = true;
+		}
 	}
 }
 
