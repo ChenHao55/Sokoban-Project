@@ -2,7 +2,6 @@ package model.services;
 
 import java.util.ArrayList;
 
-import model.beans.Box;
 import model.beans.GoalPosition;
 import model.beans.WarehouseMan;
 import model.exceptions.IlegalMap;
@@ -22,21 +21,6 @@ public class ObjectFactory implements ObjectFactoryI {
 			for(int j=0; j<level[firstCol].length; j++) {
 				if(level[i][j] == 'W') {
 					return new WarehouseMan(i,j);
-				}
-			}
-		}
-		return null;
-	}
-
-	@Override
-	public GameObjectI createBox(char[][] level) throws IlegalPositionException, IlegalMap {
-		
-		if(level.length == 0 || level[0].length == 0) {throw new IlegalMap(msg);}
-		
-		for(int i=0; i<level.length; i++) {
-			for(int j=0; j<level[firstCol].length; j++) {
-				if(level[i][j] == '#') {
-					return new Box(i,j);
 				}
 			}
 		}

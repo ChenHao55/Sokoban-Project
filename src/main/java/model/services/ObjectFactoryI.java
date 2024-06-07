@@ -10,9 +10,6 @@ public interface ObjectFactoryI {
 	//Metodo para crear los objetos
 	GameObjectI createWarehouseMan(char[][] level) throws IlegalPositionException, IlegalMap;
 	
-	//Metodo para crear objectos caja
-	GameObjectI createBox(char[][] level) throws IlegalPositionException, IlegalMap;
-	
 	//Metodo para crear posiciones meta
 	ArrayList<GameObjectI> createGoals(char[][] level) throws IlegalPositionException, IlegalMap;
 }
