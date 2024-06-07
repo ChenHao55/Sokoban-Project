@@ -2,16 +2,17 @@ package model.services;
 
 public class Action implements ActionI {
 	
+	private static final long serialVersionUID = 1L;
 	private int x;
 	private int y;
 	private char[][] mat;
 	private boolean lastBox;
 	
 	public Action(int x, int y, char[][] level) {
-		this.setMat(level);
-		this.setX(x);
-		this.setY(y);
-		this.setLastBox(false);
+		this.x = x;
+		this.y = y;
+		this.mat = level;
+		this.lastBox = false;
 	}
 	
 	public Action() {}

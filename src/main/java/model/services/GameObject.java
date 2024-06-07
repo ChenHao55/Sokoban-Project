@@ -12,8 +12,11 @@ public class GameObject implements GameObjectI {
 	private int globalCount = 0;
 	
 	public GameObject(int x, int y) throws IlegalPositionException {
-		this.setX(x);
-		this.setY(y);
+		if(x < 0 || y < 0) {
+			throw new IlegalPositionException("Invalid position");
+		}
+		this.x = x;
+		this.y = y;
 	}
 	
 	@Override

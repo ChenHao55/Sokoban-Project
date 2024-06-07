@@ -25,6 +25,7 @@ import model.exceptions.IlegalPositionException;
 public class Options implements OptionsI{
 	
 	private String fileSeparator = File.separator;
+	private int firstCol = 0;
 	
 	public Options() {}
 	
@@ -91,7 +92,7 @@ public class Options implements OptionsI{
 			
 			//Escribir el mapa
 			for(int i = 0; i<map.length; i++) {
-				for(int j = 0; j<map[0].length; j++) {
+				for(int j = 0; j<map[firstCol].length; j++) {
 					writer.write(map[i][j]);
 				}
 				writer.newLine();
@@ -161,7 +162,7 @@ public class Options implements OptionsI{
 			//Obtener el mapa
 			for(int i = 0; i<map.length; i++) {
 				String line = reader.readLine();
-				for(int j = 0; j<map[0].length; j++) {
+				for(int j = 0; j<map[firstCol].length; j++) {
 					map[i][j] = line.charAt(j);
 				}
 			}
