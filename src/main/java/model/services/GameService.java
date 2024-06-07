@@ -77,17 +77,19 @@ public void saveGame() {
 public void loadGame() throws NumberFormatException, IlegalPositionException {
 	File file = op.saveGame('l');
 
-	Pair<Integer, char[][]> p = o.loadGame((WarehouseMan) w, gs, am, file);
-	
-	if(p != null) {
-		level = p.getValue1();
-		levelNumber = p.getValue0();
-	}
-	updatecounters();
-	try {
-		updateMap();
-	} catch (IlegalPositionException | ObjectPositionNotFoundException e) {
-		e.getMessage();
+	if(file != null) {
+		Pair<Integer, char[][]> p = o.loadGame((WarehouseMan) w, gs, am, file);
+		
+		if(p != null) {
+			level = p.getValue1();
+			levelNumber = p.getValue0();
+		}
+		updatecounters();
+		try {
+			updateMap();
+		} catch (IlegalPositionException | ObjectPositionNotFoundException e) {
+			e.getMessage();
+		}
 	}
 }
 
