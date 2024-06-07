@@ -233,6 +233,8 @@ public void nextLevel() throws FileNotFoundException, IlegalPositionException, O
 
 			if(gs != null && gs.size() > 0 && w != null)
 				correctLevel = true;
+			else
+				mf.showError();
 		}
 	}
 }

@@ -12,6 +12,7 @@ import java.io.FileNotFoundException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
@@ -124,6 +125,9 @@ public class MainFrame extends JFrame implements KeyListener  {
         add(cp, BorderLayout.CENTER);
         revalidate();
 		repaint();
+	}
+	public void showError() {
+		JOptionPane.showMessageDialog(null, "Wrong map", "Error", JOptionPane.ERROR_MESSAGE);
 	}
 
 	@Override
