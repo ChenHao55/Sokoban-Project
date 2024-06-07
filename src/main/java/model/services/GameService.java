@@ -200,7 +200,7 @@ public boolean isEndLevel() {
 
 //Restarts the level
 public void restartLevel() throws FileNotFoundException, IlegalPositionException, ObjectPositionNotFoundException, IlegalMap {
-	game(new File("maps" + fileSeparator + "map_level_" + levelNumber + ".txt").getAbsolutePath());
+	game(new File("maps" + fileSeparator + "level_" + levelNumber + ".txt").getAbsolutePath());
 	am.clearActions();
 	updatecounters();
 }
@@ -211,7 +211,7 @@ public void nextLevel() throws FileNotFoundException, IlegalPositionException, O
 		levelNumber += 1;
 		am.clearActions();
 		this.mp.levelName.setText("Nivel: " + levelNumber);
-		game(new File("maps" + fileSeparator + "map_level_" + levelNumber + ".txt").getAbsolutePath());
+		game(new File("maps" + fileSeparator + "level_" + levelNumber + ".txt").getAbsolutePath());
 	}
 	else if(isEndLevel() && levelNumber == totalLevels) {
 		levelNumber = 1;

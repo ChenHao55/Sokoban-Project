@@ -90,7 +90,7 @@ public class MapPanel extends JPanel {
 	    //New Game Button
 	    newGame.addActionListener(e -> {
 			try {
-				gc.newGame(new File("maps" + fileSeparator + "map_level_1.txt").getAbsolutePath());
+				gc.newGame(new File("maps" + fileSeparator + "level_1.txt").getAbsolutePath());
 			} catch (IlegalPositionException | ObjectPositionNotFoundException | FileNotFoundException | IlegalMap e1) {
 				e1.getMessage();
 			}
