@@ -21,6 +21,7 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import model.beans.Counter;
 import model.beans.DownAction;
 import model.beans.GoalPosition;
 import model.beans.LeftAction;
@@ -331,9 +332,10 @@ public class AppTest {
 				};
 			boolean equals = true;
 			WarehouseMan w = new WarehouseMan(1, 1);
+			Counter c = new Counter();
 			LeftAction action = new LeftAction(w.getX(), w.getY(), mat);
 			gs = of.createGoals(o.newGame(new File("maps" + File.separator + "level_" + 1 + ".txt").getAbsolutePath()));
-			char[][] matRes = action.move(w, gs, mat);
+			char[][] matRes = action.move(w, gs, mat, c);
 			for (int i = 0; i < matExp.length; i++) {
 	            for (int j = 0; j < matExp[0].length; j++) {
 	                if (matExp[i][j] != matRes[i][j]) {
@@ -371,9 +373,10 @@ public class AppTest {
 				};
 			boolean equals = true;
 			WarehouseMan w = new WarehouseMan(1, 1);
+			Counter c = new Counter();
 			RightAction action = new RightAction(w.getX(), w.getY(), mat);
 			gs = of.createGoals(o.newGame(new File("maps" + File.separator + "level_" + 1 + ".txt").getAbsolutePath()));
-			char[][] matRes = action.move(w, gs, mat);
+			char[][] matRes = action.move(w, gs, mat, c);
 			for (int i = 0; i < matExp.length; i++) {
 	            for (int j = 0; j < matExp[0].length; j++) {
 	                if (matExp[i][j] != matRes[i][j]) {
@@ -411,9 +414,10 @@ public class AppTest {
 				};
 			boolean equals = true;
 			WarehouseMan w = new WarehouseMan(1, 1);
+			Counter c = new Counter();
 			UpAction action = new UpAction(w.getX(), w.getY(), mat);
 			gs = of.createGoals(o.newGame(new File("maps" + File.separator + "level_" + 1 + ".txt").getAbsolutePath()));
-			char[][] matRes = action.move(w, gs, mat);
+			char[][] matRes = action.move(w, gs, mat, c);
 			for (int i = 0; i < matExp.length; i++) {
 	            for (int j = 0; j < matExp[0].length; j++) {
 	                if (matExp[i][j] != matRes[i][j]) {
@@ -451,9 +455,10 @@ public class AppTest {
 				};
 			boolean equals = true;
 			WarehouseMan w = new WarehouseMan(1, 1);
+			Counter c = new Counter();
 			DownAction action = new DownAction(w.getX(), w.getY(), mat);
 			gs = of.createGoals(mat);
-			char[][] matRes = action.move(w, gs, mat);
+			char[][] matRes = action.move(w, gs, mat, c);
 			for (int i = 0; i < matExp.length; i++) {
 	            for (int j = 0; j < matExp[0].length; j++) {
 	                if (matExp[i][j] != matRes[i][j]) {
@@ -481,9 +486,10 @@ public class AppTest {
 				
 			boolean equals = true;
 			WarehouseMan w = new WarehouseMan(6, 4);
+			Counter c = new Counter();
 			DownAction action = new DownAction(w.getX(), w.getY(), mat);
 			gs = of.createGoals(mat);
-			char[][] matRes = action.move(w, gs, mat);
+			char[][] matRes = action.move(w, gs, mat, c);
 			for (int i = 0; i < mat.length; i++) {
 	            for (int j = 0; j < mat[0].length; j++) {
 	                if (mat[i][j] != matRes[i][j]) {
@@ -529,9 +535,10 @@ public class AppTest {
 				};;
 			boolean equals = true;
 			WarehouseMan w = new WarehouseMan(4, 2);
+			Counter c = new Counter();
 			LeftAction action = new LeftAction(w.getX(), w.getY(), mat);
 			gs = of.createGoals(o.newGame(new File("maps" + File.separator + "level_" + 1 + ".txt").getAbsolutePath()));
-			char[][] matRes = action.move(w, gs, mat);
+			char[][] matRes = action.move(w, gs, mat, c);
 			for (int i = 0; i < matExp.length; i++) {
 	            for (int j = 0; j < matExp[0].length; j++) {
 	                if (matExp[i][j] != matRes[i][j]) {
@@ -572,9 +579,10 @@ public class AppTest {
 				};
 			boolean equals = true;
 			WarehouseMan w = new WarehouseMan(4, 2);
+			Counter c = new Counter();
 			RightAction action = new RightAction(w.getX(), w.getY(), mat);
 			gs = of.createGoals(o.newGame(new File("maps" + File.separator + "level_" + 1 + ".txt").getAbsolutePath()));
-			char[][] matRes = action.move(w, gs, mat);
+			char[][] matRes = action.move(w, gs, mat, c);
 			for (int i = 0; i < matExp.length; i++) {
 	            for (int j = 0; j < matExp[0].length; j++) {
 	                if (matExp[i][j] != matRes[i][j]) {
@@ -614,9 +622,10 @@ public class AppTest {
 				};
 			boolean equals = true;
 			WarehouseMan w = new WarehouseMan(4, 2);
+			Counter c = new Counter();
 			UpAction action = new UpAction(w.getX(), w.getY(), mat);
 			gs = of.createGoals(o.newGame(new File("maps" + File.separator + "level_" + 1 + ".txt").getAbsolutePath()));
-			char[][] matRes = action.move(w, gs, mat);
+			char[][] matRes = action.move(w, gs, mat, c);
 			for (int i = 0; i < matExp.length; i++) {
 	            for (int j = 0; j < matExp[0].length; j++) {
 	                if (matExp[i][j] != matRes[i][j]) {
@@ -656,9 +665,10 @@ public class AppTest {
 				};
 			boolean equals = true;
 			WarehouseMan w = new WarehouseMan(4, 2);
+			Counter c = new Counter();
 			DownAction action = new DownAction(w.getX(), w.getY(), mat);
 			gs = of.createGoals(o.newGame(new File("maps" + File.separator + "level_" + 1 + ".txt").getAbsolutePath()));
-			char[][] matRes = action.move(w, gs, mat);
+			char[][] matRes = action.move(w, gs, mat, c);
 			for (int i = 0; i < matExp.length; i++) {
 	            for (int j = 0; j < matExp[0].length; j++) {
 	                if (matExp[i][j] != matRes[i][j]) {
@@ -688,7 +698,8 @@ public class AppTest {
 			    {'+', '+', '+', '+', '+', '.', '.', '.'}
 			};
 		WarehouseMan w;
-		
+		Counter c;
+
 		ActionI down_a;
 		ActionI up_a;
 		ActionI left_a;
@@ -699,6 +710,7 @@ public class AppTest {
 			af = new ActionsFactory();
 			of = new ObjectFactory();
 			w = (WarehouseMan) of.createWarehouseMan(mat);
+			c = new Counter();
 			
 			down_a = af.createAction('d', w.getX(), w.getY(), mat);
 			up_a = af.createAction('u', w.getX(), w.getY(), mat);
@@ -898,10 +910,11 @@ public class AppTest {
 			log.info("Trying to save correctly a game");
 			char[][] map = o.newGame(path);
 			WarehouseMan w = (WarehouseMan) of.createWarehouseMan(map);
+			Counter c = new Counter();
 			ArrayList<GameObjectI> gs = of.createGoals(map);
 			Stack<ActionI> s = new Stack<>();
 			File f = new File("saved_map.txt");
-			assertDoesNotThrow(() -> o.saveGame(map, w, gs, s, 1, f));
+			assertDoesNotThrow(() -> o.saveGame(map, w, gs, s, 1, f, c));
 			log.info("Test passed");
 		}
 		
@@ -909,6 +922,7 @@ public class AppTest {
 		void loadGame() throws IlegalPositionException, IlegalMap {
 			log.info("Trying to load correctly a game");
 			WarehouseMan w = new WarehouseMan(0,0);
+			Counter c = new Counter();
 			ArrayList<GameObjectI> gs = new ArrayList<>();
 			File f = new File("saved_map.txt");
 			ActionsManager am = new ActionsManager();
@@ -924,7 +938,7 @@ public class AppTest {
 				    {'+', '+', '+', '+', '+', '.', '.', '.'}
 				};
 			boolean equals = true;
-			Pair<Integer, char[][]> p = o.loadGame(w, gs, am, f);
+			Pair<Integer, char[][]> p = o.loadGame(w, gs, am, f, c);
 			char[][] res = p.getValue1();
 			for (int i = 0; i < matExp.length; i++) {
 	            for (int j = 0; j < matExp[0].length; j++) {

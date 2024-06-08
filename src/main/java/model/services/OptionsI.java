@@ -7,6 +7,7 @@ import java.util.Stack;
 
 import org.javatuples.Pair;
 
+import model.beans.Counter;
 import model.beans.WarehouseMan;
 import model.exceptions.IlegalPositionException;
 
@@ -16,8 +17,8 @@ public interface OptionsI {
 	char[][] newGame(String fileName) throws FileNotFoundException, IlegalPositionException;
 	
 	//Metodo para guardar una partida
-	void saveGame(char[][] map, WarehouseMan w, ArrayList<GameObjectI> gs, Stack<ActionI> s, int levelNumber, File file);
+	void saveGame(char[][] map, WarehouseMan w, ArrayList<GameObjectI> gs, Stack<ActionI> s, int levelNumber, File file, Counter c);
 	
 	//Metodo para cargar una partida
-	Pair<Integer, char[][]> loadGame(WarehouseMan w, ArrayList<GameObjectI> gs, ActionsManagerI am, File file) throws NumberFormatException, IlegalPositionException;
+	Pair<Integer, char[][]> loadGame(WarehouseMan w, ArrayList<GameObjectI> gs, ActionsManagerI am, File file, Counter c) throws NumberFormatException, IlegalPositionException;
 }

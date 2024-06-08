@@ -13,7 +13,7 @@ public class LeftAction extends Action{
 		super(x, y, mat);
 	}
 
-	public char[][] move(WarehouseMan w, ArrayList<GameObjectI> gs, char[][] mat) throws WallException, IlegalPositionException {
+	public char[][] move(WarehouseMan w, ArrayList<GameObjectI> gs, char[][] mat, Counter c) throws WallException, IlegalPositionException {
 		int x = w.getX();
 		int y = w.getY();
 		boolean goal = false;
@@ -38,19 +38,19 @@ public class LeftAction extends Action{
 						mat[x][y - 1] = '*';
 					}
 					w.setY(y - 1);
-					w.setBoxCount(w.getBoxCount() + 1);
+					c.setBoxCount(c.getBoxCount() + 1);
 					this.setLastBox(true);
 				}
-				w.setGlobalCount(w.getGlobalCount() + 1);
+				c.setGlobalCount(c.getGlobalCount() + 1);
 				break;
 
 			default:
 				mat[x][y-1] = 'W';
 				mat[x][y] = '.';
 				w.setY(y-1);
-				w.setCount(w.getCount() + 1);
+				c.setCount(c.getCount() + 1);
 				this.setLastBox(false);
-				w.setGlobalCount(w.getGlobalCount() + 1);
+				c.setGlobalCount(c.getGlobalCount() + 1);
 		}			
 		for (GameObjectI g : gs) {
 			goal = (mat[g.getX()][g.getY()] == '.');
