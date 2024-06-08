@@ -78,7 +78,7 @@ public class MainFrame extends JFrame implements KeyListener  {
 	    //Load Game Button
 	    loadGame.addActionListener(e -> {
 	    	try {
-				gc.loadGameMF();
+	    		gc.loadGameMF();
 			} catch (NumberFormatException | IlegalPositionException | ObjectPositionNotFoundException e1) {
 				// TODO Auto-generated catch block
 				e1.getMessage();
@@ -140,33 +140,33 @@ public class MainFrame extends JFrame implements KeyListener  {
 			case KeyEvent.VK_UP:
 			try {
 				gc.moveUp();
-				gc.nextLevel();
-			} catch (ObjectPositionNotFoundException | WallException | IlegalPositionException | FileNotFoundException | IlegalMap e1) {
-				e1.getMessage();
+			} catch (FileNotFoundException | ObjectPositionNotFoundException | WallException | IlegalPositionException
+					| IlegalMap e2) {
+				e2.printStackTrace();
 			}
 				break;
 			case KeyEvent.VK_DOWN:
 			try {
 				gc.moveDown();
-				gc.nextLevel();
-			} catch (ObjectPositionNotFoundException | WallException | IlegalPositionException | FileNotFoundException | IlegalMap e1) {
-				e1.getMessage();
+			} catch (FileNotFoundException | ObjectPositionNotFoundException | WallException | IlegalPositionException
+					| IlegalMap e2) {
+				e2.printStackTrace();
 			}
 				break;
 			case KeyEvent.VK_LEFT:
 			try {
 				gc.moveLeft();
-				gc.nextLevel();
-			} catch (ObjectPositionNotFoundException | WallException | IlegalPositionException | FileNotFoundException | IlegalMap e1) {
-				e1.getMessage();
+			} catch (FileNotFoundException | ObjectPositionNotFoundException | WallException | IlegalPositionException
+					| IlegalMap e2) {
+				e2.printStackTrace();
 			}
 				break;
 			case KeyEvent.VK_RIGHT:
 			try {
 				gc.moveRight();
-				gc.nextLevel();
-			} catch (ObjectPositionNotFoundException | WallException | IlegalPositionException | FileNotFoundException | IlegalMap e1) {
-				e1.getMessage();
+			} catch (FileNotFoundException | ObjectPositionNotFoundException | WallException | IlegalPositionException
+					| IlegalMap e2) {
+				e2.printStackTrace();
 			}
 				break;
 			case KeyEvent.VK_Z:
@@ -177,6 +177,8 @@ public class MainFrame extends JFrame implements KeyListener  {
 						e1.getMessage();
 					}
 				}
+				break;
+			default:
 				break;
 		}
 	}

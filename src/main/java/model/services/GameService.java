@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 import org.javatuples.Pair;
 
-import controller.GameController;
 import model.beans.Counter;
 import model.beans.DownAction;
 import model.beans.LeftAction;
@@ -21,7 +20,6 @@ import view.OptionsGamePanel;
 
 public class GameService {
 	
-		private GameController gc;
 		private OptionsGamePanel op = new OptionsGamePanel(); //He creado este objeto para no tener Swing en el options.java
 		private char[][] level;
 		private GameObjectI w;
@@ -59,10 +57,6 @@ public void game(String fileName) throws IlegalPositionException, ObjectPosition
 		this.w = w_aux;
 		this.gs = of.createGoals(level);
 	}
-	this.gc.upDateLevelName(levelNumber);
-	this.gc.updatecounters(w.getBoxCount(), w.getCount(), w.getGlobalCount());
-	this.gc.updateMap(level);
-	this.gc.paintMap();
 }
 
 //Metodo para guardar la partida
@@ -70,15 +64,12 @@ public void saveGame() throws IlegalPositionException, ObjectPositionNotFoundExc
 	File f = op.saveGame('s'); 
 	if(f != null) {
 		o.saveGame(level, (WarehouseMan) w, gs, am.getActions(), levelNumber, f, c); 
-		this.gc.updateMap(level);
-		this.gc.paintMap();
 	}
 }
 
 //Metodo para cargar una partida guardada
 public void loadGame() throws NumberFormatException, IlegalPositionException, ObjectPositionNotFoundException {
 	File file = op.saveGame('l');
-
 	if(file != null) {
 		Pair<Integer, char[][]> p = o.loadGame((WarehouseMan) w, gs, am, file, c);
 		
@@ -86,33 +77,23 @@ public void loadGame() throws NumberFormatException, IlegalPositionException, Ob
 			level = p.getValue1();
 			levelNumber = p.getValue0();
 		}
-		
-		this.gc.updatecounters(w.getBoxCount(), w.getCount(), w.getGlobalCount());
-		this.gc.updateMap(level);
-		this.gc.paintMap();
-		
 	}
-	else
-		this.gc.paintMap();
 }
 
-
-
 //Metodo para cargar una partida guardada
-public void loadGameMF() throws NumberFormatException, IlegalPositionException, ObjectPositionNotFoundException {
+public boolean loadGameMF() throws NumberFormatException, IlegalPositionException, ObjectPositionNotFoundException {
 	File file = op.saveGame('l');
-
+	boolean res = false;
 	if(file != null) {
 		Pair<Integer, char[][]> p = o.loadGame((WarehouseMan) w, gs, am, file, c);
 		
 		if(p != null) {
 			level = p.getValue1();
 			levelNumber = p.getValue0();
+			res = true;
 		}
-		this.gc.updatecounters(c.getBoxCount(), c.getCount(), c.getGlobalCount());
-		this.gc.updateMap(level);
-		this.gc.paintMap();
 	}
+	return res;
 }
 
 public void decrementBoxCounter() throws NumberFormatException{
@@ -147,10 +128,21 @@ public void undoMovement() throws IlegalPositionException, ObjectPositionNotFoun
 		this.w.setX(atc.getX());
 		this.w.setY(atc.getY());
 	}
-	this.gc.updatecounters(c.getBoxCount(), c.getCount(), c.getGlobalCount());
-	this.gc.updateMap(level);
-	this.gc.paintMap();
 }
+
+//Checks if the game has ended
+public boolean isEndLevel() {
+	boolean end= true;
+	
+	for (GameObjectI g : gs) {
+		if(level[g.getX()][g.getY()] != '@') {
+			end= false;
+			break;
+		}
+	}
+	return end;
+}
+
 
 //METODOS PARA MOVER EL PERSONAJE
 public void moveUp() throws ObjectPositionNotFoundException, WallException, IlegalPositionException {
@@ -162,10 +154,6 @@ public void moveUp() throws ObjectPositionNotFoundException, WallException, Ileg
 	((UpAction) atc).move((WarehouseMan) w, gs, level, c);
 	if(c.getGlobalCount() == globalCounter)
 		am.deleteAction(atc);
-	
-	this.gc.updatecounters(c.getBoxCount(), c.getCount(), c.getGlobalCount());
-	this.gc.updateMap(level);
-	this.gc.paintMap();
 }
 
 public void moveLeft() throws ObjectPositionNotFoundException, WallException, IlegalPositionException {
@@ -177,10 +165,6 @@ public void moveLeft() throws ObjectPositionNotFoundException, WallException, Il
 	((LeftAction) atc).move((WarehouseMan) w, gs, level, c);
 	if(c.getGlobalCount() == globalCounter)
 		am.deleteAction(atc);
-	
-	this.gc.updatecounters(c.getBoxCount(), c.getCount(), c.getGlobalCount());
-	this.gc.updateMap(level);
-	this.gc.paintMap();
 }
 
 public void moveDown() throws ObjectPositionNotFoundException, WallException, IlegalPositionException {
@@ -192,10 +176,6 @@ public void moveDown() throws ObjectPositionNotFoundException, WallException, Il
 	((DownAction) atc).move((WarehouseMan) w, gs, level, c);
 	if(c.getGlobalCount() == globalCounter)
 		am.deleteAction(atc);
-	
-	this.gc.updatecounters(c.getBoxCount(), c.getCount(), c.getGlobalCount());
-	this.gc.updateMap(level);
-	this.gc.paintMap();
 }
 
 public void moveRight() throws ObjectPositionNotFoundException, WallException, IlegalPositionException {
@@ -209,23 +189,6 @@ public void moveRight() throws ObjectPositionNotFoundException, WallException, I
 	((RightAction) atc).move((WarehouseMan) w, gs, level, c);
 	if(c.getGlobalCount() == globalCounter)
 		am.deleteAction(atc);
-	
-	this.gc.updatecounters(c.getBoxCount(), c.getCount(), c.getGlobalCount());
-	this.gc.updateMap(level);
-	this.gc.paintMap();
-}
-
-//Checks if the game has ended
-private boolean isEndLevel() {
-	boolean end= true;
-	
-	for (GameObjectI g : gs) {
-		if(level[g.getX()][g.getY()] != '@') {
-			end= false;
-			break;
-		}
-	}
-	return end;
 }
 
 //Restarts the level
@@ -238,7 +201,7 @@ public void restartLevel() throws FileNotFoundException, IlegalPositionException
 }
 
 //If the level is completed, it passes to the next one or shows the congratulations screen
-public void nextLevel() throws FileNotFoundException, IlegalPositionException, ObjectPositionNotFoundException, IlegalMap {
+/*public void nextLevel() throws FileNotFoundException, IlegalPositionException, ObjectPositionNotFoundException, IlegalMap {
 	if(isEndLevel()) {
 		
 		boolean correctLevel = false;
@@ -263,6 +226,27 @@ public void nextLevel() throws FileNotFoundException, IlegalPositionException, O
 				this.gc.showError();
 		}
 	}
+}*/
+
+public int nextLevel() throws FileNotFoundException, IlegalPositionException, ObjectPositionNotFoundException, IlegalMap {
+	int res = 0;
+		
+	if(levelNumber != totalLevels) {
+		levelNumber += 1;
+		this.game(new File("maps" + this.fileSeparator + "level_" + this.levelNumber + ".txt").getAbsolutePath());
+		am.clearActions();
+		res = 1;
+	}
+	else if(w != null) {
+		levelNumber = 1;
+		am.clearActions();
+		return 2;
+	}
+
+	if(gs == null || gs.isEmpty() || w == null) {
+		return 3;
+	}
+	return res;
 }
 
 //GETTERS Y SETTERS
@@ -289,12 +273,16 @@ public void nextLevel() throws FileNotFoundException, IlegalPositionException, O
 	public void setMap(char[][] level) {
 		this.level = level;
 	}
-
-	public GameController getGc() {
-		return gc;
+	
+	public int getLevelNumber() {
+		return this.levelNumber;
 	}
-
-	public void setGc(GameController gc) {
-		this.gc = gc;
+	
+	public void setLevelNUmber(int level) {
+		this.levelNumber = level;
+	}
+	
+	public Counter getCounter() {
+		return this.c;
 	}
 }
