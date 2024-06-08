@@ -11,9 +11,10 @@ public class GameMain {
 		
 		MainFrame mf = new MainFrame();
 		MapPanel mp = new MapPanel();
-		GameService gs = new GameService(mf, mp);
-		GameController gc = new GameController(gs);
+		GameService gs = new GameService();
+		GameController gc = new GameController(gs, mf, mp);
 		
+		gs.setGc(gc);
 		mf.setGc(gc);
 		mp.setGc(gc);
 		mf.setVisible(true);

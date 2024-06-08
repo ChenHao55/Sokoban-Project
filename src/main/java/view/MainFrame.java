@@ -79,7 +79,7 @@ public class MainFrame extends JFrame implements KeyListener  {
 	    loadGame.addActionListener(e -> {
 	    	try {
 				gc.loadGame();
-			} catch (NumberFormatException | IlegalPositionException e1) {
+			} catch (NumberFormatException | IlegalPositionException | ObjectPositionNotFoundException e1) {
 				// TODO Auto-generated catch block
 				e1.getMessage();
 			}
