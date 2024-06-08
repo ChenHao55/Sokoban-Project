@@ -31,7 +31,7 @@ public class MainFrame extends JFrame implements KeyListener  {
 	private GameController gc;
 
 	public MainFrame() throws IlegalPositionException, ObjectPositionNotFoundException {
-
+		
 		setSize(450,550);  
 		setTitle("Sokoban");
         setLocationRelativeTo(null);
