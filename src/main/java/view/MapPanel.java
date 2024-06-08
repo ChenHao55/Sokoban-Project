@@ -101,7 +101,7 @@ public class MapPanel extends JPanel {
 				gc.saveGame();
 			} catch (IlegalPositionException | ObjectPositionNotFoundException e1) {
 				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				e1.getMessage();
 			}
 	    });
 	    

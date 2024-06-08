@@ -44,6 +44,9 @@ public class GameService {
 public void newGame(String fileName) throws IlegalPositionException, ObjectPositionNotFoundException, FileNotFoundException, IlegalMap {
 	
 	levelNumber = 1;
+	c.setBoxCount(0);
+	c.setCount(0);
+	c.setGlobalCount(0);
 	game(fileName);
 	
 }
@@ -55,9 +58,11 @@ public void game(String fileName) throws IlegalPositionException, ObjectPosition
 	if(w_aux != null) {
 		this.w = w_aux;
 		this.gs = of.createGoals(level);
-		this.gc.updatecounters(w.getBoxCount(), w.getCount(), w.getGlobalCount());
-		this.gc.updateMap(level);
 	}
+	this.gc.upDateLevelName(levelNumber);
+	this.gc.updatecounters(w.getBoxCount(), w.getCount(), w.getGlobalCount());
+	this.gc.updateMap(level);
+	this.gc.paintMap();
 }
 
 //Metodo para guardar la partida
@@ -66,6 +71,7 @@ public void saveGame() throws IlegalPositionException, ObjectPositionNotFoundExc
 	if(f != null) {
 		o.saveGame(level, (WarehouseMan) w, gs, am.getActions(), levelNumber, f, c); 
 		this.gc.updateMap(level);
+		this.gc.paintMap();
 	}
 }
 
@@ -79,9 +85,33 @@ public void loadGame() throws NumberFormatException, IlegalPositionException, Ob
 		if(p != null) {
 			level = p.getValue1();
 			levelNumber = p.getValue0();
-			this.gc.updatecounters(c.getBoxCount(), c.getCount(), c.getGlobalCount());
-			this.gc.updateMap(level);
 		}
+		
+		this.gc.updatecounters(w.getBoxCount(), w.getCount(), w.getGlobalCount());
+		this.gc.updateMap(level);
+		this.gc.paintMap();
+		
+	}
+	else
+		this.gc.paintMap();
+}
+
+
+
+//Metodo para cargar una partida guardada
+public void loadGameMF() throws NumberFormatException, IlegalPositionException, ObjectPositionNotFoundException {
+	File file = op.saveGame('l');
+
+	if(file != null) {
+		Pair<Integer, char[][]> p = o.loadGame((WarehouseMan) w, gs, am, file, c);
+		
+		if(p != null) {
+			level = p.getValue1();
+			levelNumber = p.getValue0();
+		}
+		this.gc.updatecounters(c.getBoxCount(), c.getCount(), c.getGlobalCount());
+		this.gc.updateMap(level);
+		this.gc.paintMap();
 	}
 }
 
@@ -119,6 +149,7 @@ public void undoMovement() throws IlegalPositionException, ObjectPositionNotFoun
 	}
 	this.gc.updatecounters(c.getBoxCount(), c.getCount(), c.getGlobalCount());
 	this.gc.updateMap(level);
+	this.gc.paintMap();
 }
 
 //METODOS PARA MOVER EL PERSONAJE
@@ -134,6 +165,7 @@ public void moveUp() throws ObjectPositionNotFoundException, WallException, Ileg
 	
 	this.gc.updatecounters(c.getBoxCount(), c.getCount(), c.getGlobalCount());
 	this.gc.updateMap(level);
+	this.gc.paintMap();
 }
 
 public void moveLeft() throws ObjectPositionNotFoundException, WallException, IlegalPositionException {
@@ -148,6 +180,7 @@ public void moveLeft() throws ObjectPositionNotFoundException, WallException, Il
 	
 	this.gc.updatecounters(c.getBoxCount(), c.getCount(), c.getGlobalCount());
 	this.gc.updateMap(level);
+	this.gc.paintMap();
 }
 
 public void moveDown() throws ObjectPositionNotFoundException, WallException, IlegalPositionException {
@@ -162,6 +195,7 @@ public void moveDown() throws ObjectPositionNotFoundException, WallException, Il
 	
 	this.gc.updatecounters(c.getBoxCount(), c.getCount(), c.getGlobalCount());
 	this.gc.updateMap(level);
+	this.gc.paintMap();
 }
 
 public void moveRight() throws ObjectPositionNotFoundException, WallException, IlegalPositionException {
@@ -178,6 +212,7 @@ public void moveRight() throws ObjectPositionNotFoundException, WallException, I
 	
 	this.gc.updatecounters(c.getBoxCount(), c.getCount(), c.getGlobalCount());
 	this.gc.updateMap(level);
+	this.gc.paintMap();
 }
 
 //Checks if the game has ended
@@ -197,7 +232,9 @@ private boolean isEndLevel() {
 public void restartLevel() throws FileNotFoundException, IlegalPositionException, ObjectPositionNotFoundException, IlegalMap {
 	this.game(new File("maps" + fileSeparator + "level_" + levelNumber + ".txt").getAbsolutePath());
 	am.clearActions();
-	this.gc.updatecounters(c.getBoxCount(), c.getCount(), c.getGlobalCount());
+	c.setBoxCount(w.getBoxCount());
+	c.setCount(w.getCount());
+	c.setGlobalCount(w.getGlobalCount());
 }
 
 //If the level is completed, it passes to the next one or shows the congratulations screen

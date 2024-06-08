@@ -34,6 +34,10 @@ public class GameController {
 		gs.loadGame();
 	}
 	
+	public void loadGameMF() throws NumberFormatException, IlegalPositionException, ObjectPositionNotFoundException {
+		gs.loadGameMF();
+	}
+	
 	public void undoMovement() throws IlegalPositionException, ObjectPositionNotFoundException {
 		gs.undoMovement();
 	}
@@ -83,6 +87,9 @@ public class GameController {
 	//Este metodo se encarga de actualizar el mapa despues de los movimientos
 	public void updateMap(char[][] level) throws IlegalPositionException, ObjectPositionNotFoundException {
 		mp.createMap(level);
+	}
+	
+	public void paintMap() throws IlegalPositionException, ObjectPositionNotFoundException {
 		mf.paintMap(mp);
 	}
 	
