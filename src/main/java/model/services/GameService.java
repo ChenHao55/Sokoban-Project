@@ -36,9 +36,11 @@ public class GameService {
 		private int totalLevels = 10;
 		private String fileSeparator = File.separator;
 		
-		public GameService(MainFrame mf, MapPanel mp) {
+		public GameService(MainFrame mf, MapPanel mp) throws IlegalPositionException {
 			this.mf = mf;
 			this.mp = mp;
+			this.w = new WarehouseMan(0,0);
+			this.gs = new ArrayList<GameObjectI>();
 		}
 
 
