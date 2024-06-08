@@ -21,12 +21,10 @@ import controller.GameController;
 import model.exceptions.IlegalMap;
 import model.exceptions.IlegalPositionException;
 import model.exceptions.ObjectPositionNotFoundException;
-import model.exceptions.WallException;
 
 
 public class MainFrame extends JFrame implements KeyListener  {
 
-	private String fileSeparator = File.separator;
 	private static final long serialVersionUID = 1L;
 	private GameController gc;
 
@@ -69,8 +67,8 @@ public class MainFrame extends JFrame implements KeyListener  {
 	    //New Game Button
 	    newGame.addActionListener(e -> {
 			try {
-				gc.newGame(new File("maps" + fileSeparator + "level_1.txt").getAbsolutePath());
-			} catch (IlegalPositionException | ObjectPositionNotFoundException | FileNotFoundException | IlegalMap e1) {
+				gc.newGame(new File("maps" + File.separator + "level_1.txt").getAbsolutePath());
+			} catch (IlegalPositionException | FileNotFoundException | IlegalMap e1) {
 				e1.getMessage();
 			}
 		});
@@ -79,8 +77,7 @@ public class MainFrame extends JFrame implements KeyListener  {
 	    loadGame.addActionListener(e -> {
 	    	try {
 	    		gc.loadGameMF();
-			} catch (NumberFormatException | IlegalPositionException | ObjectPositionNotFoundException e1) {
-				// TODO Auto-generated catch block
+			} catch (NumberFormatException | IlegalPositionException e1) {
 				e1.getMessage();
 			}
 	    });
@@ -110,7 +107,7 @@ public class MainFrame extends JFrame implements KeyListener  {
 	}
 	
 	//Añadir al Frame el Panel del Mapa
-	public void paintMap(MapPanel mp) throws IlegalPositionException, ObjectPositionNotFoundException {
+	public void paintMap(MapPanel mp) {
 		getContentPane().removeAll();
 		add(mp, BorderLayout.CENTER);
 		revalidate();
@@ -131,49 +128,46 @@ public class MainFrame extends JFrame implements KeyListener  {
 	}
 
 	@Override
-	public void keyTyped(KeyEvent e) {}
-
-	@Override
 	public void keyPressed(KeyEvent e) {
 		int keyCode = e.getKeyCode();
 		switch (keyCode) {
 			case KeyEvent.VK_UP:
 			try {
 				gc.moveUp();
-			} catch (FileNotFoundException | ObjectPositionNotFoundException | WallException | IlegalPositionException
+			} catch (FileNotFoundException | ObjectPositionNotFoundException | IlegalPositionException
 					| IlegalMap e2) {
-				e2.printStackTrace();
+				e2.getMessage();
 			}
 				break;
 			case KeyEvent.VK_DOWN:
 			try {
 				gc.moveDown();
-			} catch (FileNotFoundException | ObjectPositionNotFoundException | WallException | IlegalPositionException
+			} catch (FileNotFoundException | ObjectPositionNotFoundException | IlegalPositionException
 					| IlegalMap e2) {
-				e2.printStackTrace();
+				e2.getMessage();
 			}
 				break;
 			case KeyEvent.VK_LEFT:
 			try {
 				gc.moveLeft();
-			} catch (FileNotFoundException | ObjectPositionNotFoundException | WallException | IlegalPositionException
+			} catch (FileNotFoundException | ObjectPositionNotFoundException | IlegalPositionException
 					| IlegalMap e2) {
-				e2.printStackTrace();
+				e2.getMessage();
 			}
 				break;
 			case KeyEvent.VK_RIGHT:
 			try {
 				gc.moveRight();
-			} catch (FileNotFoundException | ObjectPositionNotFoundException | WallException | IlegalPositionException
+			} catch (FileNotFoundException | ObjectPositionNotFoundException | IlegalPositionException
 					| IlegalMap e2) {
-				e2.printStackTrace();
+				e2.getMessage();
 			}
 				break;
 			case KeyEvent.VK_Z:
 				if(e.isControlDown()) {
 					try {
 						gc.undoMovement();
-					} catch (IlegalPositionException | ObjectPositionNotFoundException e1) {
+					} catch (IlegalPositionException e1) {
 						e1.getMessage();
 					}
 				}
@@ -185,8 +179,12 @@ public class MainFrame extends JFrame implements KeyListener  {
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
+		// No implementation needed
+	}
+
+	@Override
+	public void keyTyped(KeyEvent arg0) {
+		// No implementation needed
 	}
 
 }

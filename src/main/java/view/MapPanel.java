@@ -22,31 +22,45 @@ import model.exceptions.ObjectPositionNotFoundException;
 public class MapPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private final char WALL = '+';
-	private final char EMPTY = '.';
-	private final char GOAL = '*';
-	private final char BOX = '#';
-	private final char PLAYER = 'W';
-	private final char GOALBOX = '@';
+	private static final char WALL = '+';
+	private static final char EMPTY = '.';
+	private static final char GOAL = '*';
+	private static final char BOX = '#';
+	private static final char PLAYER = 'W';
+	private static final char GOALBOX = '@';
 	private char[][] level;
 
-	private String fileSeparator = File.separator;
-
-	private final ImageIcon wallIcon = new ImageIcon("img" + fileSeparator + "wall.png");
-	private final ImageIcon emptyIcon = new ImageIcon("img" + fileSeparator + "ground.png");
-	private final ImageIcon boxIcon = new ImageIcon("img" + fileSeparator + "box.png");
-	private final ImageIcon playerIcon = new ImageIcon("img" + fileSeparator + "player.png");
-	private final ImageIcon goalIcon = new ImageIcon("img" + fileSeparator + "goal.png");
-	private final ImageIcon goalBox = new ImageIcon("img" + fileSeparator + "goal_box.png");
+	private final ImageIcon wallIcon = new ImageIcon("img" + File.separator + "wall.png");
+	private final ImageIcon emptyIcon = new ImageIcon("img" + File.separator + "ground.png");
+	private final ImageIcon boxIcon = new ImageIcon("img" + File.separator + "box.png");
+	private final ImageIcon playerIcon = new ImageIcon("img" + File.separator + "player.png");
+	private final ImageIcon goalIcon = new ImageIcon("img" + File.separator + "goal.png");
+	private final ImageIcon goalBoxImg = new ImageIcon("img" + File.separator + "goal_box.png");
 
 
-	public JLabel turnCount;
-	public JLabel turnBox;
-	public JLabel turnWarehouseman;
+	private JLabel turnCount;
+	private JLabel turnBox;
+	private JLabel turnWarehouseman;
 	
-	public JLabel levelName;
+	private JLabel levelName;
 	
 	private GameController gc;
+	
+	public JLabel getTurnCount() {
+		return this.turnCount;
+	}
+	
+	public JLabel getTurnBox() {
+		return this.turnBox;
+	}
+	
+	public JLabel getTurnWarehouseMan() {
+		return this.turnWarehouseman;
+	}
+	
+	public JLabel getLevelName() {
+		return this.levelName;
+	}
 	
 	public GameController getGc() {
 		return this.gc;
@@ -61,22 +75,22 @@ public class MapPanel extends JPanel {
 		setSize(400,500);
 		
 		//Creating count panel
-		JPanel CountPanel = new JPanel(new FlowLayout());
+		JPanel countPanel = new JPanel(new FlowLayout());
 
 		turnWarehouseman = new JLabel("W: 0");
-		CountPanel.add(turnWarehouseman);
+		countPanel.add(turnWarehouseman);
 
 		turnBox = new JLabel("P: 0");
-		CountPanel.add(turnBox);
+		countPanel.add(turnBox);
 
 		turnCount = new JLabel("T: 0");
-		CountPanel.add(turnCount);
+		countPanel.add(turnCount);
 		
 		//Creating count panel
-		JPanel LevelPanel = new JPanel(new FlowLayout());
+		JPanel levelPanel = new JPanel(new FlowLayout());
 		
 		levelName = new JLabel("Level: 1");
-		LevelPanel.add(levelName);
+		levelPanel.add(levelName);
 		
 		//Creating buttons panel
 		JButton newGame = new JButton("New Game");
@@ -89,28 +103,20 @@ public class MapPanel extends JPanel {
 	    //New Game Button
 	    newGame.addActionListener(e -> {
 			try {
-				gc.newGame(new File("maps" + fileSeparator + "level_1.txt").getAbsolutePath());
-			} catch (IlegalPositionException | ObjectPositionNotFoundException | FileNotFoundException | IlegalMap e1) {
+				gc.newGame(new File("maps" + File.separator + "level_1.txt").getAbsolutePath());
+			} catch (IlegalPositionException | FileNotFoundException | IlegalMap e1) {
 				e1.getMessage();
 			}
 		});
 	    
 	    //Save Game Button
-	    saveGame.addActionListener(e -> {
-	    	try {
-				gc.saveGame();
-			} catch (IlegalPositionException | ObjectPositionNotFoundException e1) {
-				// TODO Auto-generated catch block
-				e1.getMessage();
-			}
-	    });
+	    saveGame.addActionListener(e -> gc.saveGame());
 	    
 	    //Load Game Button
 	    loadGame.addActionListener(e -> {
 	    	try {
 				gc.loadGame();
-			} catch (NumberFormatException | IlegalPositionException | ObjectPositionNotFoundException e1) {
-				// TODO Auto-generated catch block
+			} catch (NumberFormatException | IlegalPositionException e1) {
 				e1.getMessage();
 			}
 	    });
@@ -119,8 +125,7 @@ public class MapPanel extends JPanel {
 	    restartLevel.addActionListener(e -> {
 			try {
 				gc.restartLevel();
-			} catch (FileNotFoundException | IlegalPositionException | ObjectPositionNotFoundException | IlegalMap e1) {
-				// TODO Auto-generated catch block
+			} catch (FileNotFoundException | IlegalPositionException | IlegalMap e1) {
 				e1.getMessage();
 			}
 		});
@@ -135,9 +140,9 @@ public class MapPanel extends JPanel {
 	    JPanel container = new JPanel();
         container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
         
-        container.add(CountPanel);
+        container.add(countPanel);
         container.add(buttonsPanel);
-        container.add(LevelPanel);
+        container.add(levelPanel);
 
 		add(container, BorderLayout.AFTER_LAST_LINE);
 	}
@@ -182,7 +187,9 @@ public class MapPanel extends JPanel {
 	                    image = playerIcon.getImage();
 	                    break;
 					case GOALBOX:
-						image = goalBox.getImage();
+						image = goalBoxImg.getImage();
+						break;
+					default:
 						break;
 	            }
 	            if (image != null) {

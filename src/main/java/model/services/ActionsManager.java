@@ -1,21 +1,22 @@
 package model.services;
 
-import java.util.Stack;
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 public class ActionsManager implements ActionsManagerI {
-	private Stack<ActionI> actions;
+	private Deque<ActionI> actions;
 	ActionsFactory aFactory;
 	
 	public ActionsManager() {
-		actions = new Stack<ActionI>();
+		actions = new ArrayDeque<>();
 		aFactory = new ActionsFactory();
 	}
 	
-	public Stack<ActionI> getActions() {
+	public Deque<ActionI> getActions() {
 		return actions;
 	}
 	
-	public void setActions(Stack<ActionI> actions) {
+	public void setActions(Deque<ActionI> actions) {
 		this.actions = actions;
 	}
 	

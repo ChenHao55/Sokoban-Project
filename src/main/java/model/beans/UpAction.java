@@ -1,19 +1,20 @@
 package model.beans;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import model.exceptions.IlegalPositionException;
-import model.exceptions.WallException;
 import model.services.Action;
 import model.services.GameObjectI;
 
 public class UpAction extends Action {
-	
+
+	private static final long serialVersionUID = 1L;
+
 	public UpAction(int x, int y, char[][] mat) {
 		super(x, y, mat);
 	}
 
-	public char[][] move(WarehouseMan w, ArrayList<GameObjectI> gs, char[][] mat, Counter c) throws WallException, IlegalPositionException {
+	public char[][] move(WarehouseMan w, List<GameObjectI> gs, char[][] mat, Counter c) throws IlegalPositionException {
 		int x = w.getX();
 		int y = w.getY();
 		boolean goal = false;

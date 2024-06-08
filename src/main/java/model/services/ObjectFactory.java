@@ -36,25 +36,25 @@ public class ObjectFactory implements ObjectFactoryI {
 		
 		if(level.length == 0 || level[0].length == 0) {throw new IlegalMap(msg);}
 		
-		int box_goal_n = 0;
-		ArrayList<GameObjectI> gs = new ArrayList<GameObjectI>();
+		int boxGoalN = 0;
+		ArrayList<GameObjectI> gs = new ArrayList<>();
 		
 		for(int i=0; i<level.length; i++) {
 			for(int j=0; j<level[firstCol].length; j++) {
 				if(level[i][j] == '*') {
-					box_goal_n ++;
-					gs.add((GameObjectI) new GoalPosition(i,j));
+					boxGoalN ++;
+					gs.add(new GoalPosition(i,j));
 				}
 				else if(level[i][j] == '#') {
-					box_goal_n --;
+					boxGoalN --;
 				}
 			}
 		}
 		
 		// Return null the number of boxes and goals arent the same
-		if(box_goal_n == 0)
+		if(boxGoalN == 0)
 			return gs;
 		else
-			return null;
+			return new ArrayList<>();
 	}
 }

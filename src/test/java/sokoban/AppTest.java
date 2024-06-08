@@ -8,8 +8,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Stack;
+import java.util.Deque;
 import java.util.List;
 import java.io.IOException;
 
@@ -720,7 +721,7 @@ public class AppTest {
 		
 		@Test
 		void correctSetAction() {
-			Stack<ActionI> stack = new Stack<ActionI>();
+			Deque<ActionI> stack = new ArrayDeque<ActionI>();
 			stack.add(left_a);
 			stack.add(down_a);
 			stack.add(right_a);
@@ -732,7 +733,7 @@ public class AppTest {
 		
 		@Test
 		void correctDeleteAction() {
-			Stack<ActionI> stack = new Stack<ActionI>();
+			Deque<ActionI> stack = new ArrayDeque<ActionI>();
 			stack.add(left_a);
 			stack.add(down_a);
 			stack.add(right_a);
@@ -752,16 +753,19 @@ public class AppTest {
 			am.newAction(left_a);
 			am.newAction(right_a);
 			
-			Stack<ActionI> as = am.getActions();
+			Deque<ActionI> as = am.getActions();
 			
-			Stack<ActionI> as2 = new Stack<>();
+			Deque<ActionI> as2 = new ArrayDeque<>();
+			as2.push(down_a);
+			as2.push(up_a);
+			as2.push(left_a);
+			as2.push(right_a);
 			
-			as2.add(down_a);
-			as2.add(up_a);
-			as2.add(left_a);
-			as2.add(right_a);
+			assertEquals(4, as.size());
 			
-			assertEquals(as, as2);
+			while(!as.isEmpty() && !as2.isEmpty()) {
+				assertEquals(as.poll(), as2.poll());
+			}
 			log.info("Test passed");
 		}
 		@Test
@@ -773,7 +777,7 @@ public class AppTest {
 			am.newAction(left_a);
 			am.newAction(right_a);
 			
-			Stack<ActionI> as = am.getActions();
+			Deque<ActionI> as = am.getActions();
 			
 			assertEquals(4, as.size());
 			ActionI a = am.undo();
@@ -807,7 +811,7 @@ public class AppTest {
 			am.newAction(left_a);
 			am.newAction(right_a);
 			
-			Stack<ActionI> as = am.getActions();
+			Deque<ActionI> as = am.getActions();
 			assertEquals(4, as.size());
 			
 			as = am.getActions();
@@ -911,10 +915,11 @@ public class AppTest {
 			char[][] map = o.newGame(path);
 			WarehouseMan w = (WarehouseMan) of.createWarehouseMan(map);
 			Counter c = new Counter();
+			Counter c2 = new Counter();
 			ArrayList<GameObjectI> gs = of.createGoals(map);
-			Stack<ActionI> s = new Stack<>();
+			Deque<ActionI> s = new ArrayDeque<>();
 			File f = new File("saved_map.txt");
-			assertDoesNotThrow(() -> o.saveGame(map, w, gs, s, 1, f, c));
+			assertDoesNotThrow(() -> o.saveGame(map, w, gs, s, 1, f, c, c2));
 			log.info("Test passed");
 		}
 		
@@ -923,6 +928,7 @@ public class AppTest {
 			log.info("Trying to load correctly a game");
 			WarehouseMan w = new WarehouseMan(0,0);
 			Counter c = new Counter();
+			Counter c2 = new Counter();
 			ArrayList<GameObjectI> gs = new ArrayList<>();
 			File f = new File("saved_map.txt");
 			ActionsManager am = new ActionsManager();
@@ -938,7 +944,7 @@ public class AppTest {
 				    {'+', '+', '+', '+', '+', '.', '.', '.'}
 				};
 			boolean equals = true;
-			Pair<Integer, char[][]> p = o.loadGame(w, gs, am, f, c);
+			Pair<Integer, char[][]> p = o.loadGame(w, gs, am, f, c, c2);
 			char[][] res = p.getValue1();
 			for (int i = 0; i < matExp.length; i++) {
 	            for (int j = 0; j < matExp[0].length; j++) {

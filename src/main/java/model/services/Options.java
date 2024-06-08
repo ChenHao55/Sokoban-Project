@@ -11,10 +11,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.ArrayList;
+import java.util.Deque;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Scanner;
-import java.util.Stack;
 
 import org.javatuples.Pair;
 
@@ -28,7 +28,8 @@ public class Options implements OptionsI{
 	private String fileSeparator = File.separator;
 	private int firstCol = 0;
 	
-	public Options() {}
+	public Options() {// No implementation needed
+	}
 	
 	public char[][] newGame(String fileName) {
 		char[][] map = null;
@@ -36,7 +37,6 @@ public class Options implements OptionsI{
 			File file = new File(fileName);
 			Scanner s = new Scanner(file);
 			
-			//String levelName = s.nextLine();
 			s.nextLine();
 			int rows = s.nextInt();
 			int colums = s.nextInt();
@@ -60,7 +60,7 @@ public class Options implements OptionsI{
 
 	}
 	
-	public void saveGame(char[][] map, WarehouseMan w, ArrayList<GameObjectI> gs, Stack<ActionI> s, int levelNumber, File file, Counter c) {
+	public void saveGame(char[][] map, WarehouseMan w, List<GameObjectI> gs, Deque<ActionI> s, int levelNumber, File file, Counter currentCount, Counter levelCount) {
 			
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))){
 			
@@ -100,11 +100,18 @@ public class Options implements OptionsI{
 			}
 			
 			//Escribir contadores
-			writer.write(String.valueOf(c.getBoxCount()));
+			writer.write(String.valueOf(currentCount.getBoxCount()));
 			writer.newLine();
-			writer.write(String.valueOf(c.getCount()));
+			writer.write(String.valueOf(currentCount.getCount()));
 			writer.newLine();
-			writer.write(String.valueOf(c.getGlobalCount()));
+			writer.write(String.valueOf(currentCount.getGlobalCount()));
+			writer.newLine();
+			
+			writer.write(String.valueOf(levelCount.getBoxCount()));
+			writer.newLine();
+			writer.write(String.valueOf(levelCount.getCount()));
+			writer.newLine();
+			writer.write(String.valueOf(levelCount.getGlobalCount()));
 			writer.newLine();
 			
 			//Escribir pila de acciones
@@ -123,7 +130,7 @@ public class Options implements OptionsI{
 	}
 	
 	@SuppressWarnings("unchecked")
-	public Pair<Integer, char[][]> loadGame(WarehouseMan w, ArrayList<GameObjectI> gs, ActionsManagerI am, File file, Counter c) throws NumberFormatException, IlegalPositionException{
+	public Pair<Integer, char[][]> loadGame(WarehouseMan w, List<GameObjectI> gs, ActionsManagerI am, File file, Counter currentCount, Counter levelCount) throws NumberFormatException, IlegalPositionException{
 		
         char[][] map = null;
         int levelNumber = 1;
@@ -150,13 +157,13 @@ public class Options implements OptionsI{
 			pos = reader.readLine();
 			int n = Integer.parseInt(pos);
 			
-			gs.clear();;
+			gs.clear();
 			while(n>0) {
 				pos = reader.readLine();
 				posSplit = pos.split(" ");
 				
 				GoalPosition g = new GoalPosition(Integer.parseInt(posSplit[0]), Integer.parseInt(posSplit[1]));
-				gs.add((GameObjectI) g);
+				gs.add(g);
 				
 				n--;
 			}
@@ -171,31 +178,33 @@ public class Options implements OptionsI{
 			
 			//leer contadores
 			cont = reader.readLine();
-			c.setBoxCount(Integer.parseInt(cont));
+			currentCount.setBoxCount(Integer.parseInt(cont));
+			cont = reader.readLine();
+			currentCount.setCount(Integer.parseInt(cont));
+			cont = reader.readLine();
+			currentCount.setGlobalCount(Integer.parseInt(cont));
 			
 			cont = reader.readLine();
-			c.setCount(Integer.parseInt(cont));
-			
+			levelCount.setBoxCount(Integer.parseInt(cont));
 			cont = reader.readLine();
-			c.setGlobalCount(Integer.parseInt(cont));
+			levelCount.setCount(Integer.parseInt(cont));
+			cont = reader.readLine();
+			levelCount.setGlobalCount(Integer.parseInt(cont));
 			
 			//leer stack
 			String fileNameWithoutExtension = file.getName().substring(0, file.getName().lastIndexOf("."));
 			File stackFile = new File("games_saved" + fileSeparator + "stack_info" + fileSeparator + fileNameWithoutExtension + "_stack.dat");
 			try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(stackFile))) {
-	            Stack<ActionI> restoredStack = (Stack<ActionI>) ois.readObject();
+				Deque<ActionI> restoredStack = (Deque<ActionI>) ois.readObject();
 	            am.setActions(restoredStack);
 	        } catch (IOException | ClassNotFoundException e) {
 	            e.getMessage();
 	        }
 
-		} catch (FileNotFoundException e) {
-			e.getMessage();
 		} catch (IOException e) {
 			e.getMessage();
 		}
 		
-		Pair<Integer, char[][]> level = new Pair<Integer, char[][]>(levelNumber, map);
-		return level;
+		return new Pair<>(levelNumber, map);
     }
 }
