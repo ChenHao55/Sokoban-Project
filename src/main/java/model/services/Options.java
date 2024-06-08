@@ -18,6 +18,7 @@ import java.util.Stack;
 
 import org.javatuples.Pair;
 
+import model.beans.Counter;
 import model.beans.GoalPosition;
 import model.beans.WarehouseMan;
 import model.exceptions.IlegalPositionException;
@@ -59,7 +60,7 @@ public class Options implements OptionsI{
 
 	}
 	
-	public void saveGame(char[][] map, WarehouseMan w, ArrayList<GameObjectI> gs, Stack<ActionI> s, int levelNumber, File file) {
+	public void saveGame(char[][] map, WarehouseMan w, ArrayList<GameObjectI> gs, Stack<ActionI> s, int levelNumber, File file, Counter c) {
 			
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))){
 			
@@ -99,11 +100,11 @@ public class Options implements OptionsI{
 			}
 			
 			//Escribir contadores
-			writer.write(String.valueOf(w.getBoxCount()));
+			writer.write(String.valueOf(c.getBoxCount()));
 			writer.newLine();
-			writer.write(String.valueOf(w.getCount()));
+			writer.write(String.valueOf(c.getCount()));
 			writer.newLine();
-			writer.write(String.valueOf(w.getGlobalCount()));
+			writer.write(String.valueOf(c.getGlobalCount()));
 			writer.newLine();
 			
 			//Escribir pila de acciones
@@ -121,7 +122,7 @@ public class Options implements OptionsI{
 
 	}
 	
-	public Pair<Integer, char[][]> loadGame(WarehouseMan w, ArrayList<GameObjectI> gs, ActionsManagerI am, File file) throws NumberFormatException, IlegalPositionException{
+	public Pair<Integer, char[][]> loadGame(WarehouseMan w, ArrayList<GameObjectI> gs, ActionsManagerI am, File file, Counter c) throws NumberFormatException, IlegalPositionException{
 		
         char[][] map = null;
         int levelNumber = 1;
@@ -169,13 +170,13 @@ public class Options implements OptionsI{
 			
 			//leer contadores
 			cont = reader.readLine();
-			w.setBoxCount(Integer.parseInt(cont));
+			c.setBoxCount(Integer.parseInt(cont));
 			
 			cont = reader.readLine();
-			w.setCount(Integer.parseInt(cont));
+			c.setCount(Integer.parseInt(cont));
 			
 			cont = reader.readLine();
-			w.setGlobalCount(Integer.parseInt(cont));
+			c.setGlobalCount(Integer.parseInt(cont));
 			
 			//leer stack
 			String fileNameWithoutExtension = file.getName().substring(0, file.getName().lastIndexOf("."));
