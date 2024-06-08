@@ -226,7 +226,7 @@ public void nextLevel() throws FileNotFoundException, IlegalPositionException, O
 				this.mp.levelName.setText("Nivel: " + levelNumber);
 				game(new File("maps" + fileSeparator + "level_" + levelNumber + ".txt").getAbsolutePath());
 			}
-			else if(levelNumber == totalLevels) {
+			else if(levelNumber == totalLevels && w != null) {
 				levelNumber = 1;
 				am.clearActions();
 				mf.showCongrats(w.getGlobalCount());
