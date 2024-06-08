@@ -33,7 +33,9 @@ public class GameService {
 		private int levelNumber = 1;
 		private int totalLevels = 10;
 		private String fileSeparator = File.separator;
-		private Counter c = new Counter();
+		private Counter currentCount = new Counter();
+		private Counter levelCount = new Counter();
+		
 		
 		public GameService() throws IlegalPositionException {
 			this.w = new WarehouseMan(0,0);
@@ -44,9 +46,11 @@ public class GameService {
 public void newGame(String fileName) throws IlegalPositionException, ObjectPositionNotFoundException, FileNotFoundException, IlegalMap {
 	
 	levelNumber = 1;
-	c.setBoxCount(0);
-	c.setCount(0);
-	c.setGlobalCount(0);
+	currentCount.setBoxCount(0);
+	currentCount.setCount(0);
+	currentCount.setGlobalCount(0);
+	cloneCounter(levelCount, currentCount);
+	am.clearActions();
 	game(fileName);
 	
 }
@@ -60,7 +64,7 @@ public void game(String fileName) throws IlegalPositionException, ObjectPosition
 		this.gs = of.createGoals(level);
 	}
 	this.gc.upDateLevelName(levelNumber);
-	this.gc.updatecounters(c.getBoxCount(), c.getCount(), c.getGlobalCount());
+	this.gc.updatecounters(currentCount.getBoxCount(), currentCount.getCount(), currentCount.getGlobalCount());
 	this.gc.updateMap(level);
 	this.gc.paintMap();
 }
@@ -69,10 +73,12 @@ public void game(String fileName) throws IlegalPositionException, ObjectPosition
 public void saveGame() throws IlegalPositionException, ObjectPositionNotFoundException {
 	File f = op.saveGame('s'); 
 	if(f != null) {
-		o.saveGame(level, (WarehouseMan) w, gs, am.getActions(), levelNumber, f, c); 
+		o.saveGame(level, (WarehouseMan) w, gs, am.getActions(), levelNumber, f, currentCount, levelCount); 
 		this.gc.updateMap(level);
 		this.gc.paintMap();
 	}
+	else
+		this.gc.paintMap();
 }
 
 //Metodo para cargar una partida guardada
@@ -80,14 +86,14 @@ public void loadGame() throws NumberFormatException, IlegalPositionException, Ob
 	File file = op.saveGame('l');
 
 	if(file != null) {
-		Pair<Integer, char[][]> p = o.loadGame((WarehouseMan) w, gs, am, file, c);
-		
+		Pair<Integer, char[][]> p = o.loadGame((WarehouseMan) w, gs, am, file, currentCount, levelCount);
+				
 		if(p != null) {
 			level = p.getValue1();
 			levelNumber = p.getValue0();
 		}
 		
-		this.gc.updatecounters(c.getBoxCount(), c.getCount(), c.getGlobalCount());
+		this.gc.updatecounters(currentCount.getBoxCount(), currentCount.getCount(), currentCount.getGlobalCount());
 		this.gc.updateMap(level);
 		this.gc.paintMap();
 		
@@ -103,28 +109,28 @@ public void loadGameMF() throws NumberFormatException, IlegalPositionException, 
 	File file = op.saveGame('l');
 
 	if(file != null) {
-		Pair<Integer, char[][]> p = o.loadGame((WarehouseMan) w, gs, am, file, c);
-		
+		Pair<Integer, char[][]> p = o.loadGame((WarehouseMan) w, gs, am, file, currentCount, levelCount);
+				
 		if(p != null) {
 			level = p.getValue1();
 			levelNumber = p.getValue0();
 		}
-		this.gc.updatecounters(c.getBoxCount(), c.getCount(), c.getGlobalCount());
+		this.gc.updatecounters(currentCount.getBoxCount(), currentCount.getCount(), currentCount.getGlobalCount());
 		this.gc.updateMap(level);
 		this.gc.paintMap();
 	}
 }
 
 public void decrementBoxCounter() throws NumberFormatException{
-	c.setBoxCount(c.getBoxCount()-1);
+	currentCount.setBoxCount(currentCount.getBoxCount()-1);
 }
 
 public void decrementWMCounter() throws NumberFormatException{
-	c.setCount(c.getCount()-1);
+	currentCount.setCount(currentCount.getCount()-1);
 }
 
 public void decrementGlobalCounter() throws NumberFormatException{
-	c.setGlobalCount(c.getGlobalCount()-1);
+	currentCount.setGlobalCount(currentCount.getGlobalCount()-1);
 }
 
 private void cloneMap(char[][] levelClone) {
@@ -147,7 +153,7 @@ public void undoMovement() throws IlegalPositionException, ObjectPositionNotFoun
 		this.w.setX(atc.getX());
 		this.w.setY(atc.getY());
 	}
-	this.gc.updatecounters(c.getBoxCount(), c.getCount(), c.getGlobalCount());
+	this.gc.updatecounters(currentCount.getBoxCount(), currentCount.getCount(), currentCount.getGlobalCount());
 	this.gc.updateMap(level);
 	this.gc.paintMap();
 }
@@ -155,62 +161,62 @@ public void undoMovement() throws IlegalPositionException, ObjectPositionNotFoun
 //METODOS PARA MOVER EL PERSONAJE
 public void moveUp() throws ObjectPositionNotFoundException, WallException, IlegalPositionException {
 	char[][] levelClone = new char[this.level.length][];
-	int globalCounter = c.getGlobalCount();
+	int globalCounter = currentCount.getGlobalCount();
 	cloneMap(levelClone);
 	ActionI atc = af.createAction('u', this.w.getX(), this.w.getY(), levelClone);
 	am.newAction(atc);
-	((UpAction) atc).move((WarehouseMan) w, gs, level, c);
-	if(c.getGlobalCount() == globalCounter)
+	((UpAction) atc).move((WarehouseMan) w, gs, level, currentCount);
+	if(currentCount.getGlobalCount() == globalCounter)
 		am.deleteAction(atc);
 	
-	this.gc.updatecounters(c.getBoxCount(), c.getCount(), c.getGlobalCount());
+	this.gc.updatecounters(currentCount.getBoxCount(), currentCount.getCount(), currentCount.getGlobalCount());
 	this.gc.updateMap(level);
 	this.gc.paintMap();
 }
 
 public void moveLeft() throws ObjectPositionNotFoundException, WallException, IlegalPositionException {
 	char[][] levelClone = new char[this.level.length][];
-	int globalCounter = c.getGlobalCount();
+	int globalCounter = currentCount.getGlobalCount();
 	cloneMap(levelClone);
 	ActionI atc = af.createAction('l', this.w.getX(), this.w.getY(), levelClone);
 	am.newAction(atc);
-	((LeftAction) atc).move((WarehouseMan) w, gs, level, c);
-	if(c.getGlobalCount() == globalCounter)
+	((LeftAction) atc).move((WarehouseMan) w, gs, level, currentCount);
+	if(currentCount.getGlobalCount() == globalCounter)
 		am.deleteAction(atc);
 	
-	this.gc.updatecounters(c.getBoxCount(), c.getCount(), c.getGlobalCount());
+	this.gc.updatecounters(currentCount.getBoxCount(), currentCount.getCount(), currentCount.getGlobalCount());
 	this.gc.updateMap(level);
 	this.gc.paintMap();
 }
 
 public void moveDown() throws ObjectPositionNotFoundException, WallException, IlegalPositionException {
 	char[][] levelClone = new char[this.level.length][];
-	int globalCounter = c.getGlobalCount();
+	int globalCounter = currentCount.getGlobalCount();
 	cloneMap(levelClone);
 	ActionI atc = af.createAction('d', this.w.getX(), this.w.getY(), levelClone);
 	am.newAction(atc);
-	((DownAction) atc).move((WarehouseMan) w, gs, level, c);
-	if(c.getGlobalCount() == globalCounter)
+	((DownAction) atc).move((WarehouseMan) w, gs, level, currentCount);
+	if(currentCount.getGlobalCount() == globalCounter)
 		am.deleteAction(atc);
 	
-	this.gc.updatecounters(c.getBoxCount(), c.getCount(), c.getGlobalCount());
+	this.gc.updatecounters(currentCount.getBoxCount(), currentCount.getCount(), currentCount.getGlobalCount());
 	this.gc.updateMap(level);
 	this.gc.paintMap();
 }
 
 public void moveRight() throws ObjectPositionNotFoundException, WallException, IlegalPositionException {
 	char[][] levelClone = new char[this.level.length][];
-	int globalCounter = c.getGlobalCount();
+	int globalCounter = currentCount.getGlobalCount();
 	cloneMap(levelClone);
 
 	ActionI atc = af.createAction('r', this.w.getX(), this.w.getY(), levelClone);
 	am.newAction(atc);
 	
-	((RightAction) atc).move((WarehouseMan) w, gs, level, c);
-	if(c.getGlobalCount() == globalCounter)
+	((RightAction) atc).move((WarehouseMan) w, gs, level, currentCount);
+	if(currentCount.getGlobalCount() == globalCounter)
 		am.deleteAction(atc);
 	
-	this.gc.updatecounters(c.getBoxCount(), c.getCount(), c.getGlobalCount());
+	this.gc.updatecounters(currentCount.getBoxCount(), currentCount.getCount(), currentCount.getGlobalCount());
 	this.gc.updateMap(level);
 	this.gc.paintMap();
 }
@@ -232,9 +238,14 @@ private boolean isEndLevel() {
 public void restartLevel() throws FileNotFoundException, IlegalPositionException, ObjectPositionNotFoundException, IlegalMap {
 	this.game(new File("maps" + fileSeparator + "level_" + levelNumber + ".txt").getAbsolutePath());
 	am.clearActions();
-	c.setBoxCount(c.getBoxCount());
-	c.setCount(c.getCount());
-	c.setGlobalCount(c.getGlobalCount());
+	cloneCounter(currentCount, levelCount);
+	this.gc.updatecounters(currentCount.getBoxCount(), currentCount.getCount(), currentCount.getGlobalCount());
+}
+
+private void cloneCounter(Counter c1, Counter c2) {
+	c1.setBoxCount(c2.getBoxCount());
+	c1.setCount(c2.getCount());
+	c1.setGlobalCount(c2.getGlobalCount());
 }
 
 //If the level is completed, it passes to the next one or shows the congratulations screen
@@ -249,16 +260,18 @@ public void nextLevel() throws FileNotFoundException, IlegalPositionException, O
 				am.clearActions();
 				this.gc.upDateLevelName(levelNumber);
 				this.game(new File("maps" + fileSeparator + "level_" + levelNumber + ".txt").getAbsolutePath());
+				cloneCounter(levelCount, currentCount);
 			}
 			else if(levelNumber == totalLevels && w != null) {
 				levelNumber = 1;
 				am.clearActions();
-				this.gc.showCongrats(c.getGlobalCount());
+				this.gc.showCongrats(currentCount.getGlobalCount());
 				correctLevel = true;
 			}
 
 			if(gs != null && gs.size() > 0 && w != null) {
 				correctLevel = true;
+				
 			}
 			else
 				this.gc.showError();

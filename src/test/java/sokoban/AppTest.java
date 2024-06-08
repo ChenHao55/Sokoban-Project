@@ -911,10 +911,11 @@ public class AppTest {
 			char[][] map = o.newGame(path);
 			WarehouseMan w = (WarehouseMan) of.createWarehouseMan(map);
 			Counter c = new Counter();
+			Counter c2 = new Counter();
 			ArrayList<GameObjectI> gs = of.createGoals(map);
 			Stack<ActionI> s = new Stack<>();
 			File f = new File("saved_map.txt");
-			assertDoesNotThrow(() -> o.saveGame(map, w, gs, s, 1, f, c));
+			assertDoesNotThrow(() -> o.saveGame(map, w, gs, s, 1, f, c, c2));
 			log.info("Test passed");
 		}
 		
@@ -923,6 +924,7 @@ public class AppTest {
 			log.info("Trying to load correctly a game");
 			WarehouseMan w = new WarehouseMan(0,0);
 			Counter c = new Counter();
+			Counter c2 = new Counter();
 			ArrayList<GameObjectI> gs = new ArrayList<>();
 			File f = new File("saved_map.txt");
 			ActionsManager am = new ActionsManager();
@@ -938,7 +940,7 @@ public class AppTest {
 				    {'+', '+', '+', '+', '+', '.', '.', '.'}
 				};
 			boolean equals = true;
-			Pair<Integer, char[][]> p = o.loadGame(w, gs, am, f, c);
+			Pair<Integer, char[][]> p = o.loadGame(w, gs, am, f, c, c2);
 			char[][] res = p.getValue1();
 			for (int i = 0; i < matExp.length; i++) {
 	            for (int j = 0; j < matExp[0].length; j++) {

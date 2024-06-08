@@ -17,8 +17,8 @@ public interface OptionsI {
 	char[][] newGame(String fileName) throws FileNotFoundException, IlegalPositionException;
 	
 	//Metodo para guardar una partida
-	void saveGame(char[][] map, WarehouseMan w, ArrayList<GameObjectI> gs, Stack<ActionI> s, int levelNumber, File file, Counter c);
+	void saveGame(char[][] map, WarehouseMan w, ArrayList<GameObjectI> gs, Stack<ActionI> s, int levelNumber, File file, Counter currentCount, Counter levelCount);
 	
 	//Metodo para cargar una partida
-	Pair<Integer, char[][]> loadGame(WarehouseMan w, ArrayList<GameObjectI> gs, ActionsManagerI am, File file, Counter c) throws NumberFormatException, IlegalPositionException;
+	Pair<Integer, char[][]> loadGame(WarehouseMan w, ArrayList<GameObjectI> gs, ActionsManagerI am, File file, Counter currentCount, Counter levelCount) throws NumberFormatException, IlegalPositionException;
 }

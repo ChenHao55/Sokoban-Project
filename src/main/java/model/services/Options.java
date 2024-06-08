@@ -60,7 +60,7 @@ public class Options implements OptionsI{
 
 	}
 	
-	public void saveGame(char[][] map, WarehouseMan w, ArrayList<GameObjectI> gs, Stack<ActionI> s, int levelNumber, File file, Counter c) {
+	public void saveGame(char[][] map, WarehouseMan w, ArrayList<GameObjectI> gs, Stack<ActionI> s, int levelNumber, File file, Counter currentCount, Counter levelCount) {
 			
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))){
 			
@@ -100,11 +100,18 @@ public class Options implements OptionsI{
 			}
 			
 			//Escribir contadores
-			writer.write(String.valueOf(c.getBoxCount()));
+			writer.write(String.valueOf(currentCount.getBoxCount()));
 			writer.newLine();
-			writer.write(String.valueOf(c.getCount()));
+			writer.write(String.valueOf(currentCount.getCount()));
 			writer.newLine();
-			writer.write(String.valueOf(c.getGlobalCount()));
+			writer.write(String.valueOf(currentCount.getGlobalCount()));
+			writer.newLine();
+			
+			writer.write(String.valueOf(levelCount.getBoxCount()));
+			writer.newLine();
+			writer.write(String.valueOf(levelCount.getCount()));
+			writer.newLine();
+			writer.write(String.valueOf(levelCount.getGlobalCount()));
 			writer.newLine();
 			
 			//Escribir pila de acciones
@@ -123,7 +130,7 @@ public class Options implements OptionsI{
 	}
 	
 	@SuppressWarnings("unchecked")
-	public Pair<Integer, char[][]> loadGame(WarehouseMan w, ArrayList<GameObjectI> gs, ActionsManagerI am, File file, Counter c) throws NumberFormatException, IlegalPositionException{
+	public Pair<Integer, char[][]> loadGame(WarehouseMan w, ArrayList<GameObjectI> gs, ActionsManagerI am, File file, Counter currentCount, Counter levelCount) throws NumberFormatException, IlegalPositionException{
 		
         char[][] map = null;
         int levelNumber = 1;
@@ -171,13 +178,18 @@ public class Options implements OptionsI{
 			
 			//leer contadores
 			cont = reader.readLine();
-			c.setBoxCount(Integer.parseInt(cont));
+			currentCount.setBoxCount(Integer.parseInt(cont));
+			cont = reader.readLine();
+			currentCount.setCount(Integer.parseInt(cont));
+			cont = reader.readLine();
+			currentCount.setGlobalCount(Integer.parseInt(cont));
 			
 			cont = reader.readLine();
-			c.setCount(Integer.parseInt(cont));
-			
+			levelCount.setBoxCount(Integer.parseInt(cont));
 			cont = reader.readLine();
-			c.setGlobalCount(Integer.parseInt(cont));
+			levelCount.setCount(Integer.parseInt(cont));
+			cont = reader.readLine();
+			levelCount.setGlobalCount(Integer.parseInt(cont));
 			
 			//leer stack
 			String fileNameWithoutExtension = file.getName().substring(0, file.getName().lastIndexOf("."));
