@@ -49,6 +49,9 @@ public class GameService {
 //Este metodo se encarga de crear el mapa desde el principio
 public void newGame(String fileName) throws IlegalPositionException, ObjectPositionNotFoundException, FileNotFoundException, IlegalMap {
 	levelNumber = 1;
+	c.setBoxCount(0);
+	c.setCount(0);
+	c.setGlobalCount(0);
 	game(fileName);
 }
 
@@ -114,7 +117,6 @@ public void decrementGlobalCounter() throws NumberFormatException{
 }
 
 public void updatecounters() {
-	System.out.println(c.getBoxCount() + " " + c.getCount());
 	this.mp.turnBox.setText("P: " + c.getBoxCount());
 	this.mp.turnWarehouseman.setText("W: " + c.getCount());
 	this.mp.turnCount.setText("T: " + c.getGlobalCount());
