@@ -60,7 +60,7 @@ public void game(String fileName) throws IlegalPositionException, ObjectPosition
 		this.gs = of.createGoals(level);
 	}
 	this.gc.upDateLevelName(levelNumber);
-	this.gc.updatecounters(w.getBoxCount(), w.getCount(), w.getGlobalCount());
+	this.gc.updatecounters(c.getBoxCount(), c.getCount(), c.getGlobalCount());
 	this.gc.updateMap(level);
 	this.gc.paintMap();
 }
@@ -87,7 +87,7 @@ public void loadGame() throws NumberFormatException, IlegalPositionException, Ob
 			levelNumber = p.getValue0();
 		}
 		
-		this.gc.updatecounters(w.getBoxCount(), w.getCount(), w.getGlobalCount());
+		this.gc.updatecounters(c.getBoxCount(), c.getCount(), c.getGlobalCount());
 		this.gc.updateMap(level);
 		this.gc.paintMap();
 		
@@ -232,9 +232,9 @@ private boolean isEndLevel() {
 public void restartLevel() throws FileNotFoundException, IlegalPositionException, ObjectPositionNotFoundException, IlegalMap {
 	this.game(new File("maps" + fileSeparator + "level_" + levelNumber + ".txt").getAbsolutePath());
 	am.clearActions();
-	c.setBoxCount(w.getBoxCount());
-	c.setCount(w.getCount());
-	c.setGlobalCount(w.getGlobalCount());
+	c.setBoxCount(c.getBoxCount());
+	c.setCount(c.getCount());
+	c.setGlobalCount(c.getGlobalCount());
 }
 
 //If the level is completed, it passes to the next one or shows the congratulations screen
@@ -253,12 +253,13 @@ public void nextLevel() throws FileNotFoundException, IlegalPositionException, O
 			else if(levelNumber == totalLevels && w != null) {
 				levelNumber = 1;
 				am.clearActions();
-				this.gc.showCongrats(w.getGlobalCount());
+				this.gc.showCongrats(c.getGlobalCount());
 				correctLevel = true;
 			}
 
-			if(gs != null && gs.size() > 0 && w != null)
+			if(gs != null && gs.size() > 0 && w != null) {
 				correctLevel = true;
+			}
 			else
 				this.gc.showError();
 		}
