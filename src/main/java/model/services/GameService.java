@@ -71,7 +71,7 @@ public void game(String fileName) throws IlegalPositionException, ObjectPosition
 }
 
 //Metodo para guardar la partida
-public void saveGame() {
+public void saveGame() throws IlegalPositionException, ObjectPositionNotFoundException {
 	File file = op.saveGame('s'); 
 	
 	if(file != null) {
@@ -82,10 +82,12 @@ public void saveGame() {
 			e.getMessage();
 		}
 	}
+	else
+		mf.paintMap(mp);
 }
 
 //Metodo para cargar una partida guardada
-public void loadGame() throws NumberFormatException, IlegalPositionException {
+public void loadGame() throws NumberFormatException, IlegalPositionException, ObjectPositionNotFoundException {
 	File file = op.saveGame('l');
 
 	if(file != null) {
@@ -95,7 +97,33 @@ public void loadGame() throws NumberFormatException, IlegalPositionException {
 			level = p.getValue1();
 			levelNumber = p.getValue0();
 		}
+		
 		updatecounters();
+		
+		try {
+			updateMap();
+		} catch (IlegalPositionException | ObjectPositionNotFoundException e) {
+			e.getMessage();
+		}
+	}
+	else
+		mf.paintMap(mp);
+}
+
+//Metodo para cargar una partida guardada
+public void loadGameMF() throws NumberFormatException, IlegalPositionException, ObjectPositionNotFoundException {
+	File file = op.saveGame('l');
+
+	if(file != null) {
+		Pair<Integer, char[][]> p = o.loadGame((WarehouseMan) w, gs, am, file, c);
+		
+		if(p != null) {
+			level = p.getValue1();
+			levelNumber = p.getValue0();
+		}
+		
+		updatecounters();
+		
 		try {
 			updateMap();
 		} catch (IlegalPositionException | ObjectPositionNotFoundException e) {

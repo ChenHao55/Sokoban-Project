@@ -20,12 +20,16 @@ public class GameController {
 		gs.newGame(fileName);
 	}
 	
-	public void saveGame() {
+	public void saveGame() throws IlegalPositionException, ObjectPositionNotFoundException {
 		gs.saveGame();
 	}
 	
-	public void loadGame() throws NumberFormatException, IlegalPositionException {
+	public void loadGame() throws NumberFormatException, IlegalPositionException, ObjectPositionNotFoundException {
 		gs.loadGame();
+	}
+	
+	public void loadGameMF() throws NumberFormatException, IlegalPositionException, ObjectPositionNotFoundException {
+		gs.loadGameMF();
 	}
 	
 	public void undoMovement() throws IlegalPositionException, ObjectPositionNotFoundException {
