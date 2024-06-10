@@ -14,7 +14,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import controller.GameController;
+import controller.GameControllerI;
 import model.exceptions.IlegalMap;
 import model.exceptions.IlegalPositionException;
 import model.exceptions.ObjectPositionNotFoundException;
@@ -30,12 +30,12 @@ public class MapPanel extends JPanel {
 	private static final char GOALBOX = '@';
 	private char[][] level;
 
-	private final ImageIcon wallIcon = new ImageIcon("img" + File.separator + "wall.png");
-	private final ImageIcon emptyIcon = new ImageIcon("img" + File.separator + "ground.png");
-	private final ImageIcon boxIcon = new ImageIcon("img" + File.separator + "box.png");
-	private final ImageIcon playerIcon = new ImageIcon("img" + File.separator + "player.png");
-	private final ImageIcon goalIcon = new ImageIcon("img" + File.separator + "goal.png");
-	private final ImageIcon goalBoxImg = new ImageIcon("img" + File.separator + "goal_box.png");
+	private static final ImageIcon wallIcon = new ImageIcon("img" + File.separator + "wall.png");
+	private static final ImageIcon emptyIcon = new ImageIcon("img" + File.separator + "ground.png");
+	private static final ImageIcon boxIcon = new ImageIcon("img" + File.separator + "box.png");
+	private static final ImageIcon playerIcon = new ImageIcon("img" + File.separator + "player.png");
+	private static final ImageIcon goalIcon = new ImageIcon("img" + File.separator + "goal.png");
+	private static final ImageIcon goalBoxImg = new ImageIcon("img" + File.separator + "goal_box.png");
 
 
 	private JLabel turnCount;
@@ -44,7 +44,7 @@ public class MapPanel extends JPanel {
 	
 	private JLabel levelName;
 	
-	private GameController gc;
+	private GameControllerI gc;
 	
 	public JLabel getTurnCount() {
 		return this.turnCount;
@@ -62,11 +62,11 @@ public class MapPanel extends JPanel {
 		return this.levelName;
 	}
 	
-	public GameController getGc() {
+	public GameControllerI getGc() {
 		return this.gc;
 	}
 
-	public void setGc(GameController gc) {
+	public void setGc(GameControllerI gc) {
 		this.gc = gc;
 	}
 

@@ -8,6 +8,7 @@ public class Counter {
 	public Counter() {
 		this.boxCount = 0;
 		this.count = 0;
+		this.globalCount = 0;
 	}
 	
 	public int getCount() {

@@ -18,7 +18,7 @@ import java.util.Scanner;
 
 import org.javatuples.Pair;
 
-import model.beans.Counter;
+import model.beans.GenericCounter;
 import model.beans.GoalPosition;
 import model.beans.WarehouseMan;
 import model.exceptions.IlegalPositionException;
@@ -60,7 +60,7 @@ public class Options implements OptionsI{
 
 	}
 	
-	public void saveGame(char[][] map, WarehouseMan w, List<GameObjectI> gs, Deque<ActionI> s, int levelNumber, File file, Counter currentCount, Counter levelCount) {
+	public void saveGame(char[][] map, WarehouseMan w, List<GameObjectI> gs, Deque<ActionI> s, int levelNumber, File file, GenericCounter c) {
 			
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))){
 			
@@ -100,18 +100,18 @@ public class Options implements OptionsI{
 			}
 			
 			//Escribir contadores
-			writer.write(String.valueOf(currentCount.getBoxCount()));
+			writer.write(String.valueOf(c.getCurrentCount().getBoxCount()));
 			writer.newLine();
-			writer.write(String.valueOf(currentCount.getCount()));
+			writer.write(String.valueOf(c.getCurrentCount().getCount()));
 			writer.newLine();
-			writer.write(String.valueOf(currentCount.getGlobalCount()));
+			writer.write(String.valueOf(c.getCurrentCount().getGlobalCount()));
 			writer.newLine();
 			
-			writer.write(String.valueOf(levelCount.getBoxCount()));
+			writer.write(String.valueOf(c.getLevelCount().getBoxCount()));
 			writer.newLine();
-			writer.write(String.valueOf(levelCount.getCount()));
+			writer.write(String.valueOf(c.getLevelCount().getCount()));
 			writer.newLine();
-			writer.write(String.valueOf(levelCount.getGlobalCount()));
+			writer.write(String.valueOf(c.getLevelCount().getGlobalCount()));
 			writer.newLine();
 			
 			//Escribir pila de acciones
@@ -130,7 +130,7 @@ public class Options implements OptionsI{
 	}
 	
 	@SuppressWarnings("unchecked")
-	public Pair<Integer, char[][]> loadGame(WarehouseMan w, List<GameObjectI> gs, ActionsManagerI am, File file, Counter currentCount, Counter levelCount) throws NumberFormatException, IlegalPositionException{
+	public Pair<Integer, char[][]> loadGame(WarehouseMan w, List<GameObjectI> gs, ActionsManagerI am, File file, GenericCounter c) throws NumberFormatException, IlegalPositionException{
 		
         char[][] map = null;
         int levelNumber = 1;
@@ -178,18 +178,18 @@ public class Options implements OptionsI{
 			
 			//leer contadores
 			cont = reader.readLine();
-			currentCount.setBoxCount(Integer.parseInt(cont));
+			c.getCurrentCount().setBoxCount(Integer.parseInt(cont));
 			cont = reader.readLine();
-			currentCount.setCount(Integer.parseInt(cont));
+			c.getCurrentCount().setCount(Integer.parseInt(cont));
 			cont = reader.readLine();
-			currentCount.setGlobalCount(Integer.parseInt(cont));
+			c.getCurrentCount().setGlobalCount(Integer.parseInt(cont));
 			
 			cont = reader.readLine();
-			levelCount.setBoxCount(Integer.parseInt(cont));
+			c.getLevelCount().setBoxCount(Integer.parseInt(cont));
 			cont = reader.readLine();
-			levelCount.setCount(Integer.parseInt(cont));
+			c.getLevelCount().setCount(Integer.parseInt(cont));
 			cont = reader.readLine();
-			levelCount.setGlobalCount(Integer.parseInt(cont));
+			c.getLevelCount().setGlobalCount(Integer.parseInt(cont));
 			
 			//leer stack
 			String fileNameWithoutExtension = file.getName().substring(0, file.getName().lastIndexOf("."));

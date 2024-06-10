@@ -24,6 +24,7 @@ import org.slf4j.LoggerFactory;
 
 import model.beans.Counter;
 import model.beans.DownAction;
+import model.beans.GenericCounter;
 import model.beans.GoalPosition;
 import model.beans.LeftAction;
 import model.beans.RightAction;
@@ -39,6 +40,7 @@ import model.services.ActionsFactoryI;
 import model.services.ActionsManager;
 import model.services.ActionsManagerI;
 import model.services.GameObjectI;
+import model.services.GameService;
 import model.services.ObjectFactory;
 import model.services.ObjectFactoryI;
 import model.services.Options;
@@ -798,7 +800,7 @@ public class AppTest {
 	        
 	        assertEquals(0, as.size());
 			a = am.undo();
-	        assertEquals(a, null);
+	        assertEquals(null, a);
 	        log.info("Test passed");
 		}
 		
@@ -916,10 +918,13 @@ public class AppTest {
 			WarehouseMan w = (WarehouseMan) of.createWarehouseMan(map);
 			Counter c = new Counter();
 			Counter c2 = new Counter();
+			GenericCounter g = new GenericCounter();
+			g.setCurrentCount(c);
+			g.setLevelCount(c2);
 			ArrayList<GameObjectI> gs = of.createGoals(map);
 			Deque<ActionI> s = new ArrayDeque<>();
 			File f = new File("saved_map.txt");
-			assertDoesNotThrow(() -> o.saveGame(map, w, gs, s, 1, f, c, c2));
+			assertDoesNotThrow(() -> o.saveGame(map, w, gs, s, 1, f, g));
 			log.info("Test passed");
 		}
 		
@@ -929,6 +934,9 @@ public class AppTest {
 			WarehouseMan w = new WarehouseMan(0,0);
 			Counter c = new Counter();
 			Counter c2 = new Counter();
+			GenericCounter g = new GenericCounter();
+			g.setCurrentCount(c);
+			g.setLevelCount(c2);
 			ArrayList<GameObjectI> gs = new ArrayList<>();
 			File f = new File("saved_map.txt");
 			ActionsManager am = new ActionsManager();
@@ -944,7 +952,7 @@ public class AppTest {
 				    {'+', '+', '+', '+', '+', '.', '.', '.'}
 				};
 			boolean equals = true;
-			Pair<Integer, char[][]> p = o.loadGame(w, gs, am, f, c, c2);
+			Pair<Integer, char[][]> p = o.loadGame(w, gs, am, f, g);
 			char[][] res = p.getValue1();
 			for (int i = 0; i < matExp.length; i++) {
 	            for (int j = 0; j < matExp[0].length; j++) {
@@ -956,6 +964,17 @@ public class AppTest {
 			
 			assertEquals(true, equals);
 			log.info("Test passed");
+		}
+	}
+	
+	@DisplayName("Test for GameService")
+	@Nested
+	class GameServiceTest {	
+		
+		@Test
+		void newGameTest() throws IlegalPositionException, IlegalMap {
+			GameService gs = new GameService();
+			assertDoesNotThrow(() -> gs.newGame(new File("maps" + fileSeparator + "level_1.txt").getAbsolutePath()));
 		}
 	}
 }

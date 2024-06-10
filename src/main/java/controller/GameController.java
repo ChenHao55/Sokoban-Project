@@ -9,8 +9,8 @@ import model.services.GameService;
 import view.MainFrame;
 import view.MapPanel;
 
-public class GameController {
-	
+public class GameController implements GameControllerI {
+
 	private GameService gs;
 	private MainFrame mf;
 	private MapPanel mp;
@@ -21,10 +21,12 @@ public class GameController {
 		this.mp = mp;
 	}
 	
+	public GameController() {/*No need implementation*/}
+	
 	public void newGame(String fileName) throws FileNotFoundException, IlegalPositionException, IlegalMap {
 		gs.newGame(fileName);
 		this.upDateLevelName(gs.getLevelNumber());
-		this.updatecounters(gs.getCounter().getBoxCount(), gs.getCounter().getCount(), gs.getCounter().getGlobalCount());
+		this.updatecounters(gs.getGenericCounter().getCurrentCount().getBoxCount(), gs.getGenericCounter().getCurrentCount().getCount(), gs.getGenericCounter().getCurrentCount().getGlobalCount());
 		this.updateMap(gs.getMap());
 		this.paintMap();
 	}
@@ -37,14 +39,14 @@ public class GameController {
 	
 	public void loadGame() throws NumberFormatException, IlegalPositionException {
 		gs.loadGame();
-		this.updatecounters(gs.getCounter().getBoxCount(), gs.getCounter().getCount(), gs.getCounter().getGlobalCount());
+		this.updatecounters(gs.getGenericCounter().getCurrentCount().getBoxCount(), gs.getGenericCounter().getCurrentCount().getCount(), gs.getGenericCounter().getCurrentCount().getGlobalCount());
 		this.updateMap(gs.getMap());
 		this.paintMap();
 	}
 	
 	public void loadGameMF() throws NumberFormatException, IlegalPositionException {
 		if(gs.loadGameMF()) {
-			this.updatecounters(gs.getCounter().getBoxCount(), gs.getCounter().getCount(), gs.getCounter().getGlobalCount());
+			this.updatecounters(gs.getGenericCounter().getCurrentCount().getBoxCount(), gs.getGenericCounter().getCurrentCount().getCount(), gs.getGenericCounter().getCurrentCount().getGlobalCount());
 			this.updateMap(gs.getMap());
 			this.paintMap();
 		}
@@ -52,14 +54,14 @@ public class GameController {
 	
 	public void undoMovement() throws IlegalPositionException {
 		gs.undoMovement();
-		this.updatecounters(gs.getCounter().getBoxCount(), gs.getCounter().getCount(), gs.getCounter().getGlobalCount());
+		this.updatecounters(gs.getGenericCounter().getCurrentCount().getBoxCount(), gs.getGenericCounter().getCurrentCount().getCount(), gs.getGenericCounter().getCurrentCount().getGlobalCount());
 		this.updateMap(gs.getMap());
 		this.paintMap();
 	}
 	
 	public void moveUp() throws ObjectPositionNotFoundException, IlegalPositionException, FileNotFoundException, IlegalMap {
 		gs.moveUp();
-		this.updatecounters(gs.getCounter().getBoxCount(), gs.getCounter().getCount(), gs.getCounter().getGlobalCount());
+		this.updatecounters(gs.getGenericCounter().getCurrentCount().getBoxCount(), gs.getGenericCounter().getCurrentCount().getCount(), gs.getGenericCounter().getCurrentCount().getGlobalCount());
 		this.updateMap(gs.getMap());
 		this.paintMap();
 		if(this.gs.isEndLevel()) {
@@ -69,7 +71,7 @@ public class GameController {
 	
 	public void moveDown() throws ObjectPositionNotFoundException, IlegalPositionException, FileNotFoundException, IlegalMap {
 		gs.moveDown();
-		this.updatecounters(gs.getCounter().getBoxCount(), gs.getCounter().getCount(), gs.getCounter().getGlobalCount());
+		this.updatecounters(gs.getGenericCounter().getCurrentCount().getBoxCount(), gs.getGenericCounter().getCurrentCount().getCount(), gs.getGenericCounter().getCurrentCount().getGlobalCount());
 		this.updateMap(gs.getMap());
 		this.paintMap();
 		if(this.gs.isEndLevel()) {
@@ -79,7 +81,7 @@ public class GameController {
 	
 	public void moveRight() throws ObjectPositionNotFoundException, IlegalPositionException, FileNotFoundException, IlegalMap {
 		gs.moveRight();
-		this.updatecounters(gs.getCounter().getBoxCount(), gs.getCounter().getCount(), gs.getCounter().getGlobalCount());
+		this.updatecounters(gs.getGenericCounter().getCurrentCount().getBoxCount(), gs.getGenericCounter().getCurrentCount().getCount(), gs.getGenericCounter().getCurrentCount().getGlobalCount());
 		this.updateMap(gs.getMap());
 		this.paintMap();
 		if(this.gs.isEndLevel()) {
@@ -89,7 +91,7 @@ public class GameController {
 	
 	public void moveLeft() throws ObjectPositionNotFoundException, IlegalPositionException, FileNotFoundException, IlegalMap {
 		gs.moveLeft();
-		this.updatecounters(gs.getCounter().getBoxCount(), gs.getCounter().getCount(), gs.getCounter().getGlobalCount());
+		this.updatecounters(gs.getGenericCounter().getCurrentCount().getBoxCount(), gs.getGenericCounter().getCurrentCount().getCount(), gs.getGenericCounter().getCurrentCount().getGlobalCount());
 		this.updateMap(gs.getMap());
 		this.paintMap();
 		if(this.gs.isEndLevel()) {
@@ -99,7 +101,7 @@ public class GameController {
 	
 	public void restartLevel() throws FileNotFoundException, IlegalPositionException, IlegalMap {
 		gs.restartLevel();
-		this.updatecounters(gs.getCounter().getBoxCount(), gs.getCounter().getCount(), gs.getCounter().getGlobalCount());
+		this.updatecounters(gs.getGenericCounter().getCurrentCount().getBoxCount(), gs.getGenericCounter().getCurrentCount().getCount(), gs.getGenericCounter().getCurrentCount().getGlobalCount());
 		this.updateMap(gs.getMap());
 		this.paintMap();
 	}
@@ -109,12 +111,12 @@ public class GameController {
 			
 			case 1:
 				this.upDateLevelName(gs.getLevelNumber());
-				this.updatecounters(gs.getCounter().getBoxCount(), gs.getCounter().getCount(), gs.getCounter().getGlobalCount());
+				this.updatecounters(gs.getGenericCounter().getCurrentCount().getBoxCount(), gs.getGenericCounter().getCurrentCount().getCount(), gs.getGenericCounter().getCurrentCount().getGlobalCount());
 				this.updateMap(gs.getMap());
 				this.paintMap();
 				break;
 			case 2:
-				this.showCongrats(gs.getCounter().getGlobalCount());
+				this.showCongrats(gs.getGenericCounter().getCurrentCount().getGlobalCount());
 				break;
 			case 3:
 				this.updateMap(gs.getMap());
