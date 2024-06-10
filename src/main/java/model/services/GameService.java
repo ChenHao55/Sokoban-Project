@@ -248,7 +248,7 @@ public int nextLevel() throws FileNotFoundException, IlegalPositionException, Il
 		return this.levelNumber;
 	}
 	
-	public void setLevelNUmber(int level) {
+	public void setLevelNumber(int level) {
 		this.levelNumber = level;
 	}
 	
@@ -258,5 +258,9 @@ public int nextLevel() throws FileNotFoundException, IlegalPositionException, Il
 	
 	public void setGenericCounter(GenericCounter g) {
 		this.c = g;
+	}
+	
+	public void setTotalLevels(int totalLevels) {
+		this.totalLevels = totalLevels;
 	}
 }

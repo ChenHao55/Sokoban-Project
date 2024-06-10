@@ -2,6 +2,7 @@ package sokoban;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -34,11 +35,13 @@ import model.exceptions.IlegalMap;
 import model.exceptions.IlegalPositionException;
 import model.exceptions.ObjectPositionNotFoundException;
 import model.exceptions.WallException;
+import model.services.Action;
 import model.services.ActionI;
 import model.services.ActionsFactory;
 import model.services.ActionsFactoryI;
 import model.services.ActionsManager;
 import model.services.ActionsManagerI;
+import model.services.GameObject;
 import model.services.GameObjectI;
 import model.services.GameService;
 import model.services.ObjectFactory;
@@ -903,16 +906,24 @@ public class AppTest {
 		private Options o = new Options();
 		private ObjectFactory of = new ObjectFactory();
 		String path = new File("maps" + fileSeparator + "level_1.txt").getAbsolutePath();
+		String emptyPath = new File("testMaps" + fileSeparator + "emptyMap.txt").getAbsolutePath();
 		
 		@Test
-		void newGame() throws IlegalPositionException, ObjectPositionNotFoundException {
+		void newGameTest() throws IlegalPositionException, ObjectPositionNotFoundException {
 			log.info("Trying to use correctly newGame method");
 			assertDoesNotThrow(() -> o.newGame(path));
 			log.info("Test passed");
 		}
 		
 		@Test
-		void saveGame() throws IlegalPositionException, IlegalMap, FileNotFoundException {
+		void newGameIlegalMapTest() throws IlegalPositionException, ObjectPositionNotFoundException {
+			log.info("Trying to use incorrectly newGame method");
+			assertThrows(IlegalMap.class, () -> o.newGame(emptyPath));
+			log.info("Test passed");
+		}
+		
+		@Test
+		void saveGameTest() throws IlegalPositionException, IlegalMap, FileNotFoundException {
 			log.info("Trying to save correctly a game");
 			char[][] map = o.newGame(path);
 			WarehouseMan w = (WarehouseMan) of.createWarehouseMan(map);
@@ -929,7 +940,7 @@ public class AppTest {
 		}
 		
 		@Test
-		void loadGame() throws IlegalPositionException, IlegalMap {
+		void loadGameTest() throws IlegalPositionException, IlegalMap {
 			log.info("Trying to load correctly a game");
 			WarehouseMan w = new WarehouseMan(0,0);
 			Counter c = new Counter();
@@ -1071,7 +1082,7 @@ public class AppTest {
 		
 		@Test
 		void saveGameNullFileTest() throws FileNotFoundException {
-			log.info("Testin incorrect use os saveGame method");
+			log.info("Testing incorrect use os saveGame method");
 			assertEquals(false, gs.saveGame(null));
 			log.info("Test passed");
 		}
@@ -1165,6 +1176,238 @@ public class AppTest {
 			log.info("Testing correct use of decrementBoxCounter method");
 			gs.decrementGlobalCounter();
 			assertEquals(14, gs.getGenericCounter().getCurrentCount().getGlobalCount());
+			log.info("Test passed");
+		}
+		
+		@Test
+		void moveUpTest() throws FileNotFoundException, IlegalPositionException, IlegalMap {
+			log.info("Testing correct use of method moveUp");
+			gs.newGame(new File("maps" + fileSeparator + "level_1.txt").getAbsolutePath());
+			assertDoesNotThrow(() -> gs.moveUp());
+			log.info("Test passed");
+		}
+		
+		@Test
+		void moveDownTest() throws FileNotFoundException, IlegalPositionException, IlegalMap {
+			log.info("Testing correct use of method moveUp");
+			gs.newGame(new File("maps" + fileSeparator + "level_1.txt").getAbsolutePath());
+			assertDoesNotThrow(() -> gs.moveDown());
+			log.info("Test passed");
+		}
+		
+		@Test
+		void moveRightTest() throws FileNotFoundException, IlegalPositionException, IlegalMap {
+			log.info("Testing correct use of method moveUp");
+			gs.newGame(new File("maps" + fileSeparator + "level_1.txt").getAbsolutePath());
+			assertDoesNotThrow(() -> gs.moveRight());
+			log.info("Test passed");
+		}
+		
+		@Test
+		void moveLeftTest() throws FileNotFoundException, IlegalPositionException, IlegalMap {
+			log.info("Testing correct use of method moveUp");
+			gs.newGame(new File("maps" + fileSeparator + "level_1.txt").getAbsolutePath());
+			assertDoesNotThrow(() -> gs.moveLeft());
+			log.info("Test passed");
+		}
+		
+		@Test
+		void undoMovementTest() throws FileNotFoundException, IlegalPositionException, IlegalMap {
+			log.info("Testing correct use of undoMovement method");
+			gs.newGame(new File("maps" + fileSeparator + "level_1.txt").getAbsolutePath());
+			gs.moveUp();
+			assertDoesNotThrow(() -> gs.undoMovement());
+			log.info("Test passed");
+		}
+		
+		@Test
+		void isEndLevelTest1() throws FileNotFoundException, IlegalPositionException, IlegalMap {
+			log.info("Testing use of isEndLevel method");
+			gs.newGame(new File("maps" + fileSeparator + "level_1.txt").getAbsolutePath());
+			assertEquals(false, gs.isEndLevel());
+			log.info("Test passed");
+		}
+		
+		@Test
+		void restartLevelTest() throws FileNotFoundException, IlegalPositionException, IlegalMap {
+			log.info("Testing correct use of restartLevel method");
+			gs.newGame(new File("maps" + fileSeparator + "level_1.txt").getAbsolutePath());
+			char[][] matExp = gs.getMap();
+			gs.restartLevel();
+			boolean equals = true;
+			for (int i = 0; i < matExp.length; i++) {
+	            for (int j = 0; j < matExp[0].length; j++) {
+	                if (matExp[i][j] != gs.getMap()[i][j]) {
+	                    equals = false;
+	                }
+	            }
+	        }
+			assertEquals(true, equals);
+			log.info("Test passed");
+		}
+		
+		@Test
+		void nextLevelTest1() throws FileNotFoundException, IlegalPositionException, IlegalMap {
+			log.info("Testing nextLevel method");
+			gs.newGame(new File("maps" + fileSeparator + "level_2.txt").getAbsolutePath());
+			gs.setLevelNumber(2);
+			gs.setTotalLevels(4);
+			assertEquals(1, gs.nextLevel());
+			log.info("Test passed");
+		}
+		
+		@Test
+		void nextLevelTest2() throws FileNotFoundException, IlegalPositionException, IlegalMap {
+			log.info("Testing nextLevel method");
+			gs.newGame(new File("testMaps" + fileSeparator + "nextLevelTestMaps" + fileSeparator + "level_4.txt").getAbsolutePath());
+			gs.setTotalLevels(4);
+			gs.setLevelNumber(4);
+			assertEquals(2, gs.nextLevel());
+			log.info("Test passed");
+		}
+		
+		@Test
+		void nextLevelTest3() throws FileNotFoundException, IlegalPositionException, IlegalMap {
+			log.info("Testing nextLevel method");
+			gs.newGame(new File("testMaps" + fileSeparator + "level_2.txt").getAbsolutePath());
+			gs.setTotalLevels(4);
+			assertEquals(3, gs.nextLevel());
+			log.info("Test passed");
+		}
+		
+		@Test
+		void getWTest() throws FileNotFoundException, IlegalPositionException, IlegalMap {
+			log.info("Testing correct use of getW method");
+			gs.newGame(new File("maps" + fileSeparator + "level_1.txt").getAbsolutePath());
+			assertNotEquals(null, gs.getW());
+			log.info("Test passed");
+		}
+		
+		@Test
+		void setWTest() throws FileNotFoundException, IlegalPositionException, IlegalMap {
+			log.info("Testing correct use of getW method");
+			WarehouseMan w = new WarehouseMan(1, 2);
+			gs.setW(w);
+			assertEquals(w, gs.getW());
+			log.info("Test passed");
+		}
+		
+		@Test
+		void getGsTest() throws FileNotFoundException, IlegalPositionException, IlegalMap {
+			log.info("Testing correct use of getW method");
+			gs.newGame(new File("maps" + fileSeparator + "level_1.txt").getAbsolutePath());
+			assertNotEquals(null, gs.getGs());
+			log.info("Test passed");
+		}
+		
+		@Test
+		void setGsTest() throws FileNotFoundException, IlegalPositionException, IlegalMap {
+			log.info("Testing correct use of getW method");
+			List<GameObjectI> g = new ArrayList<>();
+			gs.setGs(g);
+			assertEquals(g, gs.getGs());
+			log.info("Test passed");
+		}
+		
+		@Test
+		void setMapTest() {
+			log.info("Testing correct use of getW method");
+			char[][] matExp = {
+				    {'+', '+', '+', '+', '.', '.', '.', '.'},
+				    {'+', '.', '.', '+', '.', '.', '.', '.'},
+				    {'+', '.', '.', '+', '+', '+', '+', '+'},
+				    {'+', '.', '.', '.', '.', '.', '.', '+'},
+				    {'+', '+', 'W', '*', '+', '#', '.', '+'},
+				    {'+', '.', '.', '.', '+', '.', '.', '+'},
+				    {'+', '.', '.', '.', '+', '+', '+', '+'},
+				    {'+', '+', '+', '+', '+', '.', '.', '.'}
+				};
+			gs.setMap(matExp);
+			assertEquals(matExp, gs.getMap());
+			log.info("Test passed");
+		}
+		
+		@Test
+		void getLevelNameTest() throws FileNotFoundException, IlegalPositionException, IlegalMap {
+			log.info("Testing correct use of getW method");
+			gs.newGame(new File("maps" + fileSeparator + "level_1.txt").getAbsolutePath());
+			assertEquals(1, gs.getLevelNumber());
+			log.info("Test passed");
+		}
+		
+		@Test
+		void setLevelNameTest() throws FileNotFoundException, IlegalPositionException, IlegalMap {
+			log.info("Testing correct use of getW method");
+			gs.setLevelNumber(2);
+			assertEquals(2, gs.getLevelNumber());
+			log.info("Test passed");
+		}
+	}
+	
+	@DisplayName("Test for class Action")
+	@Nested
+	class ActionTests{
+		
+		private Action a;
+		
+		@BeforeEach
+		void init(){
+			a = new Action();
+		}
+		
+		@Test
+		void setMatTest() {
+			log.info("Testing correct use of setMat method");
+			char[][] matExp = {
+				    {'+', '+', '+', '+', '.', '.', '.', '.'},
+				    {'+', '.', '.', '+', '.', '.', '.', '.'},
+				    {'+', '.', '.', '+', '+', '+', '+', '+'},
+				    {'+', '.', '.', '.', '.', '.', '.', '+'},
+				    {'+', '+', 'W', '*', '+', '#', '.', '+'},
+				    {'+', '.', '.', '.', '+', '.', '.', '+'},
+				    {'+', '.', '.', '.', '+', '+', '+', '+'},
+				    {'+', '+', '+', '+', '+', '.', '.', '.'}
+				};
+			a.setMat(matExp);
+			assertEquals(matExp, a.getMat());
+			log.info("Test passed");
+		}
+		
+		@Test
+		void setXTest() {
+			log.info("Testing correct use of setX method");
+			a.setX(0);
+			assertEquals(0, a.getX());
+			log.info("Test passed");
+		}
+		
+		@Test
+		void setYTest() {
+			log.info("Testing correct use of setX method");
+			a.setY(0);
+			assertEquals(0, a.getY());
+			log.info("Test passed");
+		}
+	}
+	
+	@DisplayName("Test for GameObject class")
+	@Nested
+	class GameObjectTests{
+		
+		@Test
+		void IncorrectGameObjectCreation() {
+			log.info("Testing incorrect GameObject creation");
+			assertThrows(IlegalPositionException.class, () -> new GameObject(-1, -1));
+			assertThrows(IlegalPositionException.class, () -> new GameObject(2, -1));
+			assertThrows(IlegalPositionException.class, () -> new GameObject(-1, 3));
+			log.info("Test passed");
+		}
+		
+		@Test
+		void setYTest() throws IlegalPositionException {
+			log.info("Testing incorrect use of setY method");
+			GameObject g = new GameObject(0, 0);
+			assertThrows(IlegalPositionException.class, () -> g.setY(-1));
 			log.info("Test passed");
 		}
 	}
