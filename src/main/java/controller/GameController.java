@@ -1,5 +1,6 @@
 package controller;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 
 import model.exceptions.IlegalMap;
@@ -8,9 +9,11 @@ import model.exceptions.ObjectPositionNotFoundException;
 import model.services.GameService;
 import view.MainFrame;
 import view.MapPanel;
+import view.OptionsGamePanel;
 
 public class GameController implements GameControllerI {
-
+	
+	private OptionsGamePanel op = new OptionsGamePanel(); //He creado este objeto para no tener Swing en el options.java
 	private GameService gs;
 	private MainFrame mf;
 	private MapPanel mp;
@@ -32,20 +35,23 @@ public class GameController implements GameControllerI {
 	}
 	
 	public void saveGame() {
-		gs.saveGame();
+		File f = op.saveGame('s'); 
+		gs.saveGame(f);
 		this.updateMap(gs.getMap());
 		this.paintMap();
 	}
 	
 	public void loadGame() throws NumberFormatException, IlegalPositionException {
-		gs.loadGame();
+		File file = op.saveGame('l');
+		gs.loadGame(file);
 		this.updatecounters(gs.getGenericCounter().getCurrentCount().getBoxCount(), gs.getGenericCounter().getCurrentCount().getCount(), gs.getGenericCounter().getCurrentCount().getGlobalCount());
 		this.updateMap(gs.getMap());
 		this.paintMap();
 	}
 	
 	public void loadGameMF() throws NumberFormatException, IlegalPositionException {
-		if(gs.loadGameMF()) {
+		File file = op.saveGame('l');
+		if(gs.loadGameMF(file)) {
 			this.updatecounters(gs.getGenericCounter().getCurrentCount().getBoxCount(), gs.getGenericCounter().getCurrentCount().getCount(), gs.getGenericCounter().getCurrentCount().getGlobalCount());
 			this.updateMap(gs.getMap());
 			this.paintMap();

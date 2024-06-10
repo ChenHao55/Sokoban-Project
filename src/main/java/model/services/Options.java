@@ -21,6 +21,7 @@ import org.javatuples.Pair;
 import model.beans.GenericCounter;
 import model.beans.GoalPosition;
 import model.beans.WarehouseMan;
+import model.exceptions.IlegalMap;
 import model.exceptions.IlegalPositionException;
 
 public class Options implements OptionsI{
@@ -31,37 +32,42 @@ public class Options implements OptionsI{
 	public Options() {// No implementation needed
 	}
 	
-	public char[][] newGame(String fileName) {
+	public char[][] newGame(String fileName) throws FileNotFoundException, IlegalMap {
 		char[][] map = null;
-		try {
-			File file = new File(fileName);
-			Scanner s = new Scanner(file);
-			
-			s.nextLine();
-			int rows = s.nextInt();
-			int colums = s.nextInt();
-			
-			map = new char[rows][colums];
-			
-			s.nextLine();
-			
-			for(int i = 0; i<rows; i++) {
-				String row = s.nextLine();
-				for(int j = 0; j<colums; j++) {
-					map[i][j] = row.charAt(j);
-				}
-			}
-			
-			s.close();
-		} catch (FileNotFoundException e) {
-			e.getMessage();
+		
+		File file = new File(fileName);
+		
+		if(!file.exists()) {
+			throw new FileNotFoundException();
 		}
+		
+		Scanner s = new Scanner(file);
+		
+		s.nextLine();
+		int rows = s.nextInt();
+		int colums = s.nextInt();
+		
+		map = new char[rows][colums];
+		
+		if(rows == 0 || colums == 0) {s.close(); throw new IlegalMap("Ilegal map");}
+		
+		s.nextLine();
+		
+		for(int i = 0; i<rows; i++) {
+			String row = s.nextLine();
+			for(int j = 0; j<colums; j++) {
+				map[i][j] = row.charAt(j);
+			}
+		}
+		
+		s.close();
 		return map;
 
 	}
 	
-	public void saveGame(char[][] map, WarehouseMan w, List<GameObjectI> gs, Deque<ActionI> s, int levelNumber, File file, GenericCounter c) {
-			
+	public boolean saveGame(char[][] map, WarehouseMan w, List<GameObjectI> gs, Deque<ActionI> s, int levelNumber, File file, GenericCounter c) {
+		
+		boolean saved = false;
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))){
 			
 			//Escribir el número del nivel
@@ -123,10 +129,12 @@ public class Options implements OptionsI{
 	            e.getMessage();
 	        }
 			
+			saved = true;
+			
 		} catch (IOException e) {
 			e.getMessage();
 		}
-
+		return saved;
 	}
 	
 	@SuppressWarnings("unchecked")

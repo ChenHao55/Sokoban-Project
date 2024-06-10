@@ -16,11 +16,9 @@ import model.beans.UpAction;
 import model.beans.WarehouseMan;
 import model.exceptions.IlegalMap;
 import model.exceptions.IlegalPositionException;
-import view.OptionsGamePanel;
 
 public class GameService {
 
-		private OptionsGamePanel op = new OptionsGamePanel(); //He creado este objeto para no tener Swing en el options.java
 		private char[][] level;
 		private GameObjectI w;
 		private List<GameObjectI> gs;
@@ -54,35 +52,37 @@ public void newGame(String fileName) throws IlegalPositionException, FileNotFoun
 public void game(String fileName) throws IlegalPositionException, FileNotFoundException, IlegalMap {
 	level = o.newGame(fileName);
 	GameObjectI wAux = of.createWarehouseMan(level);
-	if(wAux != null) {
-		this.w = wAux;
-		this.gs = of.createGoals(level);
-	}
+	this.w = wAux;
+	this.gs = of.createGoals(level);
 }
 
 //Metodo para guardar la partida
-public void saveGame() {
-	File f = op.saveGame('s'); 
-	if(f != null)
+public boolean saveGame(File f) {
+	boolean saved = false;
+	if(f != null) {
 		o.saveGame(level, (WarehouseMan) w, gs, am.getActions(), levelNumber, f, c);
+		saved = true;
+	}
+	return saved;
 }
 
 //Metodo para cargar una partida guardada
-public void loadGame() throws NumberFormatException, IlegalPositionException {
-	File file = op.saveGame('l');
+public boolean loadGame(File file) throws NumberFormatException, IlegalPositionException {
+	boolean loaded = false;
 	if(file != null) {
 		Pair<Integer, char[][]> p = o.loadGame((WarehouseMan) w, gs, am, file, c);
 				
 		if(p != null) {
 			level = p.getValue1();
 			levelNumber = p.getValue0();
+			loaded = true;
 		}
 	}
+	return loaded;
 }
 
 //Metodo para cargar una partida guardada
-public boolean loadGameMF() throws NumberFormatException, IlegalPositionException {
-	File file = op.saveGame('l');
+public boolean loadGameMF(File file) throws NumberFormatException, IlegalPositionException {
 	boolean res = false;
 	if(file != null) {
 		Pair<Integer, char[][]> p = o.loadGame((WarehouseMan) w, gs, am, file, c);
@@ -96,15 +96,15 @@ public boolean loadGameMF() throws NumberFormatException, IlegalPositionExceptio
 	return res;
 }
 
-public void decrementBoxCounter() throws NumberFormatException{
+public void decrementBoxCounter() {
 	c.getCurrentCount().setBoxCount(c.getCurrentCount().getBoxCount()-1);
 }
 
-public void decrementWMCounter() throws NumberFormatException{
+public void decrementWMCounter() {
 	c.getCurrentCount().setCount(c.getCurrentCount().getCount()-1);
 }
 
-public void decrementGlobalCounter() throws NumberFormatException{
+public void decrementGlobalCounter() {
 	c.getCurrentCount().setGlobalCount(c.getCurrentCount().getGlobalCount()-1);
 }
 
@@ -254,5 +254,9 @@ public int nextLevel() throws FileNotFoundException, IlegalPositionException, Il
 	
 	public GenericCounter getGenericCounter() {
 		return this.c;
+	}
+	
+	public void setGenericCounter(GenericCounter g) {
+		this.c = g;
 	}
 }

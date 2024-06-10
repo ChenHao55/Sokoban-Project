@@ -22,12 +22,14 @@ public class ObjectFactory implements ObjectFactoryI {
 			for(int j=0; j<level[i].length; j++) {
 				if(level[i][j] == 'W') {
 					if(warehouseMan != null) {
-						return null;
+						throw new IlegalPositionException("There were found two WarehouseMan");
 					}
 					warehouseMan = new WarehouseMan(i,j);
 				}
 			}
 		}
+		
+		if(warehouseMan == null) {throw new IlegalPositionException("No warehouseMan found");}
 		return warehouseMan;
 	}
 

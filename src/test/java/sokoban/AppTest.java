@@ -169,7 +169,7 @@ public class AppTest {
 		private boolean equals = true;
 		
 		@Test
-		void correctMapCreation() throws IOException {
+		void correctMapCreation() throws IOException, IlegalMap {
 			log.info("Trying to create a Map");
 			char[][] matriz = {
 				    {'+', '+', '+', '+', '.', '.', '.', '.'},
@@ -204,7 +204,7 @@ public class AppTest {
 	class ObjectFactoryTest {
 		
 		@Test
-		void WarehouseManCreation() throws IOException, IlegalPositionException {
+		void WarehouseManCreation() throws IOException, IlegalPositionException, IlegalMap {
 			log.info("Trying to create a WarehouseMan");
 			Options o = new Options();
 			char[][] level =  o.newGame((new File("maps" + fileSeparator + "level_1.txt").getAbsolutePath()));
@@ -229,12 +229,12 @@ public class AppTest {
 				};
 			
 			ObjectFactory of = new ObjectFactory();
-			assertNull(of.createWarehouseMan(level));
+			assertThrows(IlegalPositionException.class, () -> of.createWarehouseMan(level));
 			log.info("Test passed");
 		}
 		
 		@Test
-		void GoalsCreation() throws IOException, IlegalPositionException {
+		void GoalsCreation() throws IOException, IlegalPositionException, IlegalMap {
 			log.info("Trying to create a Box");
 			Options o = new Options();
 			char[][] level =  o.newGame((new File("maps" + fileSeparator + "level_1.txt").getAbsolutePath()));
@@ -831,7 +831,7 @@ public class AppTest {
 	class ActionsFactoryTest {
 		
 		@Test
-		void RightActionCreation() throws IOException, IlegalPositionException {
+		void RightActionCreation() throws IOException, IlegalPositionException, IlegalMap {
 			log.info("Trying to create a RightAction");
 			Options o = new Options();
 			char[][] level =  o.newGame((new File("maps" + fileSeparator + "level_1.txt").getAbsolutePath()));
@@ -844,7 +844,7 @@ public class AppTest {
 		}
 		
 		@Test
-		void LeftActionCreation() throws IOException, IlegalPositionException {
+		void LeftActionCreation() throws IOException, IlegalPositionException, IlegalMap {
 			log.info("Trying to create a LeftAction");
 			Options o = new Options();
 			char[][] level =  o.newGame((new File("maps" + fileSeparator + "level_1.txt").getAbsolutePath()));
@@ -857,7 +857,7 @@ public class AppTest {
 		}
 		
 		@Test
-		void UpActionCreation() throws IOException, IlegalPositionException {
+		void UpActionCreation() throws IOException, IlegalPositionException, IlegalMap {
 			log.info("Trying to create a UpAction");
 			Options o = new Options();
 			char[][] level =  o.newGame((new File("maps" + fileSeparator + "level_1.txt").getAbsolutePath()));
@@ -870,7 +870,7 @@ public class AppTest {
 		}
 		
 		@Test
-		void DownActionCreation() throws IOException, IlegalPositionException {
+		void DownActionCreation() throws IOException, IlegalPositionException, IlegalMap {
 			log.info("Trying to create a DownAction");
 			Options o = new Options();
 			char[][] level =  o.newGame((new File("maps" + fileSeparator + "level_1.txt").getAbsolutePath()));
@@ -883,7 +883,7 @@ public class AppTest {
 		}
 		
 		@Test
-		void NullActionCreation() throws IlegalPositionException {
+		void NullActionCreation() throws IlegalPositionException, FileNotFoundException, IlegalMap {
 			log.info("Trying to create a non existing action");
 			Options o = new Options();
 			char[][] level =  o.newGame((new File("maps" + fileSeparator + "level_1.txt").getAbsolutePath()));
@@ -912,7 +912,7 @@ public class AppTest {
 		}
 		
 		@Test
-		void saveGame() throws IlegalPositionException, IlegalMap {
+		void saveGame() throws IlegalPositionException, IlegalMap, FileNotFoundException {
 			log.info("Trying to save correctly a game");
 			char[][] map = o.newGame(path);
 			WarehouseMan w = (WarehouseMan) of.createWarehouseMan(map);
@@ -971,10 +971,201 @@ public class AppTest {
 	@Nested
 	class GameServiceTest {	
 		
+		private GameService gs;
+		private GenericCounter c;
+		private Counter c1;
+		
+		@BeforeEach
+		void init() throws IlegalPositionException {
+			log.info("Initializating global variables");
+			gs = new GameService();
+			c1 = new Counter();
+			c = new GenericCounter();
+			c1.setBoxCount(5);
+			c1.setCount(10);
+			c1.setGlobalCount(15);
+			c.setCurrentCount(c1);
+			gs.setGenericCounter(c);
+			log.info("Global variables initializated");
+		}
+		
 		@Test
-		void newGameTest() throws IlegalPositionException, IlegalMap {
-			GameService gs = new GameService();
+		void correctNewGameTest() throws IlegalPositionException, IlegalMap {
+			log.info("Testing a correct use of newGame method");
 			assertDoesNotThrow(() -> gs.newGame(new File("maps" + fileSeparator + "level_1.txt").getAbsolutePath()));
+			log.info("Test passed");
+		}
+		
+		@Test
+		void FileNotFoundNewGameTest() {
+			log.info("Testing incorrect use of newGame method");
+			assertThrows(FileNotFoundException.class, () -> gs.newGame(new File("maps" + fileSeparator + "level_99.txt").getAbsolutePath()));
+			log.info("Test passed");
+		}
+		
+		@Test
+		void IlegalMapNewGameTest() {
+			log.info("Testing incorrect use of newGame method");
+			assertThrows(IlegalMap.class, () -> gs.newGame(new File("testMaps" + fileSeparator + "emptyMap.txt").getAbsolutePath()));
+			log.info("Test passed");
+		}
+		
+		@Test 
+		void IlegalPositionExceptionNewGameTest1(){
+			log.info("Testing incorrect use of newGame method");
+			assertThrows(IlegalPositionException.class, () -> gs.newGame(new File("testMaps" + fileSeparator + "noWarehouseManMap.txt").getAbsolutePath()));
+			log.info("Test passed");
+		}
+		
+		@Test 
+		void IlegalPositionExceptionNewGameTest2(){
+			log.info("Testing incorrect use of newGame method");
+			assertThrows(IlegalPositionException.class, () -> gs.newGame(new File("testMaps" + fileSeparator + "moreThanOneWMap.txt").getAbsolutePath()));
+			log.info("Test passed");
+		}
+		
+		@Test
+		void correctGameTest() {
+			log.info("Testing correct use of game method");
+			assertDoesNotThrow(() -> gs.game(new File("maps" + fileSeparator + "level_1.txt").getAbsolutePath()));
+			log.info("Test passed");
+		}
+		
+		@Test
+		void FileNotFoundGameTest() {
+			log.info("Testing incorrect use of newGame method");
+			assertThrows(FileNotFoundException.class, () -> gs.game(new File("maps" + fileSeparator + "level_99.txt").getAbsolutePath()));
+			log.info("Test passed");
+		}
+		
+		@Test
+		void IlegalMapGameTest() {
+			log.info("Testing incorrect use of newGame method");
+			assertThrows(IlegalMap.class, () -> gs.game(new File("testMaps" + fileSeparator + "emptyMap.txt").getAbsolutePath()));
+			log.info("Test passed");
+		}
+		
+		@Test 
+		void IlegalPositionExceptionGameTest1(){
+			log.info("Testing incorrect use of newGame method");
+			assertThrows(IlegalPositionException.class, () -> gs.game(new File("testMaps" + fileSeparator + "noWarehouseManMap.txt").getAbsolutePath()));
+			log.info("Test passed");
+		}
+		
+		@Test 
+		void IlegalPositionExceptionGameTest2(){
+			log.info("Testing incorrect use of newGame method");
+			assertThrows(IlegalPositionException.class, () -> gs.game(new File("testMaps" + fileSeparator + "moreThanOneWMap.txt").getAbsolutePath()));
+			log.info("Test passed");
+		}
+		
+		@Test
+		void saveGameTest() throws IlegalPositionException, IlegalMap, IOException {
+			log.info("Testing correct use of saveGame method");
+			gs.newGame(new File("maps" + fileSeparator + "level_1.txt").getAbsolutePath());
+			String path = new File("savedTestMaps" + fileSeparator + "savedTestMap.txt").getAbsolutePath();
+			File f = new File(path);
+			assertEquals(true, gs.saveGame(f));
+			log.info("Test passed");
+		}
+		
+		@Test
+		void saveGameNullFileTest() throws FileNotFoundException {
+			log.info("Testin incorrect use os saveGame method");
+			assertEquals(false, gs.saveGame(null));
+			log.info("Test passed");
+		}
+		
+		@Test
+		void loadGameTest() {
+			log.info("Testing correct use of loadGame method");
+			String path = new File("savedTestMaps" + fileSeparator + "savedTestMap.txt").getAbsolutePath();
+			File f = new File(path);
+			assertDoesNotThrow(() -> gs.loadGame(f));
+			log.info("Test passed");
+		}
+		
+		@Test
+		void ilegalPositionWLoadGameTest() {
+			log.info("Testing incorrect use of loadGame method");
+			String path = new File("savedTestMaps" + fileSeparator + "IlegalPositionWMap.txt").getAbsolutePath();
+			File f = new File(path);
+			assertThrows(IlegalPositionException.class, () -> gs.loadGame(f));
+			log.info("Test passed");
+		}
+		
+		@Test
+		void loadGameNullFile() throws NumberFormatException, IlegalPositionException {
+			log.info("Testing incorrect use of loadGame method");
+			assertEquals(false, gs.loadGame(null));
+			log.info("Test passed");
+		}
+		
+		@Test
+		void numberFormatExceptionLoadGame() {
+			log.info("Testing incorrect use of loadGame method");
+			String path = new File("savedTestMaps" + fileSeparator + "NumberFormatExceptionSavedMap.txt").getAbsolutePath();
+			File f = new File(path);
+			assertThrows(NumberFormatException.class, () -> gs.loadGame(f));
+			log.info("Test passed");
+		}
+		
+		@Test
+		void loadGameMFTest() {
+			log.info("Testing correct use of loadGame method");
+			String path = new File("savedTestMaps" + fileSeparator + "savedTestMap.txt").getAbsolutePath();
+			File f = new File(path);
+			assertDoesNotThrow(() -> gs.loadGameMF(f));
+			log.info("Test passed");
+		}
+		
+		@Test
+		void ilegalPositionWLoadGameMFTest() {
+			log.info("Testing incorrect use of loadGame method");
+			String path = new File("savedTestMaps" + fileSeparator + "IlegalPositionWMap.txt").getAbsolutePath();
+			File f = new File(path);
+			assertThrows(IlegalPositionException.class, () -> gs.loadGameMF(f));
+			log.info("Test passed");
+		}
+		
+		@Test
+		void loadGameMFNullFile() throws NumberFormatException, IlegalPositionException {
+			log.info("Testing incorrect use of loadGame method");
+			assertEquals(false, gs.loadGameMF(null));
+			log.info("Test passed");
+		}
+		
+		@Test
+		void numberFormatExceptionLoadGameMF() {
+			log.info("Testing incorrect use of loadGame method");
+			String path = new File("savedTestMaps" + fileSeparator + "NumberFormatExceptionSavedMap.txt").getAbsolutePath();
+			File f = new File(path);
+			assertThrows(NumberFormatException.class, () -> gs.loadGameMF(f));
+			log.info("Test passed");
+		}
+		
+		@Test
+		void decrementBoxCounter() {
+			log.info("Testing correct use of decrementBoxCounter method");
+			gs.decrementBoxCounter();
+			assertEquals(4, gs.getGenericCounter().getCurrentCount().getBoxCount());
+			log.info("Test passed");
+		}
+		
+		@Test
+		void decrementWMCounter() {
+			log.info("Testing correct use of decrementBoxCounter method");
+			gs.decrementWMCounter();
+			assertEquals(9, gs.getGenericCounter().getCurrentCount().getCount());
+			log.info("Test passed");
+		}
+		
+		@Test
+		void decrementGlobalCounter() {
+			log.info("Testing correct use of decrementBoxCounter method");
+			gs.decrementGlobalCounter();
+			assertEquals(14, gs.getGenericCounter().getCurrentCount().getGlobalCount());
+			log.info("Test passed");
 		}
 	}
 }
