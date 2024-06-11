@@ -24,7 +24,7 @@ public class CongratsPanel extends JPanel {
         JPanel buttonPanel = new JPanel(new FlowLayout());
 	    buttonPanel.setBackground(Color.BLACK);
         JButton continueButton = new JButton("Continue");
-        continueButton.addActionListener(e -> mf.createButtons());
+        continueButton.addActionListener(e -> mf.createBottonsFromExternalClasses());
 
         // Add the button to the panel
         buttonPanel.add(continueButton, BorderLayout.SOUTH);

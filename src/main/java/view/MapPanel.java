@@ -19,7 +19,7 @@ import model.exceptions.IlegalMap;
 import model.exceptions.IlegalPositionException;
 import model.exceptions.ObjectPositionNotFoundException;
 
-public class MapPanel extends JPanel {
+public class MapPanel extends JPanel implements MapPanelI{
 
 	private static final long serialVersionUID = 1L;
 	private static final char WALL = '+';
@@ -44,7 +44,7 @@ public class MapPanel extends JPanel {
 	
 	private JLabel levelName;
 	
-	private GameControllerI gc;
+	private transient GameControllerI gc;
 	
 	public JLabel getTurnCount() {
 		return this.turnCount;
@@ -104,19 +104,25 @@ public class MapPanel extends JPanel {
 	    newGame.addActionListener(e -> {
 			try {
 				gc.newGame(new File("maps" + File.separator + "level_1.txt").getAbsolutePath());
-			} catch (IlegalPositionException | FileNotFoundException | IlegalMap e1) {
+			} catch (IlegalPositionException | FileNotFoundException | IlegalMap | ObjectPositionNotFoundException e1) {
 				e1.getMessage();
 			}
 		});
 	    
 	    //Save Game Button
-	    saveGame.addActionListener(e -> gc.saveGame());
+	    saveGame.addActionListener(e -> {
+			try {
+				gc.saveGame();
+			} catch (ObjectPositionNotFoundException | IlegalPositionException e2) {
+				e2.getMessage();
+			}
+		});
 	    
 	    //Load Game Button
 	    loadGame.addActionListener(e -> {
 	    	try {
 				gc.loadGame();
-			} catch (NumberFormatException | IlegalPositionException e1) {
+			} catch (NumberFormatException | IlegalPositionException | ObjectPositionNotFoundException e1) {
 				e1.getMessage();
 			}
 	    });
@@ -125,7 +131,7 @@ public class MapPanel extends JPanel {
 	    restartLevel.addActionListener(e -> {
 			try {
 				gc.restartLevel();
-			} catch (FileNotFoundException | IlegalPositionException | IlegalMap e1) {
+			} catch (FileNotFoundException | IlegalPositionException | IlegalMap | ObjectPositionNotFoundException e1) {
 				e1.getMessage();
 			}
 		});

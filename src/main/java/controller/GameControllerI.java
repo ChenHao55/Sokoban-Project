@@ -8,15 +8,15 @@ import model.exceptions.ObjectPositionNotFoundException;
 
 public interface GameControllerI {
 	
-	public void newGame(String fileName) throws FileNotFoundException, IlegalPositionException, IlegalMap;
+	public void newGame(String fileName) throws FileNotFoundException, IlegalPositionException, IlegalMap, ObjectPositionNotFoundException;
 	
-	public void saveGame();
+	public void saveGame() throws ObjectPositionNotFoundException, IlegalPositionException;
 	
-	public void loadGame() throws NumberFormatException, IlegalPositionException;
+	public void loadGame() throws NumberFormatException, IlegalPositionException, ObjectPositionNotFoundException;
 	
-	public void loadGameMF() throws NumberFormatException, IlegalPositionException;
+	public void loadGameMF() throws NumberFormatException, IlegalPositionException, ObjectPositionNotFoundException;
 	
-	public void undoMovement() throws IlegalPositionException;
+	public void undoMovement() throws IlegalPositionException, ObjectPositionNotFoundException;
 	
 	public void moveUp() throws ObjectPositionNotFoundException, IlegalPositionException, FileNotFoundException, IlegalMap;
 	
@@ -26,7 +26,7 @@ public interface GameControllerI {
 	
 	public void moveLeft() throws ObjectPositionNotFoundException, IlegalPositionException, FileNotFoundException, IlegalMap;
 	
-	public void restartLevel() throws FileNotFoundException, IlegalPositionException, IlegalMap;
+	public void restartLevel() throws FileNotFoundException, IlegalPositionException, IlegalMap, ObjectPositionNotFoundException;
 	
 	public void nextLevel() throws FileNotFoundException, IlegalPositionException, ObjectPositionNotFoundException, IlegalMap;
 

@@ -2,6 +2,7 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.KeyEvent;
@@ -23,10 +24,11 @@ import model.exceptions.IlegalPositionException;
 import model.exceptions.ObjectPositionNotFoundException;
 
 
-public class MainFrame extends JFrame implements KeyListener  {
+public class MainFrame extends JFrame implements KeyListener, MainFrameI  {
 
 	private static final long serialVersionUID = 1L;
-	private GameControllerI gc;
+	private transient GameControllerI gc;
+	private transient MapPanelI mp;
 
 	public MainFrame() {
 		
@@ -44,22 +46,26 @@ public class MainFrame extends JFrame implements KeyListener  {
 		setFocusable(true);
 	}
 	
+	public void createBottonsFromExternalClasses() {
+		this.createButtons();
+	}
+	
 	//Metodo para crear los botones de "Nueva Partida" o "Cargar Partida"
-	public void createButtons() {
+	private void createButtons() {
 		getContentPane().removeAll();
 		
 		JPanel panel = new JPanel(new BorderLayout()); // Usamos BorderLayout para organizar los componentes
 
-	    // Crear el JLabel para el título
+	    //Crear el JLabel para el título
 	    JLabel title = new JLabel("<html><div style='text-align: center;'>SOKOBAN</div></html>", SwingConstants.CENTER);
 	    title.setFont(new Font("Comic Sans MS", Font.BOLD, 70));
 	    title.setForeground(Color.WHITE);
 
-	    // Crear un panel para los botones y establecer su diseño
+	    //Crear un panel para los botones y establecer su diseño
 	    JPanel buttonsPanel = new JPanel(new FlowLayout());
 	    buttonsPanel.setBackground(Color.BLACK);
 
-	    // Crear los botones
+	    //Crear los botones
 	    JButton newGame = new JButton("New Game");
 	    JButton loadGame = new JButton("Load Game");
 
@@ -68,7 +74,7 @@ public class MainFrame extends JFrame implements KeyListener  {
 	    newGame.addActionListener(e -> {
 			try {
 				gc.newGame(new File("maps" + File.separator + "level_1.txt").getAbsolutePath());
-			} catch (IlegalPositionException | FileNotFoundException | IlegalMap e1) {
+			} catch (IlegalPositionException | FileNotFoundException | IlegalMap | ObjectPositionNotFoundException e1) {
 				e1.getMessage();
 			}
 		});
@@ -77,7 +83,7 @@ public class MainFrame extends JFrame implements KeyListener  {
 	    loadGame.addActionListener(e -> {
 	    	try {
 	    		gc.loadGameMF();
-			} catch (NumberFormatException | IlegalPositionException e1) {
+			} catch (NumberFormatException | IlegalPositionException | ObjectPositionNotFoundException e1) {
 				e1.getMessage();
 			}
 	    });
@@ -97,6 +103,11 @@ public class MainFrame extends JFrame implements KeyListener  {
 	    revalidate();
 		repaint();
 	}
+	
+	public File optionGamePanel(char c) {
+		OptionsGamePanel op = new OptionsGamePanel();
+		return op.saveGame(c);
+	}
 
 	public GameControllerI getGc() {
 		return this.gc;
@@ -106,10 +117,25 @@ public class MainFrame extends JFrame implements KeyListener  {
 		this.gc = gc;
 	}
 	
+	public void createMap(char[][] level) throws IlegalPositionException, ObjectPositionNotFoundException {
+		if(mp == null) {mp = new MapPanel(); mp.setGc(gc);}
+		mp.createMap(level);
+	}
+	
+	public void updateCounters(int countBox, int count, int globalCount) {
+		mp.getTurnBox().setText("P: " + countBox);
+		mp.getTurnWarehouseMan().setText("W: " + count);
+		mp.getTurnCount().setText("T: " + globalCount);
+	}
+	
+	public void updateLevelName(int levelNumber) {
+		this.mp.getLevelName().setText("Nivel: " + levelNumber);
+	}
+	
 	//Añadir al Frame el Panel del Mapa
-	public void paintMap(MapPanel mp) {
+	public void paintMap() {
 		getContentPane().removeAll();
-		add(mp, BorderLayout.CENTER);
+		add((Component) mp, BorderLayout.CENTER);
 		revalidate();
 		repaint();
 	}
@@ -167,7 +193,7 @@ public class MainFrame extends JFrame implements KeyListener  {
 				if(e.isControlDown()) {
 					try {
 						gc.undoMovement();
-					} catch (IlegalPositionException e1) {
+					} catch (IlegalPositionException | ObjectPositionNotFoundException e1) {
 						e1.getMessage();
 					}
 				}
