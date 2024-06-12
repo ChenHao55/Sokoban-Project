@@ -21,5 +21,5 @@ public interface MainFrameI {
 	
 	public void showError();
 	
-	public File optionGamePanel(char c);
+	public File saveGame(char c);
 }

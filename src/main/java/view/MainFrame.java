@@ -15,14 +15,16 @@ import java.io.FileNotFoundException;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
-import controller.GameControllerI;
+import controller.GameController;
 import model.exceptions.IlegalMap;
 import model.exceptions.IlegalPositionException;
 import model.exceptions.ObjectPositionNotFoundException;
@@ -30,7 +32,7 @@ import model.exceptions.ObjectPositionNotFoundException;
 public class MainFrame extends JFrame implements KeyListener, MainFrameI  {
 
 	private static final long serialVersionUID = 1L;
-	private transient GameControllerI gc;
+	private transient GameController gc;
 	private char[][] level;
 
 	private static final char WALL = '+';
@@ -40,12 +42,12 @@ public class MainFrame extends JFrame implements KeyListener, MainFrameI  {
 	private static final char PLAYER = 'W';
 	private static final char GOALBOX = '@';
 
-	private ImageIcon wallIcon = new ImageIcon("img" + File.separator + "wall.png");
-	private ImageIcon emptyIcon = new ImageIcon("img" + File.separator + "ground.png");
-	private ImageIcon boxIcon = new ImageIcon("img" + File.separator + "box.png");
-	private ImageIcon playerIcon = new ImageIcon("img" + File.separator + "player.png");
-	private ImageIcon goalIcon = new ImageIcon("img" + File.separator + "goal.png");
-	private ImageIcon goalBoxImg = new ImageIcon("img" + File.separator + "goal_box.png");
+	private static final ImageIcon wallIcon = new ImageIcon("img" + File.separator + "wall.png");
+	private static final ImageIcon emptyIcon = new ImageIcon("img" + File.separator + "ground.png");
+	private static final ImageIcon boxIcon = new ImageIcon("img" + File.separator + "box.png");
+	private static final ImageIcon playerIcon = new ImageIcon("img" + File.separator + "player.png");
+	private static final ImageIcon goalIcon = new ImageIcon("img" + File.separator + "goal.png");
+	private static final ImageIcon goalBoxImg = new ImageIcon("img" + File.separator + "goal_box.png");
 
 	private JLabel turnCount;
 	private JLabel turnBox;
@@ -116,12 +118,32 @@ public class MainFrame extends JFrame implements KeyListener, MainFrameI  {
 		repaint();
 	}
 
-	public File optionGamePanel(char c) {
-		OptionsGamePanel op = new OptionsGamePanel();
-		return op.saveGame(c);
-	}
+	public File saveGame(char option) {
+        File file = null;
+        JFileChooser fileChooser = new JFileChooser();
+        
+    	// Establece el directorio actual al directorio "games_saved"
+        fileChooser.setCurrentDirectory(new File(System.getProperty("user.dir") + File.separator + "games_saved"));
+        
+        // Filtrar para mostrar solo archivos .txt
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("TEXT FILES", "txt", "text");
+        fileChooser.setFileFilter(filter);
+        fileChooser.setAcceptAllFileFilterUsed(false);
+        
+        // Muestra el diálogo de guardar archivo
+        if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+            file = fileChooser.getSelectedFile();
+            
+            // Añade .txt al fichero si no lo tiene ya
+            if (option == 's' && !file.getPath().endsWith(".txt")) {
+                file = new File(file.getPath() + ".txt");
+            }
+        }
+            
+        return file;
+    }
 	
-	public void setGc(GameControllerI gc) {
+	public void setGc(GameController gc) {
 		this.gc = gc;
 	}
 
@@ -277,11 +299,30 @@ public class MainFrame extends JFrame implements KeyListener, MainFrameI  {
 
 	public void showCongrats(int punctuation) {
 		getContentPane().removeAll();
-		CongratsPanel cp = new CongratsPanel(this, punctuation);
-		add(cp, BorderLayout.CENTER);
-		revalidate();
-		repaint();
-	}
+        setLayout(new BorderLayout());
+        setBackground(Color.BLACK);
+
+        // Create a label for the congratulations message
+        JLabel congratsLabel = new JLabel("<html><div style='text-align: center;'>Congratulations!<br>"
+        		+ "You've completed the Sokoban game!<br><br>Punctuation:" + Integer.toString(punctuation) + "</div></html> ", SwingConstants.CENTER);
+        congratsLabel.setFont(new Font("Serif", Font.BOLD, 24));
+        congratsLabel.setForeground(Color.BLACK);
+        // Add the label to the panel
+        add(congratsLabel, BorderLayout.CENTER);
+
+        // Create a button that allows the user to play again
+        JPanel buttonPanel = new JPanel(new FlowLayout());
+	    buttonPanel.setBackground(Color.BLACK);
+        JButton continueButton = new JButton("Continue");
+        continueButton.addActionListener(e -> this.createBottonsFromExternalClasses());
+
+        // Add the button to the panel
+        buttonPanel.add(continueButton, BorderLayout.SOUTH);
+        add(buttonPanel, BorderLayout.SOUTH);
+        this.revalidate();
+        this.repaint();
+    }
+	
 	public void showError() {
 		JOptionPane.showMessageDialog(null, "Wrong map", "Error", JOptionPane.ERROR_MESSAGE);
 	}
