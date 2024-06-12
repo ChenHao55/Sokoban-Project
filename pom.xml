@@ -28,7 +28,7 @@
 		<sonar.qualitygate.wait>true</sonar.qualitygate.wait>
         <!--suppress UnresolvedMavenProperty -->
          <sonar.projectName>sokoban</sonar.projectName>
-	    <sonar.projectKey>sokoban_project</sonar.projectKey>
+	    <sonar.projectKey>sokoban_210010</sonar.projectKey>
 	    <!-- Files to be excluded from coverage. Define for the view+controller 
 		 in your final projects -->
 	    <sonar.coverage.exclusions>**src/main/java/view/**,**src/main/java/controller/**,**/src/main/java/GameMain.java</sonar.coverage.exclusions>
