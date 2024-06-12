@@ -104,7 +104,7 @@ public class AppTest {
 				    {'+', '.', '.', '.', '+', '.', '.', '+'},
 				    {'+', '.', '.', '.', '+', '+', '+', '+'},
 				    {'+', '+', '+', '+', '+', '.', '.', '.'}
-				};;
+				};
 			WarehouseMan w = new WarehouseMan(1, 1);
 			assertDoesNotThrow (() -> new LeftAction(w.getX(), w.getY(), mat));
 			log.info("Test passed");
@@ -122,7 +122,7 @@ public class AppTest {
 				    {'+', '.', '.', '.', '+', '.', '.', '+'},
 				    {'+', '.', '.', '.', '+', '+', '+', '+'},
 				    {'+', '+', '+', '+', '+', '.', '.', '.'}
-				};;
+				};
 			WarehouseMan w = new WarehouseMan(1, 1);
 			assertDoesNotThrow (() -> new RightAction(w.getX(), w.getY(), mat));
 			log.info("Test passed");
@@ -140,7 +140,7 @@ public class AppTest {
 				    {'+', '.', '.', '.', '+', '.', '.', '+'},
 				    {'+', '.', '.', '.', '+', '+', '+', '+'},
 				    {'+', '+', '+', '+', '+', '.', '.', '.'}
-				};;
+				};
 			WarehouseMan w = new WarehouseMan(1, 1);
 			assertDoesNotThrow (() -> new UpAction(w.getX(), w.getY(), mat));
 			log.info("Test passed");
@@ -158,7 +158,7 @@ public class AppTest {
 				    {'+', '.', '.', '.', '+', '.', '.', '+'},
 				    {'+', '.', '.', '.', '+', '+', '+', '+'},
 				    {'+', '+', '+', '+', '+', '.', '.', '.'}
-				};;
+				};
 			WarehouseMan w = new WarehouseMan(1, 1);
 			assertDoesNotThrow (() -> new DownAction(w.getX(), w.getY(), mat));
 			log.info("Test passed");
@@ -527,7 +527,7 @@ public class AppTest {
 				    {'+', '.', '.', '.', '+', '.', '.', '+'},
 				    {'+', '.', '.', '.', '+', '+', '+', '+'},
 				    {'+', '+', '+', '+', '+', '.', '.', '.'}
-				};;
+				};
 				
 			char[][] matExp = {
 				    {'+', '+', '+', '+', '.', '.', '.', '.'},
@@ -538,7 +538,7 @@ public class AppTest {
 				    {'+', '.', '.', '.', '+', '.', '.', '+'},
 				    {'+', '.', '.', '.', '+', '+', '+', '+'},
 				    {'+', '+', '+', '+', '+', '.', '.', '.'}
-				};;
+				};
 			boolean equals = true;
 			WarehouseMan w = new WarehouseMan(4, 2);
 			Counter c = new Counter();
@@ -571,7 +571,7 @@ public class AppTest {
 				    {'+', '.', '.', '.', '+', '.', '.', '+'},
 				    {'+', '.', '.', '.', '+', '+', '+', '+'},
 				    {'+', '+', '+', '+', '+', '.', '.', '.'}
-				};;
+				};
 				
 			char[][] matExp = {
 				    {'+', '+', '+', '+', '.', '.', '.', '.'},
@@ -582,7 +582,7 @@ public class AppTest {
 				    {'+', '.', '.', '.', '+', '.', '.', '+'},
 				    {'+', '.', '.', '.', '+', '+', '+', '+'},
 				    {'+', '+', '+', '+', '+', '.', '.', '.'}
-				};;
+				};
 			boolean equals = true;
 			WarehouseMan w = new WarehouseMan(4, 2);
 			Counter c = new Counter();
@@ -616,7 +616,7 @@ public class AppTest {
 				    {'+', '.', '.', '.', '+', '.', '.', '+'},
 				    {'+', '.', '.', '.', '+', '+', '+', '+'},
 				    {'+', '+', '+', '+', '+', '.', '.', '.'}
-				};;
+				};
 				
 			char[][] matExp = {
 				    {'+', '+', '+', '+', '.', '.', '.', '.'},
@@ -627,7 +627,7 @@ public class AppTest {
 				    {'+', '.', '.', '.', '+', '.', '.', '+'},
 				    {'+', '.', '.', '.', '+', '+', '+', '+'},
 				    {'+', '+', '+', '+', '+', '.', '.', '.'}
-				};;
+				};
 			boolean equals = true;
 			WarehouseMan w = new WarehouseMan(4, 2);
 			Counter c = new Counter();
@@ -660,7 +660,7 @@ public class AppTest {
 				    {'+', '.', '.', '.', '+', '.', '.', '+'},
 				    {'+', '.', '.', '.', '+', '+', '+', '+'},
 				    {'+', '+', '+', '+', '+', '.', '.', '.'}
-				};;
+				};
 				
 			char[][] matExp = {
 				    {'+', '+', '+', '+', '.', '.', '.', '.'},
@@ -671,7 +671,95 @@ public class AppTest {
 				    {'+', '.', '.', '.', '+', '.', '.', '+'},
 				    {'+', '.', '.', '.', '+', '+', '+', '+'},
 				    {'+', '+', '+', '+', '+', '.', '.', '.'}
-				};;
+				};
+			boolean equals = true;
+			WarehouseMan w = new WarehouseMan(4, 2);
+			Counter c = new Counter();
+			LeftAction action = new LeftAction(w.getX(), w.getY(), mat);
+			gs = of.createGoals(o.newGame(new File("maps" + File.separator + "level_" + 1 + ".txt").getAbsolutePath()));
+			char[][] matRes = action.move(w, gs, mat, c);
+			for (int i = 0; i < matExp.length; i++) {
+	            for (int j = 0; j < matExp[0].length; j++) {
+	                if (matExp[i][j] != matRes[i][j]) {
+	                    equals = false;
+	                }
+	            }
+	        }
+			assertEquals(true, equals);
+			log.info("Test passed");
+		}
+		
+		@Test
+		void correctLeftActionMoveBoxWall() throws IlegalPositionException, FileNotFoundException, WallException, IlegalMap {
+			log.info("Executing test to check the correct creation of a LeftAction Object");
+			ArrayList<GameObjectI> gs = new ArrayList<>();
+			ObjectFactoryI of = new ObjectFactory();
+			OptionsI o = new Options(); 
+			char[][] mat = {
+				    {'+', '+', '+', '+', '.', '.', '.', '.'},
+				    {'+', '.', '.', '+', '.', '.', '.', '.'},
+				    {'+', '.', '.', '+', '+', '+', '+', '+'},
+				    {'+', '.', '.', '.', '.', '.', '.', '+'},
+				    {'+', '#', 'W', '*', '+', '#', '.', '+'},
+				    {'+', '.', '.', '.', '+', '.', '.', '+'},
+				    {'+', '.', '.', '.', '+', '+', '+', '+'},
+				    {'+', '+', '+', '+', '+', '.', '.', '.'}
+				};
+				
+			char[][] matExp = {
+				    {'+', '+', '+', '+', '.', '.', '.', '.'},
+				    {'+', '.', '.', '+', '.', '.', '.', '.'},
+				    {'+', '.', '.', '+', '+', '+', '+', '+'},
+				    {'+', '.', '.', '.', '.', '.', '.', '+'},
+				    {'+', '#', 'W', '*', '+', '#', '.', '+'},
+				    {'+', '.', '.', '.', '+', '.', '.', '+'},
+				    {'+', '.', '.', '.', '+', '+', '+', '+'},
+				    {'+', '+', '+', '+', '+', '.', '.', '.'}
+				};
+			boolean equals = true;
+			WarehouseMan w = new WarehouseMan(4, 2);
+			Counter c = new Counter();
+			LeftAction action = new LeftAction(w.getX(), w.getY(), mat);
+			gs = of.createGoals(o.newGame(new File("maps" + File.separator + "level_" + 1 + ".txt").getAbsolutePath()));
+			char[][] matRes = action.move(w, gs, mat, c);
+			for (int i = 0; i < matExp.length; i++) {
+	            for (int j = 0; j < matExp[0].length; j++) {
+	                if (matExp[i][j] != matRes[i][j]) {
+	                    equals = false;
+	                }
+	            }
+	        }
+			assertEquals(true, equals);
+			log.info("Test passed");
+		}
+		
+		@Test
+		void correctLeftActionMoveBoxBox() throws IlegalPositionException, FileNotFoundException, WallException, IlegalMap {
+			log.info("Executing test to check the correct creation of a LeftAction Object");
+			ArrayList<GameObjectI> gs = new ArrayList<>();
+			ObjectFactoryI of = new ObjectFactory();
+			OptionsI o = new Options(); 
+			char[][] mat = {
+				    {'+', '+', '+', '+', '.', '.', '.', '.'},
+				    {'+', '.', '.', '+', '.', '.', '.', '.'},
+				    {'+', '.', '.', '+', '+', '+', '+', '+'},
+				    {'+', '.', '.', '.', '.', '.', '.', '+'},
+				    {'#', '#', 'W', '*', '+', '#', '.', '+'},
+				    {'+', '.', '.', '.', '+', '.', '.', '+'},
+				    {'+', '.', '.', '.', '+', '+', '+', '+'},
+				    {'+', '+', '+', '+', '+', '.', '.', '.'}
+				};
+				
+			char[][] matExp = {
+				    {'+', '+', '+', '+', '.', '.', '.', '.'},
+				    {'+', '.', '.', '+', '.', '.', '.', '.'},
+				    {'+', '.', '.', '+', '+', '+', '+', '+'},
+				    {'+', '.', '.', '.', '.', '.', '.', '+'},
+				    {'#', '#', 'W', '*', '+', '#', '.', '+'},
+				    {'+', '.', '.', '.', '+', '.', '.', '+'},
+				    {'+', '.', '.', '.', '+', '+', '+', '+'},
+				    {'+', '+', '+', '+', '+', '.', '.', '.'}
+				};
 			boolean equals = true;
 			WarehouseMan w = new WarehouseMan(4, 2);
 			Counter c = new Counter();
@@ -704,7 +792,7 @@ public class AppTest {
 				    {'+', '.', '.', '.', '+', '.', '.', '+'},
 				    {'+', '.', '.', '.', '+', '+', '+', '+'},
 				    {'+', '+', '+', '+', '+', '.', '.', '.'}
-				};;
+				};
 				
 			char[][] matExp = {
 				    {'+', '+', '+', '+', '.', '.', '.', '.'},
@@ -715,7 +803,7 @@ public class AppTest {
 				    {'+', '.', '.', '.', '+', '.', '.', '+'},
 				    {'+', '.', '.', '.', '+', '+', '+', '+'},
 				    {'+', '+', '+', '+', '+', '.', '.', '.'}
-				};;
+				};
 			boolean equals = true;
 			WarehouseMan w = new WarehouseMan(4, 2);
 			Counter c = new Counter();
@@ -748,7 +836,7 @@ public class AppTest {
 				    {'+', '.', '.', '.', '+', '.', '.', '+'},
 				    {'+', '.', '.', '.', '+', '+', '+', '+'},
 				    {'+', '+', '+', '+', '+', '.', '.', '.'}
-				};;
+				};
 				
 			char[][] matExp = {
 				    {'+', '+', '+', '+', '.', '.', '.', '.'},
@@ -759,7 +847,7 @@ public class AppTest {
 				    {'+', '.', '.', '.', '+', '.', '.', '+'},
 				    {'+', '.', '.', '.', '+', '+', '+', '+'},
 				    {'+', '+', '+', '+', '+', '.', '.', '.'}
-				};;
+				};
 			boolean equals = true;
 			WarehouseMan w = new WarehouseMan(4, 2);
 			Counter c = new Counter();
@@ -932,6 +1020,94 @@ public class AppTest {
 				    {'+', '.', '.', '+', '.', '.', '.', '.'},
 				    {'+', '.', '.', '+', '+', '+', '+', '+'},
 				    {'+', '.', '.', 'W', '#', '.', '.', '+'},
+				    {'+', '+', '.', '*', '+', '#', '.', '+'},
+				    {'+', '.', '.', '.', '+', '.', '.', '+'},
+				    {'+', '.', '.', '.', '+', '+', '+', '+'},
+				    {'+', '+', '+', '+', '+', '.', '.', '.'}
+				};
+			boolean equals = true;
+			WarehouseMan w = new WarehouseMan(3, 2);
+			Counter c = new Counter();
+			RightAction action = new RightAction(w.getX(), w.getY(), mat);
+			gs = of.createGoals(o.newGame(new File("maps" + File.separator + "level_" + 1 + ".txt").getAbsolutePath()));
+			char[][] matRes = action.move(w, gs, mat, c);
+			for (int i = 0; i < matExp.length; i++) {
+	            for (int j = 0; j < matExp[0].length; j++) {
+	                if (matExp[i][j] != matRes[i][j]) {
+	                    equals = false;
+	                }
+	            }
+	        }
+			assertEquals(true, equals);
+			log.info("Test passed");
+		}
+		
+		@Test
+		void correctRightActionMoveBoxWall() throws IlegalPositionException, FileNotFoundException, WallException, IlegalMap {
+			log.info("Executing test to check the correct creation of a RightAction Object");
+			ArrayList<GameObjectI> gs = new ArrayList<>();
+			ObjectFactoryI of = new ObjectFactory();
+			OptionsI o = new Options(); 
+			char[][] mat = {
+				    {'+', '+', '+', '+', '.', '.', '.', '.'},
+				    {'+', '.', '.', '+', '.', '.', '.', '.'},
+				    {'+', '.', '.', '+', '+', '+', '+', '+'},
+				    {'+', '.', 'W', '#', '+', '.', '.', '+'},
+				    {'+', '+', '.', '*', '+', '#', '.', '+'},
+				    {'+', '.', '.', '.', '+', '.', '.', '+'},
+				    {'+', '.', '.', '.', '+', '+', '+', '+'},
+				    {'+', '+', '+', '+', '+', '.', '.', '.'}
+				};
+				
+			char[][] matExp = {
+				    {'+', '+', '+', '+', '.', '.', '.', '.'},
+				    {'+', '.', '.', '+', '.', '.', '.', '.'},
+				    {'+', '.', '.', '+', '+', '+', '+', '+'},
+				    {'+', '.', 'W', '#', '+', '.', '.', '+'},
+				    {'+', '+', '.', '*', '+', '#', '.', '+'},
+				    {'+', '.', '.', '.', '+', '.', '.', '+'},
+				    {'+', '.', '.', '.', '+', '+', '+', '+'},
+				    {'+', '+', '+', '+', '+', '.', '.', '.'}
+				};
+			boolean equals = true;
+			WarehouseMan w = new WarehouseMan(3, 2);
+			Counter c = new Counter();
+			RightAction action = new RightAction(w.getX(), w.getY(), mat);
+			gs = of.createGoals(o.newGame(new File("maps" + File.separator + "level_" + 1 + ".txt").getAbsolutePath()));
+			char[][] matRes = action.move(w, gs, mat, c);
+			for (int i = 0; i < matExp.length; i++) {
+	            for (int j = 0; j < matExp[0].length; j++) {
+	                if (matExp[i][j] != matRes[i][j]) {
+	                    equals = false;
+	                }
+	            }
+	        }
+			assertEquals(true, equals);
+			log.info("Test passed");
+		}
+		
+		@Test
+		void correctRightActionMoveBoxBox() throws IlegalPositionException, FileNotFoundException, WallException, IlegalMap {
+			log.info("Executing test to check the correct creation of a RightAction Object");
+			ArrayList<GameObjectI> gs = new ArrayList<>();
+			ObjectFactoryI of = new ObjectFactory();
+			OptionsI o = new Options(); 
+			char[][] mat = {
+				    {'+', '+', '+', '+', '.', '.', '.', '.'},
+				    {'+', '.', '.', '+', '.', '.', '.', '.'},
+				    {'+', '.', '.', '+', '+', '+', '+', '+'},
+				    {'+', '.', 'W', '#', '#', '.', '.', '+'},
+				    {'+', '+', '.', '*', '+', '#', '.', '+'},
+				    {'+', '.', '.', '.', '+', '.', '.', '+'},
+				    {'+', '.', '.', '.', '+', '+', '+', '+'},
+				    {'+', '+', '+', '+', '+', '.', '.', '.'}
+				};
+				
+			char[][] matExp = {
+				    {'+', '+', '+', '+', '.', '.', '.', '.'},
+				    {'+', '.', '.', '+', '.', '.', '.', '.'},
+				    {'+', '.', '.', '+', '+', '+', '+', '+'},
+				    {'+', '.', 'W', '#', '#', '.', '.', '+'},
 				    {'+', '+', '.', '*', '+', '#', '.', '+'},
 				    {'+', '.', '.', '.', '+', '.', '.', '+'},
 				    {'+', '.', '.', '.', '+', '+', '+', '+'},
@@ -1215,6 +1391,92 @@ public class AppTest {
 			}
 		
 		@Test
+		void correctUpActionMoveBoxWall() throws IlegalPositionException, FileNotFoundException, WallException, IlegalMap {
+			log.info("Executing test to check the correct creation of a UpAction Object");
+			ArrayList<GameObjectI> gs = new ArrayList<>();
+			ObjectFactoryI of = new ObjectFactory();
+			OptionsI o = new Options(); 
+			char[][] mat = {
+				    {'+', '+', '+', '+', '.', '.', '.', '.'},
+				    {'+', '.', '.', '+', '.', '.', '.', '.'},
+				    {'+', '.', '+', '+', '+', '+', '+', '+'},
+				    {'+', '.', '#', '.', '.', '.', '.', '+'},
+				    {'+', '+', 'W', '*', '+', '#', '.', '+'},
+				    {'+', '.', '.', '.', '+', '.', '.', '+'},
+				    {'+', '.', '.', '.', '+', '+', '+', '+'},
+				    {'+', '+', '+', '+', '+', '.', '.', '.'}
+				};
+			char[][] matExp = {
+				    {'+', '+', '+', '+', '.', '.', '.', '.'},
+				    {'+', '.', '.', '+', '.', '.', '.', '.'},
+				    {'+', '.', '+', '+', '+', '+', '+', '+'},
+				    {'+', '.', '#', '.', '.', '.', '.', '+'},
+				    {'+', '+', 'W', '*', '+', '#', '.', '+'},
+				    {'+', '.', '.', '.', '+', '.', '.', '+'},
+				    {'+', '.', '.', '.', '+', '+', '+', '+'},
+				    {'+', '+', '+', '+', '+', '.', '.', '.'}
+				};
+			boolean equals = true;
+			WarehouseMan w = new WarehouseMan(4, 2);
+			Counter c = new Counter();
+			UpAction action = new UpAction(w.getX(), w.getY(), mat);
+			gs = of.createGoals(o.newGame(new File("maps" + File.separator + "level_" + 1 + ".txt").getAbsolutePath()));
+			char[][] matRes = action.move(w, gs, mat, c);
+			for (int i = 0; i < matExp.length; i++) {
+	            for (int j = 0; j < matExp[0].length; j++) {
+	                if (matExp[i][j] != matRes[i][j]) {
+	                    equals = false;
+	                }
+	            }
+	        }
+			assertEquals(true, equals);
+			log.info("Test passed");
+			}
+		
+		@Test
+		void correctUpActionMoveBoxBox() throws IlegalPositionException, FileNotFoundException, WallException, IlegalMap {
+			log.info("Executing test to check the correct creation of a UpAction Object");
+			ArrayList<GameObjectI> gs = new ArrayList<>();
+			ObjectFactoryI of = new ObjectFactory();
+			OptionsI o = new Options(); 
+			char[][] mat = {
+				    {'+', '+', '+', '+', '.', '.', '.', '.'},
+				    {'+', '.', '.', '+', '.', '.', '.', '.'},
+				    {'+', '.', '#', '+', '+', '+', '+', '+'},
+				    {'+', '.', '#', '.', '.', '.', '.', '+'},
+				    {'+', '+', 'W', '*', '+', '#', '.', '+'},
+				    {'+', '.', '.', '.', '+', '.', '.', '+'},
+				    {'+', '.', '.', '.', '+', '+', '+', '+'},
+				    {'+', '+', '+', '+', '+', '.', '.', '.'}
+				};
+			char[][] matExp = {
+				    {'+', '+', '+', '+', '.', '.', '.', '.'},
+				    {'+', '.', '.', '+', '.', '.', '.', '.'},
+				    {'+', '.', '#', '+', '+', '+', '+', '+'},
+				    {'+', '.', '#', '.', '.', '.', '.', '+'},
+				    {'+', '+', 'W', '*', '+', '#', '.', '+'},
+				    {'+', '.', '.', '.', '+', '.', '.', '+'},
+				    {'+', '.', '.', '.', '+', '+', '+', '+'},
+				    {'+', '+', '+', '+', '+', '.', '.', '.'}
+				};
+			boolean equals = true;
+			WarehouseMan w = new WarehouseMan(4, 2);
+			Counter c = new Counter();
+			UpAction action = new UpAction(w.getX(), w.getY(), mat);
+			gs = of.createGoals(o.newGame(new File("maps" + File.separator + "level_" + 1 + ".txt").getAbsolutePath()));
+			char[][] matRes = action.move(w, gs, mat, c);
+			for (int i = 0; i < matExp.length; i++) {
+	            for (int j = 0; j < matExp[0].length; j++) {
+	                if (matExp[i][j] != matRes[i][j]) {
+	                    equals = false;
+	                }
+	            }
+	        }
+			assertEquals(true, equals);
+			log.info("Test passed");
+			}
+		
+		@Test
 		void correctUpActionMoveBoxToGoal() throws IlegalPositionException, FileNotFoundException, WallException, IlegalMap {
 			log.info("Executing test to check the correct creation of a UpAction Object");
 			ArrayList<GameObjectI> gs = new ArrayList<>();
@@ -1430,7 +1692,7 @@ public class AppTest {
 		}
 		
 		@Test
-		void correctDownActionMoveToBpx() throws IlegalPositionException, FileNotFoundException, WallException, IlegalMap {
+		void correctDownActionMoveBox() throws IlegalPositionException, FileNotFoundException, WallException, IlegalMap {
 			log.info("Executing test to check the correct creation of a DownAction Object");
 			ArrayList<GameObjectI> gs = new ArrayList<>();
 			ObjectFactoryI of = new ObjectFactory();
@@ -1452,6 +1714,92 @@ public class AppTest {
 				    {'+', '.', '.', '.', '.', '.', '.', '+'},
 				    {'+', '+', '.', '*', '+', '#', '.', '+'},
 				    {'+', '.', 'W', '.', '+', '.', '.', '+'},
+				    {'+', '.', '#', '.', '+', '+', '+', '+'},
+				    {'+', '+', '+', '+', '+', '.', '.', '.'}
+				};
+			boolean equals = true;
+			WarehouseMan w = new WarehouseMan(4, 2);
+			Counter c = new Counter();
+			DownAction action = new DownAction(w.getX(), w.getY(), mat);
+			gs = of.createGoals(o.newGame(new File("maps" + File.separator + "level_" + 1 + ".txt").getAbsolutePath()));
+			char[][] matRes = action.move(w, gs, mat, c);
+			for (int i = 0; i < matExp.length; i++) {
+	            for (int j = 0; j < matExp[0].length; j++) {
+	                if (matExp[i][j] != matRes[i][j]) {
+	                    equals = false;
+	                }
+	            }
+	        }
+			assertEquals(true, equals);
+			log.info("Test passed");
+		}
+		
+		@Test
+		void correctDownActionMoveBoxWall() throws IlegalPositionException, FileNotFoundException, WallException, IlegalMap {
+			log.info("Executing test to check the correct creation of a DownAction Object");
+			ArrayList<GameObjectI> gs = new ArrayList<>();
+			ObjectFactoryI of = new ObjectFactory();
+			OptionsI o = new Options(); 
+			char[][] mat = {
+				    {'+', '+', '+', '+', '.', '.', '.', '.'},
+				    {'+', '.', '.', '+', '.', '.', '.', '.'},
+				    {'+', '.', '.', '+', '+', '+', '+', '+'},
+				    {'+', '.', '.', '.', '.', '.', '.', '+'},
+				    {'+', '+', 'W', '*', '+', '#', '.', '+'},
+				    {'+', '.', '#', '.', '+', '.', '.', '+'},
+				    {'+', '.', '+', '.', '+', '+', '+', '+'},
+				    {'+', '+', '+', '+', '+', '.', '.', '.'}
+				};
+			char[][] matExp = {
+				    {'+', '+', '+', '+', '.', '.', '.', '.'},
+				    {'+', '.', '.', '+', '.', '.', '.', '.'},
+				    {'+', '.', '.', '+', '+', '+', '+', '+'},
+				    {'+', '.', '.', '.', '.', '.', '.', '+'},
+				    {'+', '+', 'W', '*', '+', '#', '.', '+'},
+				    {'+', '.', '#', '.', '+', '.', '.', '+'},
+				    {'+', '.', '+', '.', '+', '+', '+', '+'},
+				    {'+', '+', '+', '+', '+', '.', '.', '.'}
+				};
+			boolean equals = true;
+			WarehouseMan w = new WarehouseMan(4, 2);
+			Counter c = new Counter();
+			DownAction action = new DownAction(w.getX(), w.getY(), mat);
+			gs = of.createGoals(o.newGame(new File("maps" + File.separator + "level_" + 1 + ".txt").getAbsolutePath()));
+			char[][] matRes = action.move(w, gs, mat, c);
+			for (int i = 0; i < matExp.length; i++) {
+	            for (int j = 0; j < matExp[0].length; j++) {
+	                if (matExp[i][j] != matRes[i][j]) {
+	                    equals = false;
+	                }
+	            }
+	        }
+			assertEquals(true, equals);
+			log.info("Test passed");
+		}
+		
+		@Test
+		void correctDownActionMoveBoxBox() throws IlegalPositionException, FileNotFoundException, WallException, IlegalMap {
+			log.info("Executing test to check the correct creation of a DownAction Object");
+			ArrayList<GameObjectI> gs = new ArrayList<>();
+			ObjectFactoryI of = new ObjectFactory();
+			OptionsI o = new Options(); 
+			char[][] mat = {
+				    {'+', '+', '+', '+', '.', '.', '.', '.'},
+				    {'+', '.', '.', '+', '.', '.', '.', '.'},
+				    {'+', '.', '.', '+', '+', '+', '+', '+'},
+				    {'+', '.', '.', '.', '.', '.', '.', '+'},
+				    {'+', '+', 'W', '*', '+', '#', '.', '+'},
+				    {'+', '.', '#', '.', '+', '.', '.', '+'},
+				    {'+', '.', '#', '.', '+', '+', '+', '+'},
+				    {'+', '+', '+', '+', '+', '.', '.', '.'}
+				};
+			char[][] matExp = {
+				    {'+', '+', '+', '+', '.', '.', '.', '.'},
+				    {'+', '.', '.', '+', '.', '.', '.', '.'},
+				    {'+', '.', '.', '+', '+', '+', '+', '+'},
+				    {'+', '.', '.', '.', '.', '.', '.', '+'},
+				    {'+', '+', 'W', '*', '+', '#', '.', '+'},
+				    {'+', '.', '#', '.', '+', '.', '.', '+'},
 				    {'+', '.', '#', '.', '+', '+', '+', '+'},
 				    {'+', '+', '+', '+', '+', '.', '.', '.'}
 				};
