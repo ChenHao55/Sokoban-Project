@@ -2,17 +2,12 @@ package view;
 
 import java.io.File;
 
-import controller.GameControllerI;
 import model.exceptions.IlegalPositionException;
 import model.exceptions.ObjectPositionNotFoundException;
 
 public interface MainFrameI {
 	
 	public void createBottonsFromExternalClasses();
-
-	public GameControllerI getGc();
-
-	public void setGc(GameControllerI gc);
 	
 	public void createMap(char[][] level) throws IlegalPositionException, ObjectPositionNotFoundException;
 	

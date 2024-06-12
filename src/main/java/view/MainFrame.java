@@ -2,14 +2,18 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -23,55 +27,67 @@ import model.exceptions.IlegalMap;
 import model.exceptions.IlegalPositionException;
 import model.exceptions.ObjectPositionNotFoundException;
 
-
 public class MainFrame extends JFrame implements KeyListener, MainFrameI  {
 
 	private static final long serialVersionUID = 1L;
 	private transient GameControllerI gc;
-	private transient MapPanelI mp;
+	private char[][] level;
+
+	private static final char WALL = '+';
+	private static final char EMPTY = '.';
+	private static final char GOAL = '*';
+	private static final char BOX = '#';
+	private static final char PLAYER = 'W';
+	private static final char GOALBOX = '@';
+
+	private ImageIcon wallIcon = new ImageIcon("img" + File.separator + "wall.png");
+	private ImageIcon emptyIcon = new ImageIcon("img" + File.separator + "ground.png");
+	private ImageIcon boxIcon = new ImageIcon("img" + File.separator + "box.png");
+	private ImageIcon playerIcon = new ImageIcon("img" + File.separator + "player.png");
+	private ImageIcon goalIcon = new ImageIcon("img" + File.separator + "goal.png");
+	private ImageIcon goalBoxImg = new ImageIcon("img" + File.separator + "goal_box.png");
+
+	private JLabel turnCount;
+	private JLabel turnBox;
+	private JLabel turnWarehouseman;
+	private JLabel levelName;
+
+	private int boxCount = 0;
+	private int count = 0;
+	private int globalCount = 0;
+	private int levelNumber = 0;
 
 	public MainFrame() {
-		
-		setSize(450,550);  
+		setSize(450, 550);  
 		setTitle("Sokoban");
-        setLocationRelativeTo(null);
-        
+		setLocationRelativeTo(null);
 		setLayout(new BorderLayout());
 		addKeyListener(this);
-		
 		createButtons();
-		
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		
 		setFocusable(true);
 	}
-	
+
 	public void createBottonsFromExternalClasses() {
 		this.createButtons();
 	}
-	
-	//Metodo para crear los botones de "Nueva Partida" o "Cargar Partida"
+
 	private void createButtons() {
 		getContentPane().removeAll();
 		
-		JPanel panel = new JPanel(new BorderLayout()); // Usamos BorderLayout para organizar los componentes
+		JPanel panel = new JPanel(new BorderLayout());
 
-	    //Crear el JLabel para el título
-	    JLabel title = new JLabel("<html><div style='text-align: center;'>SOKOBAN</div></html>", SwingConstants.CENTER);
-	    title.setFont(new Font("Comic Sans MS", Font.BOLD, 70));
-	    title.setForeground(Color.WHITE);
+		JLabel title = new JLabel("<html><div style='text-align: center;'>SOKOBAN</div></html>", SwingConstants.CENTER);
+		title.setFont(new Font("Comic Sans MS", Font.BOLD, 70));
+		title.setForeground(Color.WHITE);
 
-	    //Crear un panel para los botones y establecer su diseño
-	    JPanel buttonsPanel = new JPanel(new FlowLayout());
-	    buttonsPanel.setBackground(Color.BLACK);
+		JPanel buttonsPanel = new JPanel(new FlowLayout());
+		buttonsPanel.setBackground(Color.BLACK);
 
-	    //Crear los botones
-	    JButton newGame = new JButton("New Game");
-	    JButton loadGame = new JButton("Load Game");
+		JButton newGame = new JButton("New Game");
+		JButton loadGame = new JButton("Load Game");
 
-	    // Agregar acción a los botones
-	    //New Game Button
-	    newGame.addActionListener(e -> {
+		newGame.addActionListener(e -> {
 			try {
 				gc.newGame(new File("maps" + File.separator + "level_1.txt").getAbsolutePath());
 			} catch (IlegalPositionException | FileNotFoundException | IlegalMap | ObjectPositionNotFoundException e1) {
@@ -79,74 +95,191 @@ public class MainFrame extends JFrame implements KeyListener, MainFrameI  {
 			}
 		});
 	    
-	    //Load Game Button
-	    loadGame.addActionListener(e -> {
-	    	try {
-	    		gc.loadGameMF();
+		loadGame.addActionListener(e -> {
+			try {
+				gc.loadGameMF();
 			} catch (NumberFormatException | IlegalPositionException | ObjectPositionNotFoundException e1) {
 				e1.getMessage();
 			}
-	    });
+		});
 
-	    // Agregar el título al centro del panel principal
-	    panel.add(title, BorderLayout.CENTER);
-	    panel.setBackground(Color.BLACK);
+		panel.add(title, BorderLayout.CENTER);
+		panel.setBackground(Color.BLACK);
 
-	    // Agregar los botones debajo del título
-	    buttonsPanel.add(newGame);
-	    buttonsPanel.add(loadGame);
-	    panel.add(buttonsPanel, BorderLayout.SOUTH);
+		buttonsPanel.add(newGame);
+		buttonsPanel.add(loadGame);
+		panel.add(buttonsPanel, BorderLayout.SOUTH);
 
-	    // Agregar el panel principal al centro del JFrame
-	    add(panel, BorderLayout.CENTER);
+		add(panel, BorderLayout.CENTER);
 	    
-	    revalidate();
+		revalidate();
 		repaint();
 	}
-	
+
 	public File optionGamePanel(char c) {
 		OptionsGamePanel op = new OptionsGamePanel();
 		return op.saveGame(c);
 	}
-
-	public GameControllerI getGc() {
-		return this.gc;
-	}
-
+	
 	public void setGc(GameControllerI gc) {
 		this.gc = gc;
 	}
-	
+
 	public void createMap(char[][] level) throws IlegalPositionException, ObjectPositionNotFoundException {
-		if(mp == null) {mp = new MapPanel(); mp.setGc(gc);}
-		mp.createMap(level);
+		this.level = level;
 	}
-	
+
 	public void updateCounters(int countBox, int count, int globalCount) {
-		mp.getTurnBox().setText("P: " + countBox);
-		mp.getTurnWarehouseMan().setText("W: " + count);
-		mp.getTurnCount().setText("T: " + globalCount);
+		this.boxCount = countBox;
+		this.count = count;
+		this.globalCount = globalCount;
+		turnBox.setText("P: " + countBox);
+		turnWarehouseman.setText("W: " + count);
+		turnCount.setText("T: " + globalCount);
 	}
-	
+
 	public void updateLevelName(int levelNumber) {
-		this.mp.getLevelName().setText("Nivel: " + levelNumber);
+		this.levelNumber = levelNumber;
+		this.levelName.setText("Nivel: " + levelNumber);
 	}
-	
-	//Añadir al Frame el Panel del Mapa
+
 	public void paintMap() {
 		getContentPane().removeAll();
-		add((Component) mp, BorderLayout.CENTER);
+		JPanel mapPanel = new JPanel() {
+			private static final long serialVersionUID = 1L;
+	
+			@Override
+			protected void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				if (level == null) {
+					return;
+				}
+				int numRows = level.length;
+				int numCols = level[0].length;
+				int cellSize = Math.min(getWidth() / numCols, getHeight() / numRows);
+				for (int y = 0; y < numRows; y++) {
+					for (int x = 0; x < numCols; x++) {
+						Image image = null;
+						int xPos = x * cellSize;
+						int yPos = y * cellSize;
+						switch (level[y][x]) {
+							case WALL:
+								image = wallIcon.getImage();
+								break;
+							case EMPTY:
+								image = emptyIcon.getImage();
+								break;
+							case GOAL:
+								image = goalIcon.getImage();
+								break;
+							case BOX:
+								image = boxIcon.getImage();
+								break;
+							case PLAYER:
+								image = playerIcon.getImage();
+								break;
+							case GOALBOX:
+								image = goalBoxImg.getImage();
+								break;
+							default:
+								break;
+						}
+						if (image != null) {
+							g.drawImage(image, xPos, yPos, cellSize, cellSize, null);
+						}
+					}
+				}
+			}
+	
+			@Override
+			public Dimension getPreferredSize() {
+				if (level == null) {
+					return super.getPreferredSize();
+				}
+				int numRows = level.length;
+				int numCols = level[0].length;
+				int cellSize = Math.min(getWidth() / numCols, getHeight() / numRows);
+				return new Dimension(numCols * cellSize, numRows * cellSize);
+			}
+		};
+	
+		// Creating count panel
+		JPanel countPanel = new JPanel(new FlowLayout());
+		turnWarehouseman = new JLabel("W: " + boxCount);
+		countPanel.add(turnWarehouseman);
+		turnBox = new JLabel("P: " + count);
+		countPanel.add(turnBox);
+		turnCount = new JLabel("T: " + globalCount);
+		countPanel.add(turnCount);
+	
+		// Creating level panel
+		JPanel levelPanel = new JPanel(new FlowLayout());
+		levelName = new JLabel("Level: " + levelNumber);
+		levelPanel.add(levelName);
+	
+		// Creating buttons panel
+		JButton newGame = new JButton("New Game");
+		JButton loadGame = new JButton("Load Game");
+		JButton saveGame = new JButton("Save Game");
+		JButton restartLevel = new JButton("Restart Level");
+	
+		newGame.addActionListener(e -> {
+			try {
+				gc.newGame(new File("maps" + File.separator + "level_1.txt").getAbsolutePath());
+			} catch (IlegalPositionException | FileNotFoundException | IlegalMap | ObjectPositionNotFoundException e1) {
+				e1.getMessage();
+			}
+		});
+	
+		saveGame.addActionListener(e -> {
+			try {
+				gc.saveGame();
+			} catch (ObjectPositionNotFoundException | IlegalPositionException e1) {
+				e1.getMessage();
+			}
+		});
+	
+		loadGame.addActionListener(e -> {
+			try {
+				gc.loadGame();
+			} catch (NumberFormatException | IlegalPositionException | ObjectPositionNotFoundException e1) {
+				e1.getMessage();
+			}
+		});
+	
+		restartLevel.addActionListener(e -> {
+			try {
+				gc.restartLevel();
+			} catch (FileNotFoundException | IlegalPositionException | IlegalMap | ObjectPositionNotFoundException e1) {
+				e1.getMessage();
+			}
+		});
+	
+		JPanel buttonsPanel = new JPanel(new FlowLayout());
+		buttonsPanel.add(newGame);
+		buttonsPanel.add(loadGame);
+		buttonsPanel.add(saveGame);
+		buttonsPanel.add(restartLevel);
+	
+		// Creating container for the panels
+		JPanel container = new JPanel();
+		container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
+		container.add(countPanel);
+		container.add(buttonsPanel);
+		container.add(levelPanel);
+	
+		add(container, BorderLayout.SOUTH);
+		add(mapPanel, BorderLayout.CENTER);
+	
 		revalidate();
 		repaint();
 	}
-	
+
 	public void showCongrats(int punctuation) {
 		getContentPane().removeAll();
-
-        // Add the container to the frame
-        CongratsPanel cp = new CongratsPanel(this, punctuation);
-        add(cp, BorderLayout.CENTER);
-        revalidate();
+		CongratsPanel cp = new CongratsPanel(this, punctuation);
+		add(cp, BorderLayout.CENTER);
+		revalidate();
 		repaint();
 	}
 	public void showError() {

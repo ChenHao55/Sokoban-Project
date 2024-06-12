@@ -30,12 +30,12 @@ public class MapPanel extends JPanel implements MapPanelI{
 	private static final char GOALBOX = '@';
 	private char[][] level;
 
-	private static final ImageIcon wallIcon = new ImageIcon("img" + File.separator + "wall.png");
-	private static final ImageIcon emptyIcon = new ImageIcon("img" + File.separator + "ground.png");
-	private static final ImageIcon boxIcon = new ImageIcon("img" + File.separator + "box.png");
-	private static final ImageIcon playerIcon = new ImageIcon("img" + File.separator + "player.png");
-	private static final ImageIcon goalIcon = new ImageIcon("img" + File.separator + "goal.png");
-	private static final ImageIcon goalBoxImg = new ImageIcon("img" + File.separator + "goal_box.png");
+	private ImageIcon wallIcon = new ImageIcon("img" + File.separator + "wall.png");
+	private ImageIcon emptyIcon = new ImageIcon("img" + File.separator + "ground.png");
+	private ImageIcon boxIcon = new ImageIcon("img" + File.separator + "box.png");
+	private ImageIcon playerIcon = new ImageIcon("img" + File.separator + "player.png");
+	private ImageIcon goalIcon = new ImageIcon("img" + File.separator + "goal.png");
+	private ImageIcon goalBoxImg = new ImageIcon("img" + File.separator + "goal_box.png");
 
 
 	private JLabel turnCount;
