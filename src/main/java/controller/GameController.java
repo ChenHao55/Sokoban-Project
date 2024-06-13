@@ -50,9 +50,10 @@ public class GameController implements GameControllerI {
 	public void loadGameMF() throws NumberFormatException, IlegalPositionException, ObjectPositionNotFoundException {
 		File f = mf.saveGame('l');
 		if(gs.loadGameMF(f)) {
-			this.updatecounters(gs.getGenericCounter().getCurrentCount().getBoxCount(), gs.getGenericCounter().getCurrentCount().getCount(), gs.getGenericCounter().getCurrentCount().getGlobalCount());
 			this.updateMap(gs.getMap());
 			this.paintMap();
+			this.updatecounters(gs.getGenericCounter().getCurrentCount().getBoxCount(), gs.getGenericCounter().getCurrentCount().getCount(), gs.getGenericCounter().getCurrentCount().getGlobalCount());
+			this.updateLevelName(gs.getLevelName());
 		}
 	}
 	
