@@ -212,6 +212,7 @@ public int nextLevel() throws FileNotFoundException, IlegalPositionException, Il
 		this.game(new File("maps" + this.fileSeparator + "level_" + this.levelNumber + ".txt").getAbsolutePath());
 		am.clearActions();
 		res = 1;
+		c.cloneCounter(c.getLevelCount(),c.getCurrentCount());
 	}
 	else if(w != null) {
 		levelNumber = 1;
