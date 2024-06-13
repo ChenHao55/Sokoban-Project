@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.javatuples.Pair;
+import org.javatuples.Triplet;
 
 import model.beans.Counter;
 import model.beans.DownAction;
@@ -27,6 +28,7 @@ public class GameService {
 		private ObjectFactoryI of = new ObjectFactory();
 		private OptionsI o = new Options();
 		private int levelNumber = 1;
+		private String levelName = "";
 		private int totalLevels = 10;
 		private String fileSeparator = File.separator;
 		private GenericCounter c = new GenericCounter();
@@ -50,7 +52,9 @@ public void newGame(String fileName) throws IlegalPositionException, FileNotFoun
 
 //Este metodo se encarga de crear el mapa
 public void game(String fileName) throws IlegalPositionException, FileNotFoundException, IlegalMap {
-	level = o.newGame(fileName);
+	Pair<String, char[][]> p = o.newGame(fileName);
+	levelName = p.getValue0();
+	level = p.getValue1();
 	GameObjectI wAux = of.createWarehouseMan(level);
 	this.w = wAux;
 	this.gs = of.createGoals(level);
@@ -60,7 +64,7 @@ public void game(String fileName) throws IlegalPositionException, FileNotFoundEx
 public boolean saveGame(File f) {
 	boolean saved = false;
 	if(f != null) {
-		o.saveGame(level, (WarehouseMan) w, gs, am.getActions(), levelNumber, f, c);
+		o.saveGame(level, (WarehouseMan) w, gs, am.getActions(), levelNumber, levelName, f, c);
 		saved = true;
 	}
 	return saved;
@@ -70,10 +74,11 @@ public boolean saveGame(File f) {
 public boolean loadGame(File file) throws NumberFormatException, IlegalPositionException {
 	boolean loaded = false;
 	if(file != null) {
-		Pair<Integer, char[][]> p = o.loadGame((WarehouseMan) w, gs, am, file, c);
+		Triplet<Integer, String, char[][]> p = o.loadGame((WarehouseMan) w, gs, am, file, c);
 				
 		if(p != null) {
-			level = p.getValue1();
+			level = p.getValue2();
+			levelName = p.getValue1();
 			levelNumber = p.getValue0();
 			loaded = true;
 		}
@@ -85,10 +90,11 @@ public boolean loadGame(File file) throws NumberFormatException, IlegalPositionE
 public boolean loadGameMF(File file) throws NumberFormatException, IlegalPositionException {
 	boolean res = false;
 	if(file != null) {
-		Pair<Integer, char[][]> p = o.loadGame((WarehouseMan) w, gs, am, file, c);
+		Triplet<Integer, String, char[][]> p = o.loadGame((WarehouseMan) w, gs, am, file, c);
 				
 		if(p != null) {
-			level = p.getValue1();
+			level = p.getValue2();
+			levelName = p.getValue1();
 			levelNumber = p.getValue0();
 			res = true;
 		}
@@ -246,6 +252,10 @@ public int nextLevel() throws FileNotFoundException, IlegalPositionException, Il
 	
 	public int getLevelNumber() {
 		return this.levelNumber;
+	}
+	
+	public String getLevelName() {
+		return this.levelName;
 	}
 	
 	public void setLevelNumber(int level) {

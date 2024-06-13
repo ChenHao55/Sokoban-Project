@@ -25,7 +25,7 @@ public class GameController implements GameControllerI {
 		gs.newGame(fileName);
 		this.updateMap(gs.getMap());
 		this.paintMap();
-		this.upDateLevelName(gs.getLevelNumber());
+		this.updateLevelName(gs.getLevelName());
 		this.updatecounters(gs.getGenericCounter().getCurrentCount().getBoxCount(), gs.getGenericCounter().getCurrentCount().getCount(), gs.getGenericCounter().getCurrentCount().getGlobalCount());
 	}
 	
@@ -34,6 +34,7 @@ public class GameController implements GameControllerI {
 		gs.saveGame(f);
 		this.updateMap(gs.getMap());
 		this.paintMap();
+
 	}
 	
 	public void loadGame() throws NumberFormatException, IlegalPositionException, ObjectPositionNotFoundException {
@@ -42,6 +43,8 @@ public class GameController implements GameControllerI {
 		this.updatecounters(gs.getGenericCounter().getCurrentCount().getBoxCount(), gs.getGenericCounter().getCurrentCount().getCount(), gs.getGenericCounter().getCurrentCount().getGlobalCount());
 		this.updateMap(gs.getMap());
 		this.paintMap();
+		this.updateLevelName(gs.getLevelName());
+
 	}
 	
 	public void loadGameMF() throws NumberFormatException, IlegalPositionException, ObjectPositionNotFoundException {
@@ -68,6 +71,7 @@ public class GameController implements GameControllerI {
 		if(this.gs.isEndLevel()) {
 			this.nextLevel();
 		}
+		this.updateLevelName(gs.getLevelName());
 	}
 	
 	public void moveDown() throws ObjectPositionNotFoundException, IlegalPositionException, FileNotFoundException, IlegalMap {
@@ -111,7 +115,7 @@ public class GameController implements GameControllerI {
 		switch(gs.nextLevel()) {
 			
 			case 1:
-				this.upDateLevelName(gs.getLevelNumber());
+				this.updateLevelName(gs.getLevelName());
 				this.updatecounters(gs.getGenericCounter().getCurrentCount().getBoxCount(), gs.getGenericCounter().getCurrentCount().getCount(), gs.getGenericCounter().getCurrentCount().getGlobalCount());
 				this.updateMap(gs.getMap());
 				this.paintMap();
@@ -130,8 +134,8 @@ public class GameController implements GameControllerI {
 		}
 	}
 	
-	private void upDateLevelName(int levelNumber) {
-		mf.updateLevelName(levelNumber);
+	private void updateLevelName(String levelName) {
+		mf.updateLevelName(levelName);
 	}
 	
 	private void showCongrats(int count) {

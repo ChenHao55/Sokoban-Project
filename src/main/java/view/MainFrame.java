@@ -52,7 +52,7 @@ public class MainFrame extends JFrame implements KeyListener, MainFrameI  {
 	private JLabel turnCount;
 	private JLabel turnBox;
 	private JLabel turnWarehouseman;
-	private JLabel levelName;
+	private JLabel levelName = new JLabel("Level name");
 
 	private int boxCount = 0;
 	private int count = 0;
@@ -160,9 +160,8 @@ public class MainFrame extends JFrame implements KeyListener, MainFrameI  {
 		turnCount.setText("T: " + globalCount);
 	}
 
-	public void updateLevelName(int levelNumber) {
-		this.levelNumber = levelNumber;
-		this.levelName.setText("Nivel: " + levelNumber);
+	public void updateLevelName(String levelName) {
+		this.levelName.setText(levelName);
 	}
 
 	public void paintMap() {
@@ -236,7 +235,6 @@ public class MainFrame extends JFrame implements KeyListener, MainFrameI  {
 	
 		// Creating level panel
 		JPanel levelPanel = new JPanel(new FlowLayout());
-		levelName = new JLabel("Level: " + levelNumber);
 		levelPanel.add(levelName);
 	
 		// Creating buttons panel

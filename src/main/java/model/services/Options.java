@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import org.javatuples.Pair;
+import org.javatuples.Triplet;
 
 import model.beans.GenericCounter;
 import model.beans.GoalPosition;
@@ -32,7 +33,7 @@ public class Options implements OptionsI{
 	public Options() {// No implementation needed
 	}
 	
-	public char[][] newGame(String fileName) throws FileNotFoundException, IlegalMap {
+	public Pair<String, char[][]> newGame(String fileName) throws FileNotFoundException, IlegalMap {
 		char[][] map = null;
 		
 		File file = new File(fileName);
@@ -43,7 +44,8 @@ public class Options implements OptionsI{
 		
 		Scanner s = new Scanner(file);
 		
-		s.nextLine();
+		String levelName = s.nextLine();
+		
 		int rows = s.nextInt();
 		int colums = s.nextInt();
 		
@@ -61,17 +63,20 @@ public class Options implements OptionsI{
 		}
 		
 		s.close();
-		return map;
-
+		return new Pair<>(levelName, map);
 	}
 	
-	public boolean saveGame(char[][] map, WarehouseMan w, List<GameObjectI> gs, Deque<ActionI> s, int levelNumber, File file, GenericCounter c) {
+	public boolean saveGame(char[][] map, WarehouseMan w, List<GameObjectI> gs, Deque<ActionI> s, int levelNumber, String levelName, File file, GenericCounter c) {
 		
 		boolean saved = false;
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))){
 			
 			//Escribir el número del nivel
 			writer.write(String.valueOf(levelNumber));
+			writer.newLine();
+			
+			//Escribir el nombre del nivel
+			writer.write(levelName);
 			writer.newLine();
 
 			//Escribir las dimensiones de la matriz
@@ -138,16 +143,20 @@ public class Options implements OptionsI{
 	}
 	
 	@SuppressWarnings("unchecked")
-	public Pair<Integer, char[][]> loadGame(WarehouseMan w, List<GameObjectI> gs, ActionsManagerI am, File file, GenericCounter c) throws NumberFormatException, IlegalPositionException{
+	public Triplet<Integer, String, char[][]> loadGame(WarehouseMan w, List<GameObjectI> gs, ActionsManagerI am, File file, GenericCounter c) throws NumberFormatException, IlegalPositionException{
 		
         char[][] map = null;
         int levelNumber = 1;
+        String levelName = "";
 
         try (BufferedReader reader = new BufferedReader(new FileReader(file))){
 			
 			//Obtener el número del nivel
 			String ln = reader.readLine();
 			levelNumber = Integer.parseInt(ln);
+			
+			//Obtener el nombre del nivel
+			levelName = reader.readLine();
 
 			//Obtener las dimensiones del mapa
 			String pos = reader.readLine();
@@ -213,6 +222,6 @@ public class Options implements OptionsI{
 			e.getMessage();
 		}
 		
-		return new Pair<>(levelNumber, map);
+		return new Triplet<>(levelNumber, levelName, map);
     }
 }

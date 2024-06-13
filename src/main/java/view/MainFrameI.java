@@ -13,7 +13,7 @@ public interface MainFrameI {
 	
 	public void updateCounters(int countBox, int count, int globalCount);
 	
-	public void updateLevelName(int levelNumber);
+	public void updateLevelName(String levelName);
 	
 	public void paintMap();
 	
