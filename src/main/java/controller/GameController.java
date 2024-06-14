@@ -7,11 +7,12 @@ import model.exceptions.IlegalMap;
 import model.exceptions.IlegalPositionException;
 import model.exceptions.ObjectPositionNotFoundException;
 import model.services.GameService;
+import model.services.GameServiceI;
 import view.MainFrameI;
 
 public class GameController implements GameControllerI {
 	
-	private GameService gs;
+	private GameServiceI gs;
 	private MainFrameI mf;
 	
 	public GameController(MainFrameI mf) throws IlegalPositionException {
