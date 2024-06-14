@@ -57,7 +57,6 @@ public class MainFrame extends JFrame implements KeyListener, MainFrameI  {
 	private int boxCount = 0;
 	private int count = 0;
 	private int globalCount = 0;
-	private int levelNumber = 0;
 
 	public MainFrame() {
 		setSize(450, 550);  
@@ -226,9 +225,9 @@ public class MainFrame extends JFrame implements KeyListener, MainFrameI  {
 	
 		// Creating count panel
 		JPanel countPanel = new JPanel(new FlowLayout());
-		turnWarehouseman = new JLabel("W: " + boxCount);
+		turnWarehouseman = new JLabel("W: " + count);
 		countPanel.add(turnWarehouseman);
-		turnBox = new JLabel("P: " + count);
+		turnBox = new JLabel("P: " + boxCount);
 		countPanel.add(turnBox);
 		turnCount = new JLabel("T: " + globalCount);
 		countPanel.add(turnCount);

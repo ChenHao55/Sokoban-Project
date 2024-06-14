@@ -1,5 +1,6 @@
 package main;
 
+
 import controller.GameController;
 import model.exceptions.IlegalPositionException;
 import view.MainFrame;
