@@ -19,7 +19,7 @@ import java.util.Scanner;
 import org.javatuples.Pair;
 import org.javatuples.Triplet;
 
-import model.beans.GenericCounter;
+import model.beans.Counter;
 import model.beans.GoalPosition;
 import model.beans.WarehouseMan;
 import model.exceptions.IlegalMap;
@@ -66,7 +66,7 @@ public class Options implements OptionsI{
 		return new Pair<>(levelName, map);
 	}
 	
-	public boolean saveGame(char[][] map, WarehouseMan w, List<GameObjectI> gs, Deque<ActionI> s, int levelNumber, String levelName, File file, GenericCounter c) {
+	public boolean saveGame(char[][] map, WarehouseMan w, List<GameObjectI> gs, Deque<ActionI> s, int levelNumber, String levelName, File file, Counter c) {
 		
 		boolean saved = false;
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))){
@@ -111,18 +111,11 @@ public class Options implements OptionsI{
 			}
 			
 			//Escribir contadores
-			writer.write(String.valueOf(c.getCurrentCount().getBoxCount()));
+			writer.write(String.valueOf(c.getBoxCount()));
 			writer.newLine();
-			writer.write(String.valueOf(c.getCurrentCount().getCount()));
+			writer.write(String.valueOf(c.getCount()));
 			writer.newLine();
-			writer.write(String.valueOf(c.getCurrentCount().getGlobalCount()));
-			writer.newLine();
-			
-			writer.write(String.valueOf(c.getLevelCount().getBoxCount()));
-			writer.newLine();
-			writer.write(String.valueOf(c.getLevelCount().getCount()));
-			writer.newLine();
-			writer.write(String.valueOf(c.getLevelCount().getGlobalCount()));
+			writer.write(String.valueOf(c.getGlobalCount()));
 			writer.newLine();
 			
 			//Escribir pila de acciones
@@ -143,7 +136,7 @@ public class Options implements OptionsI{
 	}
 	
 	@SuppressWarnings("unchecked")
-	public Triplet<Integer, String, char[][]> loadGame(WarehouseMan w, List<GameObjectI> gs, ActionsManagerI am, File file, GenericCounter c) throws NumberFormatException, IlegalPositionException{
+	public Triplet<Integer, String, char[][]> loadGame(WarehouseMan w, List<GameObjectI> gs, ActionsManagerI am, File file, Counter c) throws NumberFormatException, IlegalPositionException{
 		
         char[][] map = null;
         int levelNumber = 1;
@@ -195,18 +188,11 @@ public class Options implements OptionsI{
 			
 			//leer contadores
 			cont = reader.readLine();
-			c.getCurrentCount().setBoxCount(Integer.parseInt(cont));
+			c.setBoxCount(Integer.parseInt(cont));
 			cont = reader.readLine();
-			c.getCurrentCount().setCount(Integer.parseInt(cont));
+			c.setCount(Integer.parseInt(cont));
 			cont = reader.readLine();
-			c.getCurrentCount().setGlobalCount(Integer.parseInt(cont));
-			
-			cont = reader.readLine();
-			c.getLevelCount().setBoxCount(Integer.parseInt(cont));
-			cont = reader.readLine();
-			c.getLevelCount().setCount(Integer.parseInt(cont));
-			cont = reader.readLine();
-			c.getLevelCount().setGlobalCount(Integer.parseInt(cont));
+			c.setGlobalCount(Integer.parseInt(cont));
 			
 			//leer stack
 			String fileNameWithoutExtension = file.getName().substring(0, file.getName().lastIndexOf("."));

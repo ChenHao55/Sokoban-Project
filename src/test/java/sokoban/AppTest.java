@@ -26,7 +26,6 @@ import org.slf4j.LoggerFactory;
 
 import model.beans.Counter;
 import model.beans.DownAction;
-import model.beans.GenericCounter;
 import model.beans.GoalPosition;
 import model.beans.LeftAction;
 import model.beans.RightAction;
@@ -2229,14 +2228,10 @@ public class AppTest {
 			char[][] map = p.getValue1();
 			WarehouseMan w = (WarehouseMan) of.createWarehouseMan(map);
 			Counter c = new Counter();
-			Counter c2 = new Counter();
-			GenericCounter g = new GenericCounter();
-			g.setCurrentCount(c);
-			g.setLevelCount(c2);
 			ArrayList<GameObjectI> gs = of.createGoals(map);
 			Deque<ActionI> s = new ArrayDeque<>();
 			File f = new File("saved_map.txt");
-			assertDoesNotThrow(() -> o.saveGame(map, w, gs, s, 1, "", f, g));
+			assertDoesNotThrow(() -> o.saveGame(map, w, gs, s, 1, "", f, c));
 			log.info("Test passed");
 		}
 		
@@ -2245,10 +2240,6 @@ public class AppTest {
 			log.info("Trying to load correctly a game");
 			WarehouseMan w = new WarehouseMan(0,0);
 			Counter c = new Counter();
-			Counter c2 = new Counter();
-			GenericCounter g = new GenericCounter();
-			g.setCurrentCount(c);
-			g.setLevelCount(c2);
 			ArrayList<GameObjectI> gs = new ArrayList<>();
 			File f = new File("saved_map.txt");
 			ActionsManager am = new ActionsManager();
@@ -2264,7 +2255,7 @@ public class AppTest {
 				    {'+', '+', '+', '+', '+', '.', '.', '.'}
 				};
 			boolean equals = true;
-			Triplet<Integer,String, char[][]> p = o.loadGame(w, gs, am, f, g);
+			Triplet<Integer,String, char[][]> p = o.loadGame(w, gs, am, f, c);
 			
 			char[][] res = p.getValue2();
 			for (int i = 0; i < matExp.length; i++) {
@@ -2285,7 +2276,6 @@ public class AppTest {
 	class GameServiceTest {	
 		
 		private GameService gs;
-		private GenericCounter c;
 		private Counter c1;
 		
 		@BeforeEach
@@ -2293,12 +2283,10 @@ public class AppTest {
 			log.info("Initializating global variables");
 			gs = new GameService();
 			c1 = new Counter();
-			c = new GenericCounter();
 			c1.setBoxCount(5);
 			c1.setCount(10);
 			c1.setGlobalCount(15);
-			c.setCurrentCount(c1);
-			gs.setGenericCounter(c);
+			gs.setCounter(c1);
 			log.info("Global variables initializated");
 		}
 		
@@ -2461,7 +2449,7 @@ public class AppTest {
 		void decrementBoxCounter() {
 			log.info("Testing correct use of decrementBoxCounter method");
 			gs.decrementBoxCounter();
-			assertEquals(4, gs.getGenericCounter().getCurrentCount().getBoxCount());
+			assertEquals(4, gs.getCounter().getBoxCount());
 			log.info("Test passed");
 		}
 		
@@ -2469,7 +2457,7 @@ public class AppTest {
 		void decrementWMCounter() {
 			log.info("Testing correct use of decrementBoxCounter method");
 			gs.decrementWMCounter();
-			assertEquals(9, gs.getGenericCounter().getCurrentCount().getCount());
+			assertEquals(9, gs.getCounter().getCount());
 			log.info("Test passed");
 		}
 		
@@ -2477,7 +2465,7 @@ public class AppTest {
 		void decrementGlobalCounter() {
 			log.info("Testing correct use of decrementBoxCounter method");
 			gs.decrementGlobalCounter();
-			assertEquals(14, gs.getGenericCounter().getCurrentCount().getGlobalCount());
+			assertEquals(14, gs.getCounter().getGlobalCount());
 			log.info("Test passed");
 		}
 		

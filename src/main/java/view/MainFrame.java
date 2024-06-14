@@ -241,6 +241,15 @@ public class MainFrame extends JFrame implements KeyListener, MainFrameI  {
 		JButton loadGame = new JButton("Load Game");
 		JButton saveGame = new JButton("Save Game");
 		JButton restartLevel = new JButton("Restart Level");
+		JButton undo = new JButton("Undo (Ctrl+Z)");
+		
+		undo.addActionListener(e -> {
+			try {
+				gc.undoMovement();
+			} catch (IlegalPositionException | ObjectPositionNotFoundException e1) {
+				e1.getMessage();
+			}
+		});
 	
 		newGame.addActionListener(e -> {
 			try {
@@ -279,6 +288,7 @@ public class MainFrame extends JFrame implements KeyListener, MainFrameI  {
 		buttonsPanel.add(loadGame);
 		buttonsPanel.add(saveGame);
 		buttonsPanel.add(restartLevel);
+		buttonsPanel.add(undo);
 	
 		// Creating container for the panels
 		JPanel container = new JPanel();
