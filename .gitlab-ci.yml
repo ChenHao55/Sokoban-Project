@@ -12,7 +12,7 @@ sonarqube-check:
     paths:
       - .sonar/cache
   script: 
-    - mvn verify sonar:sonar -Dsonar.projectKey=sokoban_21
+    - mvn verify sonar:sonar -Dsonar.projectKey=sokoban_210010
   allow_failure: true
   only:
     - main
