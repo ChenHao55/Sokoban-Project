@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -59,7 +60,7 @@ public class MainFrame extends JFrame implements KeyListener, MainFrameI  {
 	private int globalCount = 0;
 
 	public MainFrame() {
-		setSize(450, 550);  
+		setSize(400, 600);  
 		setTitle("Sokoban");
 		setLocationRelativeTo(null);
 		setLayout(new BorderLayout());
@@ -283,7 +284,7 @@ public class MainFrame extends JFrame implements KeyListener, MainFrameI  {
 			}
 		});
 	
-		JPanel buttonsPanel = new JPanel(new FlowLayout());
+		JPanel buttonsPanel = new JPanel(new GridLayout(0, 2, 3, 3));
 		buttonsPanel.add(newGame);
 		buttonsPanel.add(loadGame);
 		buttonsPanel.add(saveGame);
