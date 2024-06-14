@@ -117,7 +117,7 @@
 				<version>3.0.0</version>
 				<configuration>
 					<!-- Set the class with your main method -->
-					<mainClass>GameMain</mainClass>
+                    <mainClass>main.GameMain</mainClass>
 				</configuration>
 			</plugin>
 
