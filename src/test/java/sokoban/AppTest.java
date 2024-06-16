@@ -2539,7 +2539,6 @@ public class AppTest {
 		@Test
 		void nextLevelTest1() throws FileNotFoundException, IlegalPositionException, IlegalMap {
 			log.info("Testing nextLevel method");
-			gs.newGame(new File("maps" + fileSeparator + "level_2.txt").getAbsolutePath());
 			gs.setLevelNumber(2);
 			gs.setTotalLevels(4);
 			assertEquals(1, gs.nextLevel());
@@ -2549,7 +2548,6 @@ public class AppTest {
 		@Test
 		void nextLevelTest2() throws FileNotFoundException, IlegalPositionException, IlegalMap {
 			log.info("Testing nextLevel method");
-			gs.newGame(new File("testMaps" + fileSeparator + "nextLevelTestMaps" + fileSeparator + "level_4.txt").getAbsolutePath());
 			gs.setTotalLevels(4);
 			gs.setLevelNumber(4);
 			assertEquals(2, gs.nextLevel());
@@ -2559,7 +2557,7 @@ public class AppTest {
 		@Test
 		void nextLevelTest3() throws FileNotFoundException, IlegalPositionException, IlegalMap {
 			log.info("Testing nextLevel method");
-			gs.newGame(new File("testMaps" + fileSeparator + "level_2.txt").getAbsolutePath());
+			gs.setLevelNumber(1);
 			gs.setTotalLevels(4);
 			assertEquals(3, gs.nextLevel());
 			log.info("Test passed");
