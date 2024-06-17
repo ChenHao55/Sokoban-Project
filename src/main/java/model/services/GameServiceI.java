@@ -11,7 +11,7 @@ import model.exceptions.IlegalPositionException;
 
 public interface GameServiceI{
 	
-	public void newGame(String fileName) throws IlegalPositionException, FileNotFoundException, IlegalMap;
+	public void newGame() throws IlegalPositionException, FileNotFoundException, IlegalMap;
 
 	public void game(String fileName) throws IlegalPositionException, FileNotFoundException, IlegalMap;
 
@@ -57,16 +57,14 @@ public interface GameServiceI{
 
 	public void setMap(char[][] level);
 
-	public int getLevelNumber();
+	public int getLevelPos();
 
 	public String getLevelName();
 
-	public void setLevelNumber(int level);
+	public void setLevelPos(int level);
 
 	public Counter getCounter();
 
 	public void setCounter(Counter g);
-
-	public void setTotalLevels(int totalLevels);
 
 }

@@ -91,7 +91,7 @@ public class MainFrame extends JFrame implements KeyListener, MainFrameI  {
 
 		newGame.addActionListener(e -> {
 			try {
-				gc.newGame(new File("maps" + File.separator + "level_1.txt").getAbsolutePath());
+				gc.newGame();
 			} catch (IlegalPositionException | FileNotFoundException | IlegalMap | ObjectPositionNotFoundException e1) {
 				e1.getMessage();
 			}
@@ -254,7 +254,7 @@ public class MainFrame extends JFrame implements KeyListener, MainFrameI  {
 	
 		newGame.addActionListener(e -> {
 			try {
-				gc.newGame(new File("maps" + File.separator + "level_1.txt").getAbsolutePath());
+				gc.newGame();
 			} catch (IlegalPositionException | FileNotFoundException | IlegalMap | ObjectPositionNotFoundException e1) {
 				e1.getMessage();
 			}

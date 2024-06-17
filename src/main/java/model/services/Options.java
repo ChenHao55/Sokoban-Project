@@ -16,7 +16,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
-import org.javatuples.Pair;
 import org.javatuples.Triplet;
 
 import model.beans.Counter;
@@ -33,7 +32,7 @@ public class Options implements OptionsI{
 	public Options() {// No implementation needed
 	}
 	
-	public Pair<String, char[][]> newGame(String fileName) throws FileNotFoundException, IlegalMap {
+	public char[][] newGame(String fileName) throws IlegalMap, FileNotFoundException {
 		char[][] map = null;
 		
 		File file = new File(fileName);
@@ -44,7 +43,7 @@ public class Options implements OptionsI{
 		
 		Scanner s = new Scanner(file);
 		
-		String levelName = s.nextLine();
+		s.nextLine();
 		
 		int rows = s.nextInt();
 		int colums = s.nextInt();
@@ -63,7 +62,7 @@ public class Options implements OptionsI{
 		}
 		
 		s.close();
-		return new Pair<>(levelName, map);
+		return map;
 	}
 	
 	public boolean saveGame(char[][] map, WarehouseMan w, List<GameObjectI> gs, Deque<ActionI> s, int levelNumber, String levelName, File file, Counter c) {

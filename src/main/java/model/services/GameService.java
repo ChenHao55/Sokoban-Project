@@ -3,9 +3,10 @@ package model.services;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
-import org.javatuples.Pair;
 import org.javatuples.Triplet;
 
 import model.beans.Counter;
@@ -26,32 +27,48 @@ public class GameService implements GameServiceI{
 		private ActionsFactoryI af = new ActionsFactory();
 		private ObjectFactoryI of = new ObjectFactory();
 		private OptionsI o = new Options();
-		private int levelNumber = 1;
 		private String levelName = "";
-		private int totalLevels = 10;
-		private String fileSeparator = File.separator;
 		private Counter c = new Counter();
+		private String path = new File("maps").getAbsolutePath();
+		private File directory = new File(path);
+		private File[] files;
+
+		private int levelPos = 0;
 		
 		
 		public GameService() throws IlegalPositionException {
 			this.w = new WarehouseMan(0,0);
 			this.gs = new ArrayList<>();
+			files = directory.listFiles((dir, name) -> name.startsWith("level_") && name.endsWith(".txt"));
+			
+			if(files != null && files.length > 0) {
+				Arrays.sort(files, new Comparator<File>() {
+					@Override
+					public int compare(File f1, File f2) {
+						int num1 = extractNumber(f1.getName());
+						int num2 = extractNumber(f2.getName());
+						return Integer.compare(num1, num2);
+					}
+					private int extractNumber(String name) {
+						String number = name.replaceAll("\\D+", "");
+						return number.isEmpty() ? 0 : Integer.parseInt(number);
+					}
+				});
+			}
 		}
 
 //Este metodo se encarga de crear el mapa
-public void newGame(String fileName) throws IlegalPositionException, FileNotFoundException, IlegalMap {
-	levelNumber = 1;
-		
+public void newGame() throws IlegalPositionException, IlegalMap, FileNotFoundException {	
 	c = new Counter();
 	am.clearActions();
-	game(fileName);
+	levelPos = 0;
+	game(files[levelPos].getAbsolutePath());
 }
 
 //Este metodo se encarga de crear el mapa
-public void game(String fileName) throws IlegalPositionException, FileNotFoundException, IlegalMap {
-	Pair<String, char[][]> p = o.newGame(fileName);
-	levelName = p.getValue0();
-	level = p.getValue1();
+public void game(String fileName) throws IlegalPositionException, IlegalMap, FileNotFoundException {
+	level = o.newGame(fileName);
+	levelName = files[levelPos].getName();
 	GameObjectI wAux = of.createWarehouseMan(level);
 	this.w = wAux;
 	this.gs = of.createGoals(level);
@@ -61,7 +78,7 @@ public void game(String fileName) throws IlegalPositionException, FileNotFoundEx
 public boolean saveGame(File f) {
 	boolean saved = false;
 	if(f != null) {
-		o.saveGame(level, (WarehouseMan) w, gs, am.getActions(), levelNumber, levelName, f, c);
+		o.saveGame(level, (WarehouseMan) w, gs, am.getActions(), levelPos, levelName, f, c);
 		saved = true;
 	}
 	return saved;
@@ -76,7 +93,7 @@ public boolean loadGame(File file) throws NumberFormatException, IlegalPositionE
 		if(p != null) {
 			level = p.getValue2();
 			levelName = p.getValue1();
-			levelNumber = p.getValue0();
+			levelPos = p.getValue0();
 			loaded = true;
 		}
 	}
@@ -92,7 +109,7 @@ public boolean loadGameMF(File file) throws NumberFormatException, IlegalPositio
 		if(p != null) {
 			level = p.getValue2();
 			levelName = p.getValue1();
-			levelNumber = p.getValue0();
+			levelPos = p.getValue0();
 			res = true;
 		}
 	}
@@ -196,7 +213,7 @@ public void moveRight() throws IlegalPositionException {
 
 //Restarts the level
 public void restartLevel() throws FileNotFoundException, IlegalPositionException, IlegalMap {
-	this.game(new File("maps" + fileSeparator + "level_" + levelNumber + ".txt").getAbsolutePath());
+	this.game(files[levelPos].getAbsolutePath());
 	am.clearActions();
 	c.setGlobalCount(c.getGlobalCount()-c.getBoxCount()-c.getCount());
 	c.setBoxCount(0);
@@ -206,16 +223,16 @@ public void restartLevel() throws FileNotFoundException, IlegalPositionException
 public int nextLevel() throws FileNotFoundException, IlegalPositionException, IlegalMap {
 	int res = 0;
 		
-	if(levelNumber != totalLevels) {
-		levelNumber += 1;
-		this.game(new File("maps" + this.fileSeparator + "level_" + this.levelNumber + ".txt").getAbsolutePath());
+	if(levelPos != files.length-1) {
+		levelPos += 1;
+		this.game(files[levelPos].getAbsolutePath());
 		am.clearActions();
 		res = 1;
 		c.setBoxCount(0);
 		c.setCount(0);
 	}
 	else if(w != null) {
-		levelNumber = 1;
+		levelPos = 0;
 		am.clearActions();
 		return 2;
 	}
@@ -251,16 +268,16 @@ public int nextLevel() throws FileNotFoundException, IlegalPositionException, Il
 		this.level = level;
 	}
 	
-	public int getLevelNumber() {
-		return this.levelNumber;
+	public int getLevelPos() {
+		return this.levelPos;
 	}
 	
 	public String getLevelName() {
 		return this.levelName;
 	}
 	
-	public void setLevelNumber(int level) {
-		this.levelNumber = level;
+	public void setLevelPos(int level) {
+		this.levelPos = level;
 	}
 	
 	public Counter getCounter() {
@@ -271,7 +288,11 @@ public int nextLevel() throws FileNotFoundException, IlegalPositionException, Il
 		this.c = g;
 	}
 	
-	public void setTotalLevels(int totalLevels) {
-		this.totalLevels = totalLevels;
+	public File[] getFiles() {
+		return files;
+	}
+
+	public void setFiles(File[] files) {
+		this.files = files;
 	}
 }

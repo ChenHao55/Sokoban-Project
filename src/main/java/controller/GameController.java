@@ -22,11 +22,11 @@ public class GameController implements GameControllerI {
 	
 	public GameController() {/*No need implementation*/}
 	
-	public void newGame(String fileName) throws FileNotFoundException, IlegalPositionException, IlegalMap, ObjectPositionNotFoundException {
-		gs.newGame(fileName);
+	public void newGame() throws FileNotFoundException, IlegalPositionException, IlegalMap, ObjectPositionNotFoundException {
+		gs.newGame();
 		this.updateMap(gs.getMap());
 		this.paintMap();
-		this.updateLevelName(gs.getLevelName());
+		this.updateLevelName(getFileName(gs.getLevelName()));
 		this.updatecounters(gs.getCounter().getBoxCount(), gs.getCounter().getCount(), gs.getCounter().getGlobalCount());
 	}
 	
@@ -44,7 +44,7 @@ public class GameController implements GameControllerI {
 		this.updatecounters(gs.getCounter().getBoxCount(), gs.getCounter().getCount(), gs.getCounter().getGlobalCount());
 		this.updateMap(gs.getMap());
 		this.paintMap();
-		this.updateLevelName(gs.getLevelName());
+		this.updateLevelName(getFileName(gs.getLevelName()));
 
 	}
 	
@@ -54,7 +54,7 @@ public class GameController implements GameControllerI {
 			this.updateMap(gs.getMap());
 			this.paintMap();
 			this.updatecounters(gs.getCounter().getBoxCount(), gs.getCounter().getCount(), gs.getCounter().getGlobalCount());
-			this.updateLevelName(gs.getLevelName());
+			this.updateLevelName(getFileName(gs.getLevelName()));
 		}
 	}
 	
@@ -73,7 +73,7 @@ public class GameController implements GameControllerI {
 		if(this.gs.isEndLevel()) {
 			this.nextLevel();
 		}
-		this.updateLevelName(gs.getLevelName());
+		this.updateLevelName(getFileName(gs.getLevelName()));
 	}
 	
 	public void moveDown() throws ObjectPositionNotFoundException, IlegalPositionException, FileNotFoundException, IlegalMap {
@@ -117,7 +117,7 @@ public class GameController implements GameControllerI {
 		switch(gs.nextLevel()) {
 			
 			case 1:
-				this.updateLevelName(gs.getLevelName());
+				this.updateLevelName(getFileName(gs.getLevelName()));
 				this.updatecounters(gs.getCounter().getBoxCount(), gs.getCounter().getCount(), gs.getCounter().getGlobalCount());
 				this.updateMap(gs.getMap());
 				this.paintMap();
@@ -134,6 +134,14 @@ public class GameController implements GameControllerI {
 			default:
 				break;
 		}
+	}
+	
+	private String getFileName(String file) {
+		int extensionPos = file.lastIndexOf('.');
+		if(extensionPos != -1) {
+			return file.substring(0, extensionPos);
+		}
+		return file;
 	}
 	
 	private void updateLevelName(String levelName) {

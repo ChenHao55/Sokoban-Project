@@ -5,7 +5,6 @@ import java.io.FileNotFoundException;
 import java.util.Deque;
 import java.util.List;
 
-import org.javatuples.Pair;
 import org.javatuples.Triplet;
 
 import model.beans.Counter;
@@ -16,7 +15,7 @@ import model.exceptions.IlegalPositionException;
 public interface OptionsI {
 	
 	//Metodo para leer el mapa del fichero y crearlo
-	Pair<String, char[][]> newGame(String fileName) throws FileNotFoundException, IlegalPositionException, IlegalMap;
+	char[][] newGame(String fileName) throws FileNotFoundException, IlegalPositionException, IlegalMap;
 	
 	//Metodo para guardar una partida
 	boolean saveGame(char[][] map, WarehouseMan w, List<GameObjectI> gs, Deque<ActionI> s, int levelNumber,  String levelName, File file, Counter c);

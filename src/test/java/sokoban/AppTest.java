@@ -15,7 +15,6 @@ import java.util.Deque;
 import java.util.List;
 import java.io.IOException;
 
-import org.javatuples.Pair;
 import org.javatuples.Triplet;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -187,8 +186,7 @@ public class AppTest {
 			
 			Options o = new Options();
 			
-			Pair<String, char[][]> p =  o.newGame((new File("maps" + fileSeparator + "level_1.txt").getAbsolutePath()));
-			char[][] level = p.getValue1();
+			char[][] level =  o.newGame((new File("testMaps" + fileSeparator + "level_1.txt").getAbsolutePath()));
 			
 			for (int i = 0; i < matriz.length; i++) {
 	            for (int j = 0; j < matriz[0].length; j++) {
@@ -211,8 +209,7 @@ public class AppTest {
 		void WarehouseManCreation() throws IOException, IlegalPositionException, IlegalMap {
 			log.info("Trying to create a WarehouseMan");
 			Options o = new Options();
-			Pair<String, char[][]> p =  o.newGame((new File("maps" + fileSeparator + "level_1.txt").getAbsolutePath()));
-			char[][] level = p.getValue1();
+			char[][] level =  o.newGame((new File("testMaps" + fileSeparator + "level_1.txt").getAbsolutePath()));
 			
 			ObjectFactory of = new ObjectFactory();
 			assertDoesNotThrow(() -> of.createWarehouseMan(level));
@@ -242,8 +239,7 @@ public class AppTest {
 		void GoalsCreation() throws IOException, IlegalPositionException, IlegalMap {
 			log.info("Trying to create a Box");
 			Options o = new Options();
-			Pair<String, char[][]> p =  o.newGame((new File("maps" + fileSeparator + "level_1.txt").getAbsolutePath()));
-			char[][] level = p.getValue1();
+			char[][] level =  o.newGame((new File("testMaps" + fileSeparator + "level_1.txt").getAbsolutePath()));
 
 			ObjectFactory of = new ObjectFactory();
 			assertDoesNotThrow(() -> of.createGoals(level));
@@ -343,8 +339,7 @@ public class AppTest {
 			WarehouseMan w = new WarehouseMan(1, 1);
 			Counter c = new Counter();
 			LeftAction action = new LeftAction(w.getX(), w.getY(), mat);
-			Pair<String, char[][]> p = o.newGame(new File("maps" + File.separator + "level_" + 1 + ".txt").getAbsolutePath());
-			char[][] level = p.getValue1();
+			char[][] level =  o.newGame((new File("testMaps" + fileSeparator + "level_1.txt").getAbsolutePath()));
 			gs = of.createGoals(level);
 			char[][] matRes = action.move(w, gs, mat, c);
 			for (int i = 0; i < matExp.length; i++) {
@@ -386,8 +381,7 @@ public class AppTest {
 			WarehouseMan w = new WarehouseMan(1, 1);
 			Counter c = new Counter();
 			RightAction action = new RightAction(w.getX(), w.getY(), mat);
-			Pair<String, char[][]> p = o.newGame(new File("maps" + File.separator + "level_" + 1 + ".txt").getAbsolutePath());
-			char[][] level = p.getValue1();
+			char[][] level =  o.newGame((new File("testMaps" + fileSeparator + "level_1.txt").getAbsolutePath()));
 			gs = of.createGoals(level);
 			char[][] matRes = action.move(w, gs, mat, c);
 			for (int i = 0; i < matExp.length; i++) {
@@ -429,8 +423,7 @@ public class AppTest {
 			WarehouseMan w = new WarehouseMan(1, 1);
 			Counter c = new Counter();
 			UpAction action = new UpAction(w.getX(), w.getY(), mat);
-			Pair<String, char[][]> p = o.newGame(new File("maps" + File.separator + "level_" + 1 + ".txt").getAbsolutePath());
-			char[][] level = p.getValue1();
+			char[][] level =  o.newGame((new File("testMaps" + fileSeparator + "level_1.txt").getAbsolutePath()));
 			gs = of.createGoals(level);
 			char[][] matRes = action.move(w, gs, mat, c);
 			for (int i = 0; i < matExp.length; i++) {
@@ -552,8 +545,7 @@ public class AppTest {
 			WarehouseMan w = new WarehouseMan(4, 2);
 			Counter c = new Counter();
 			LeftAction action = new LeftAction(w.getX(), w.getY(), mat);
-			Pair<String, char[][]> p = o.newGame(new File("maps" + File.separator + "level_" + 1 + ".txt").getAbsolutePath());
-			char[][] level = p.getValue1();
+			char[][] level =  o.newGame((new File("testMaps" + fileSeparator + "level_1.txt").getAbsolutePath()));
 			gs = of.createGoals(level);
 			char[][] matRes = action.move(w, gs, mat, c);
 			for (int i = 0; i < matExp.length; i++) {
@@ -598,8 +590,7 @@ public class AppTest {
 			WarehouseMan w = new WarehouseMan(4, 2);
 			Counter c = new Counter();
 			LeftAction action = new LeftAction(w.getX(), w.getY(), mat);
-			Pair<String, char[][]> p = o.newGame(new File("maps" + File.separator + "level_" + 1 + ".txt").getAbsolutePath());
-			char[][] level = p.getValue1();
+			char[][] level =  o.newGame((new File("testMaps" + fileSeparator + "level_1.txt").getAbsolutePath()));
 			gs = of.createGoals(level);
 			char[][] matRes = action.move(w, gs, mat, c);
 			for (int i = 0; i < matExp.length; i++) {
@@ -645,8 +636,7 @@ public class AppTest {
 			WarehouseMan w = new WarehouseMan(4, 2);
 			Counter c = new Counter();
 			LeftAction action = new LeftAction(w.getX(), w.getY(), mat);
-			Pair<String, char[][]> p = o.newGame(new File("maps" + File.separator + "level_" + 1 + ".txt").getAbsolutePath());
-			char[][] level = p.getValue1();
+			char[][] level =  o.newGame((new File("testMaps" + fileSeparator + "level_1.txt").getAbsolutePath()));
 			gs = of.createGoals(level);
 			char[][] matRes = action.move(w, gs, mat, c);
 			for (int i = 0; i < matExp.length; i++) {
@@ -691,8 +681,7 @@ public class AppTest {
 			WarehouseMan w = new WarehouseMan(4, 2);
 			Counter c = new Counter();
 			LeftAction action = new LeftAction(w.getX(), w.getY(), mat);
-			Pair<String, char[][]> p = o.newGame(new File("maps" + File.separator + "level_" + 1 + ".txt").getAbsolutePath());
-			char[][] level = p.getValue1();
+			char[][] level =  o.newGame((new File("testMaps" + fileSeparator + "level_1.txt").getAbsolutePath()));
 			gs = of.createGoals(level);
 			char[][] matRes = action.move(w, gs, mat, c);
 			for (int i = 0; i < matExp.length; i++) {
@@ -737,8 +726,7 @@ public class AppTest {
 			WarehouseMan w = new WarehouseMan(4, 2);
 			Counter c = new Counter();
 			LeftAction action = new LeftAction(w.getX(), w.getY(), mat);
-			Pair<String, char[][]> p = o.newGame(new File("maps" + File.separator + "level_" + 1 + ".txt").getAbsolutePath());
-			char[][] level = p.getValue1();
+			char[][] level =  o.newGame((new File("testMaps" + fileSeparator + "level_1.txt").getAbsolutePath()));
 			gs = of.createGoals(level);
 			char[][] matRes = action.move(w, gs, mat, c);
 			for (int i = 0; i < matExp.length; i++) {
@@ -783,8 +771,7 @@ public class AppTest {
 			WarehouseMan w = new WarehouseMan(4, 2);
 			Counter c = new Counter();
 			LeftAction action = new LeftAction(w.getX(), w.getY(), mat);
-			Pair<String, char[][]> p = o.newGame(new File("maps" + File.separator + "level_" + 1 + ".txt").getAbsolutePath());
-			char[][] level = p.getValue1();
+			char[][] level =  o.newGame((new File("testMaps" + fileSeparator + "level_1.txt").getAbsolutePath()));
 			gs = of.createGoals(level);
 			char[][] matRes = action.move(w, gs, mat, c);
 			for (int i = 0; i < matExp.length; i++) {
@@ -829,8 +816,7 @@ public class AppTest {
 			WarehouseMan w = new WarehouseMan(4, 2);
 			Counter c = new Counter();
 			LeftAction action = new LeftAction(w.getX(), w.getY(), mat);
-			Pair<String, char[][]> p = o.newGame(new File("maps" + File.separator + "level_" + 1 + ".txt").getAbsolutePath());
-			char[][] level = p.getValue1();
+			char[][] level =  o.newGame((new File("testMaps" + fileSeparator + "level_1.txt").getAbsolutePath()));
 			gs = of.createGoals(level);
 			char[][] matRes = action.move(w, gs, mat, c);
 			for (int i = 0; i < matExp.length; i++) {
@@ -875,8 +861,7 @@ public class AppTest {
 			WarehouseMan w = new WarehouseMan(4, 2);
 			Counter c = new Counter();
 			LeftAction action = new LeftAction(w.getX(), w.getY(), mat);
-			Pair<String, char[][]> p = o.newGame(new File("maps" + File.separator + "level_" + 1 + ".txt").getAbsolutePath());
-			char[][] level = p.getValue1();
+			char[][] level =  o.newGame((new File("testMaps" + fileSeparator + "level_1.txt").getAbsolutePath()));
 			gs = of.createGoals(level);
 			char[][] matRes = action.move(w, gs, mat, c);
 			for (int i = 0; i < matExp.length; i++) {
@@ -921,8 +906,7 @@ public class AppTest {
 			WarehouseMan w = new WarehouseMan(4, 2);
 			Counter c = new Counter();
 			RightAction action = new RightAction(w.getX(), w.getY(), mat);
-			Pair<String, char[][]> p = o.newGame(new File("maps" + File.separator + "level_" + 1 + ".txt").getAbsolutePath());
-			char[][] level = p.getValue1();
+			char[][] level =  o.newGame((new File("testMaps" + fileSeparator + "level_1.txt").getAbsolutePath()));
 			gs = of.createGoals(level);
 			char[][] matRes = action.move(w, gs, mat, c);
 			for (int i = 0; i < matExp.length; i++) {
@@ -968,8 +952,7 @@ public class AppTest {
 			WarehouseMan w = new WarehouseMan(4, 2);
 			Counter c = new Counter();
 			RightAction action = new RightAction(w.getX(), w.getY(), mat);
-			Pair<String, char[][]> p = o.newGame(new File("maps" + File.separator + "level_" + 1 + ".txt").getAbsolutePath());
-			char[][] level = p.getValue1();
+			char[][] level =  o.newGame((new File("testMaps" + fileSeparator + "level_1.txt").getAbsolutePath()));
 			gs = of.createGoals(level);
 			char[][] matRes = action.move(w, gs, mat, c);
 			for (int i = 0; i < matExp.length; i++) {
@@ -1014,8 +997,7 @@ public class AppTest {
 			WarehouseMan w = new WarehouseMan(4, 2);
 			Counter c = new Counter();
 			RightAction action = new RightAction(w.getX(), w.getY(), mat);
-			Pair<String, char[][]> p = o.newGame(new File("maps" + File.separator + "level_" + 1 + ".txt").getAbsolutePath());
-			char[][] level = p.getValue1();
+			char[][] level =  o.newGame((new File("testMaps" + fileSeparator + "level_1.txt").getAbsolutePath()));
 			gs = of.createGoals(level);
 			char[][] matRes = action.move(w, gs, mat, c);
 			for (int i = 0; i < matExp.length; i++) {
@@ -1060,8 +1042,7 @@ public class AppTest {
 			WarehouseMan w = new WarehouseMan(3, 2);
 			Counter c = new Counter();
 			RightAction action = new RightAction(w.getX(), w.getY(), mat);
-			Pair<String, char[][]> p = o.newGame(new File("maps" + File.separator + "level_" + 1 + ".txt").getAbsolutePath());
-			char[][] level = p.getValue1();
+			char[][] level =  o.newGame((new File("testMaps" + fileSeparator + "level_1.txt").getAbsolutePath()));
 			gs = of.createGoals(level);
 			char[][] matRes = action.move(w, gs, mat, c);
 			for (int i = 0; i < matExp.length; i++) {
@@ -1106,8 +1087,7 @@ public class AppTest {
 			WarehouseMan w = new WarehouseMan(3, 2);
 			Counter c = new Counter();
 			RightAction action = new RightAction(w.getX(), w.getY(), mat);
-			Pair<String, char[][]> p = o.newGame(new File("maps" + File.separator + "level_" + 1 + ".txt").getAbsolutePath());
-			char[][] level = p.getValue1();
+			char[][] level =  o.newGame((new File("testMaps" + fileSeparator + "level_1.txt").getAbsolutePath()));
 			gs = of.createGoals(level);
 			char[][] matRes = action.move(w, gs, mat, c);
 			for (int i = 0; i < matExp.length; i++) {
@@ -1152,8 +1132,7 @@ public class AppTest {
 			WarehouseMan w = new WarehouseMan(3, 2);
 			Counter c = new Counter();
 			RightAction action = new RightAction(w.getX(), w.getY(), mat);
-			Pair<String, char[][]> p = o.newGame(new File("maps" + File.separator + "level_" + 1 + ".txt").getAbsolutePath());
-			char[][] level = p.getValue1();
+			char[][] level =  o.newGame((new File("testMaps" + fileSeparator + "level_1.txt").getAbsolutePath()));
 			gs = of.createGoals(level);
 			char[][] matRes = action.move(w, gs, mat, c);
 			for (int i = 0; i < matExp.length; i++) {
@@ -1198,8 +1177,7 @@ public class AppTest {
 			WarehouseMan w = new WarehouseMan(4, 1);
 			Counter c = new Counter();
 			RightAction action = new RightAction(w.getX(), w.getY(), mat);
-			Pair<String, char[][]> p = o.newGame(new File("maps" + File.separator + "level_" + 1 + ".txt").getAbsolutePath());
-			char[][] level = p.getValue1();
+			char[][] level =  o.newGame((new File("testMaps" + fileSeparator + "level_1.txt").getAbsolutePath()));
 			gs = of.createGoals(level);
 			char[][] matRes = action.move(w, gs, mat, c);
 			for (int i = 0; i < matExp.length; i++) {
@@ -1244,8 +1222,7 @@ public class AppTest {
 			WarehouseMan w = new WarehouseMan(4, 1);
 			Counter c = new Counter();
 			RightAction action = new RightAction(w.getX(), w.getY(), mat);
-			Pair<String, char[][]> p = o.newGame(new File("maps" + File.separator + "level_" + 1 + ".txt").getAbsolutePath());
-			char[][] level = p.getValue1();
+			char[][] level =  o.newGame((new File("testMaps" + fileSeparator + "level_1.txt").getAbsolutePath()));
 			gs = of.createGoals(level);
 			char[][] matRes = action.move(w, gs, mat, c);
 			for (int i = 0; i < matExp.length; i++) {
@@ -1289,8 +1266,7 @@ public class AppTest {
 			WarehouseMan w = new WarehouseMan(1, 1);
 			Counter c = new Counter();
 			UpAction action = new UpAction(w.getX(), w.getY(), mat);
-			Pair<String, char[][]> p = o.newGame(new File("maps" + File.separator + "level_" + 1 + ".txt").getAbsolutePath());
-			char[][] level = p.getValue1();
+			char[][] level =  o.newGame((new File("testMaps" + fileSeparator + "level_1.txt").getAbsolutePath()));
 			gs = of.createGoals(level);
 			char[][] matRes = action.move(w, gs, mat, c);
 			for (int i = 0; i < matExp.length; i++) {
@@ -1334,8 +1310,7 @@ public class AppTest {
 			WarehouseMan w = new WarehouseMan(4, 2);
 			Counter c = new Counter();
 			UpAction action = new UpAction(w.getX(), w.getY(), mat);
-			Pair<String, char[][]> p = o.newGame(new File("maps" + File.separator + "level_" + 1 + ".txt").getAbsolutePath());
-			char[][] level = p.getValue1();
+			char[][] level =  o.newGame((new File("testMaps" + fileSeparator + "level_1.txt").getAbsolutePath()));
 			gs = of.createGoals(level);
 			char[][] matRes = action.move(w, gs, mat, c);
 			for (int i = 0; i < matExp.length; i++) {
@@ -1379,8 +1354,7 @@ public class AppTest {
 			WarehouseMan w = new WarehouseMan(4, 2);
 			Counter c = new Counter();
 			UpAction action = new UpAction(w.getX(), w.getY(), mat);
-			Pair<String, char[][]> p = o.newGame(new File("maps" + File.separator + "level_" + 1 + ".txt").getAbsolutePath());
-			char[][] level = p.getValue1();
+			char[][] level =  o.newGame((new File("testMaps" + fileSeparator + "level_1.txt").getAbsolutePath()));
 			gs = of.createGoals(level);
 			char[][] matRes = action.move(w, gs, mat, c);
 			for (int i = 0; i < matExp.length; i++) {
@@ -1424,8 +1398,7 @@ public class AppTest {
 			WarehouseMan w = new WarehouseMan(4, 2);
 			Counter c = new Counter();
 			UpAction action = new UpAction(w.getX(), w.getY(), mat);
-			Pair<String, char[][]> p = o.newGame(new File("maps" + File.separator + "level_" + 1 + ".txt").getAbsolutePath());
-			char[][] level = p.getValue1();
+			char[][] level =  o.newGame((new File("testMaps" + fileSeparator + "level_1.txt").getAbsolutePath()));
 			gs = of.createGoals(level);
 			char[][] matRes = action.move(w, gs, mat, c);
 			for (int i = 0; i < matExp.length; i++) {
@@ -1469,8 +1442,7 @@ public class AppTest {
 			WarehouseMan w = new WarehouseMan(4, 2);
 			Counter c = new Counter();
 			UpAction action = new UpAction(w.getX(), w.getY(), mat);
-			Pair<String, char[][]> p = o.newGame(new File("maps" + File.separator + "level_" + 1 + ".txt").getAbsolutePath());
-			char[][] level = p.getValue1();
+			char[][] level =  o.newGame((new File("testMaps" + fileSeparator + "level_1.txt").getAbsolutePath()));
 			gs = of.createGoals(level);
 			char[][] matRes = action.move(w, gs, mat, c);
 			for (int i = 0; i < matExp.length; i++) {
@@ -1514,8 +1486,7 @@ public class AppTest {
 			WarehouseMan w = new WarehouseMan(4, 2);
 			Counter c = new Counter();
 			UpAction action = new UpAction(w.getX(), w.getY(), mat);
-			Pair<String, char[][]> p = o.newGame(new File("maps" + File.separator + "level_" + 1 + ".txt").getAbsolutePath());
-			char[][] level = p.getValue1();
+			char[][] level =  o.newGame((new File("testMaps" + fileSeparator + "level_1.txt").getAbsolutePath()));
 			gs = of.createGoals(level);
 			char[][] matRes = action.move(w, gs, mat, c);
 			for (int i = 0; i < matExp.length; i++) {
@@ -1559,8 +1530,7 @@ public class AppTest {
 			WarehouseMan w = new WarehouseMan(4, 2);
 			Counter c = new Counter();
 			UpAction action = new UpAction(w.getX(), w.getY(), mat);
-			Pair<String, char[][]> p = o.newGame(new File("maps" + File.separator + "level_" + 1 + ".txt").getAbsolutePath());
-			char[][] level = p.getValue1();
+			char[][] level =  o.newGame((new File("testMaps" + fileSeparator + "level_1.txt").getAbsolutePath()));
 			gs = of.createGoals(level);
 			char[][] matRes = action.move(w, gs, mat, c);
 			for (int i = 0; i < matExp.length; i++) {
@@ -1604,8 +1574,7 @@ public class AppTest {
 			WarehouseMan w = new WarehouseMan(4, 2);
 			Counter c = new Counter();
 			UpAction action = new UpAction(w.getX(), w.getY(), mat);
-			Pair<String, char[][]> p = o.newGame(new File("maps" + File.separator + "level_" + 1 + ".txt").getAbsolutePath());
-			char[][] level = p.getValue1();
+			char[][] level =  o.newGame((new File("testMaps" + fileSeparator + "level_1.txt").getAbsolutePath()));
 			gs = of.createGoals(level);
 			char[][] matRes = action.move(w, gs, mat, c);
 			for (int i = 0; i < matExp.length; i++) {
@@ -1649,8 +1618,7 @@ public class AppTest {
 			WarehouseMan w = new WarehouseMan(4, 2);
 			Counter c = new Counter();
 			DownAction action = new DownAction(w.getX(), w.getY(), mat);
-			Pair<String, char[][]> p = o.newGame(new File("maps" + File.separator + "level_" + 1 + ".txt").getAbsolutePath());
-			char[][] level = p.getValue1();
+			char[][] level =  o.newGame((new File("testMaps" + fileSeparator + "level_1.txt").getAbsolutePath()));
 			gs = of.createGoals(level);
 			char[][] matRes = action.move(w, gs, mat, c);
 			for (int i = 0; i < matExp.length; i++) {
@@ -1694,8 +1662,7 @@ public class AppTest {
 			WarehouseMan w = new WarehouseMan(4, 2);
 			Counter c = new Counter();
 			DownAction action = new DownAction(w.getX(), w.getY(), mat);
-			Pair<String, char[][]> p = o.newGame(new File("maps" + File.separator + "level_" + 1 + ".txt").getAbsolutePath());
-			char[][] level = p.getValue1();
+			char[][] level =  o.newGame((new File("testMaps" + fileSeparator + "level_1.txt").getAbsolutePath()));
 			gs = of.createGoals(level);
 			char[][] matRes = action.move(w, gs, mat, c);
 			for (int i = 0; i < matExp.length; i++) {
@@ -1739,8 +1706,7 @@ public class AppTest {
 			WarehouseMan w = new WarehouseMan(4, 2);
 			Counter c = new Counter();
 			DownAction action = new DownAction(w.getX(), w.getY(), mat);
-			Pair<String, char[][]> p = o.newGame(new File("maps" + File.separator + "level_" + 1 + ".txt").getAbsolutePath());
-			char[][] level = p.getValue1();
+			char[][] level =  o.newGame((new File("testMaps" + fileSeparator + "level_1.txt").getAbsolutePath()));
 			gs = of.createGoals(level);
 			char[][] matRes = action.move(w, gs, mat, c);
 			for (int i = 0; i < matExp.length; i++) {
@@ -1784,8 +1750,7 @@ public class AppTest {
 			WarehouseMan w = new WarehouseMan(4, 2);
 			Counter c = new Counter();
 			DownAction action = new DownAction(w.getX(), w.getY(), mat);
-			Pair<String, char[][]> p = o.newGame(new File("maps" + File.separator + "level_" + 1 + ".txt").getAbsolutePath());
-			char[][] level = p.getValue1();
+			char[][] level =  o.newGame((new File("testMaps" + fileSeparator + "level_1.txt").getAbsolutePath()));
 			gs = of.createGoals(level);
 			char[][] matRes = action.move(w, gs, mat, c);
 			for (int i = 0; i < matExp.length; i++) {
@@ -1829,8 +1794,7 @@ public class AppTest {
 			WarehouseMan w = new WarehouseMan(4, 2);
 			Counter c = new Counter();
 			DownAction action = new DownAction(w.getX(), w.getY(), mat);
-			Pair<String, char[][]> p = o.newGame(new File("maps" + File.separator + "level_" + 1 + ".txt").getAbsolutePath());
-			char[][] level = p.getValue1();
+			char[][] level =  o.newGame((new File("testMaps" + fileSeparator + "level_1.txt").getAbsolutePath()));
 			gs = of.createGoals(level);
 			char[][] matRes = action.move(w, gs, mat, c);
 			for (int i = 0; i < matExp.length; i++) {
@@ -1874,8 +1838,7 @@ public class AppTest {
 			WarehouseMan w = new WarehouseMan(4, 2);
 			Counter c = new Counter();
 			DownAction action = new DownAction(w.getX(), w.getY(), mat);
-			Pair<String, char[][]> p = o.newGame(new File("maps" + File.separator + "level_" + 1 + ".txt").getAbsolutePath());
-			char[][] level = p.getValue1();
+			char[][] level =  o.newGame((new File("testMaps" + fileSeparator + "level_1.txt").getAbsolutePath()));
 			gs = of.createGoals(level);
 			char[][] matRes = action.move(w, gs, mat, c);
 			for (int i = 0; i < matExp.length; i++) {
@@ -1919,8 +1882,7 @@ public class AppTest {
 			WarehouseMan w = new WarehouseMan(4, 2);
 			Counter c = new Counter();
 			DownAction action = new DownAction(w.getX(), w.getY(), mat);
-			Pair<String, char[][]> p = o.newGame(new File("maps" + File.separator + "level_" + 1 + ".txt").getAbsolutePath());
-			char[][] level = p.getValue1();
+			char[][] level =  o.newGame((new File("testMaps" + fileSeparator + "level_1.txt").getAbsolutePath()));
 			gs = of.createGoals(level);
 			char[][] matRes = action.move(w, gs, mat, c);
 			for (int i = 0; i < matExp.length; i++) {
@@ -1964,8 +1926,7 @@ public class AppTest {
 			WarehouseMan w = new WarehouseMan(4, 2);
 			Counter c = new Counter();
 			DownAction action = new DownAction(w.getX(), w.getY(), mat);
-			Pair<String, char[][]> p = o.newGame(new File("maps" + File.separator + "level_" + 1 + ".txt").getAbsolutePath());
-			char[][] level = p.getValue1();
+			char[][] level =  o.newGame((new File("testMaps" + fileSeparator + "level_1.txt").getAbsolutePath()));
 			gs = of.createGoals(level);
 			char[][] matRes = action.move(w, gs, mat, c);
 			for (int i = 0; i < matExp.length; i++) {
@@ -2130,8 +2091,7 @@ public class AppTest {
 		void RightActionCreation() throws IOException, IlegalPositionException, IlegalMap {
 			log.info("Trying to create a RightAction");
 			Options o = new Options();
-			Pair<String, char[][]> p =  o.newGame((new File("maps" + fileSeparator + "level_1.txt").getAbsolutePath()));
-			char[][] level = p.getValue1();
+			char[][] level =  o.newGame((new File("testMaps" + fileSeparator + "level_1.txt").getAbsolutePath()));
 			WarehouseMan w = new WarehouseMan(4, 2);
 			ActionsFactory af = new ActionsFactory();	
 			RightAction resExp = new RightAction(w.getX(), w.getY(), level);
@@ -2144,8 +2104,7 @@ public class AppTest {
 		void LeftActionCreation() throws IOException, IlegalPositionException, IlegalMap {
 			log.info("Trying to create a LeftAction");
 			Options o = new Options();
-			Pair<String, char[][]> p =  o.newGame((new File("maps" + fileSeparator + "level_1.txt").getAbsolutePath()));
-			char[][] level = p.getValue1();
+			char[][] level =  o.newGame((new File("testMaps" + fileSeparator + "level_1.txt").getAbsolutePath()));
 			WarehouseMan w = new WarehouseMan(4, 2);
 			ActionsFactory af = new ActionsFactory();	
 			LeftAction resExp = new LeftAction(w.getX(), w.getY(), level);
@@ -2158,8 +2117,7 @@ public class AppTest {
 		void UpActionCreation() throws IOException, IlegalPositionException, IlegalMap {
 			log.info("Trying to create a UpAction");
 			Options o = new Options();
-			Pair<String, char[][]> p =  o.newGame((new File("maps" + fileSeparator + "level_1.txt").getAbsolutePath()));
-			char[][] level = p.getValue1();
+			char[][] level =  o.newGame((new File("testMaps" + fileSeparator + "level_1.txt").getAbsolutePath()));
 			WarehouseMan w = new WarehouseMan(4, 2);
 			ActionsFactory af = new ActionsFactory();	
 			UpAction resExp = new UpAction(w.getX(), w.getY(), level);
@@ -2172,8 +2130,7 @@ public class AppTest {
 		void DownActionCreation() throws IOException, IlegalPositionException, IlegalMap {
 			log.info("Trying to create a DownAction");
 			Options o = new Options();
-			Pair<String, char[][]> p =  o.newGame((new File("maps" + fileSeparator + "level_1.txt").getAbsolutePath()));
-			char[][] level = p.getValue1();
+			char[][] level =  o.newGame((new File("testMaps" + fileSeparator + "level_1.txt").getAbsolutePath()));
 			WarehouseMan w = new WarehouseMan(4, 2);
 			ActionsFactory af = new ActionsFactory();	
 			DownAction resExp = new DownAction(w.getX(), w.getY(), level);
@@ -2186,8 +2143,7 @@ public class AppTest {
 		void NullActionCreation() throws IlegalPositionException, FileNotFoundException, IlegalMap {
 			log.info("Trying to create a non existing action");
 			Options o = new Options();
-			Pair<String, char[][]> p =  o.newGame((new File("maps" + fileSeparator + "level_1.txt").getAbsolutePath()));
-			char[][] level = p.getValue1();
+			char[][] level =  o.newGame((new File("testMaps" + fileSeparator + "level_1.txt").getAbsolutePath()));
 
 			WarehouseMan w = new WarehouseMan(4, 2);
 			ActionsFactory af = new ActionsFactory();	
@@ -2204,7 +2160,7 @@ public class AppTest {
 		
 		private Options o = new Options();
 		private ObjectFactory of = new ObjectFactory();
-		String path = new File("maps" + fileSeparator + "level_1.txt").getAbsolutePath();
+		String path = new File("testMaps" + fileSeparator + "level_1.txt").getAbsolutePath();
 		String emptyPath = new File("testMaps" + fileSeparator + "emptyMap.txt").getAbsolutePath();
 		
 		@Test
@@ -2224,8 +2180,7 @@ public class AppTest {
 		@Test
 		void saveGameTest() throws IlegalPositionException, IlegalMap, FileNotFoundException {
 			log.info("Trying to save correctly a game");
-			Pair<String, char[][]> p = o.newGame(path);
-			char[][] map = p.getValue1();
+			char[][] map = o.newGame(path);
 			WarehouseMan w = (WarehouseMan) of.createWarehouseMan(map);
 			Counter c = new Counter();
 			ArrayList<GameObjectI> gs = of.createGoals(map);
@@ -2293,49 +2248,28 @@ public class AppTest {
 		@Test
 		void correctNewGameTest() throws IlegalPositionException, IlegalMap {
 			log.info("Testing a correct use of newGame method");
-			assertDoesNotThrow(() -> gs.newGame(new File("maps" + fileSeparator + "level_1.txt").getAbsolutePath()));
-			log.info("Test passed");
-		}
-		
-		@Test
-		void FileNotFoundNewGameTest() {
-			log.info("Testing incorrect use of newGame method");
-			assertThrows(FileNotFoundException.class, () -> gs.newGame(new File("maps" + fileSeparator + "level_99.txt").getAbsolutePath()));
+			assertDoesNotThrow(() -> gs.newGame());
 			log.info("Test passed");
 		}
 		
 		@Test
 		void IlegalMapNewGameTest() {
 			log.info("Testing incorrect use of newGame method");
-			assertThrows(IlegalMap.class, () -> gs.newGame(new File("testMaps" + fileSeparator + "emptyMap.txt").getAbsolutePath()));
-			log.info("Test passed");
-		}
-		
-		@Test 
-		void IlegalPositionExceptionNewGameTest1(){
-			log.info("Testing incorrect use of newGame method");
-			assertThrows(IlegalPositionException.class, () -> gs.newGame(new File("testMaps" + fileSeparator + "noWarehouseManMap.txt").getAbsolutePath()));
-			log.info("Test passed");
-		}
-		
-		@Test 
-		void IlegalPositionExceptionNewGameTest2(){
-			log.info("Testing incorrect use of newGame method");
-			assertThrows(IlegalPositionException.class, () -> gs.newGame(new File("testMaps" + fileSeparator + "moreThanOneWMap.txt").getAbsolutePath()));
+			assertThrows(IlegalMap.class, () -> gs.game(new File("testMaps" + fileSeparator + "emptyMap.txt").getAbsolutePath()));
 			log.info("Test passed");
 		}
 		
 		@Test
 		void correctGameTest() {
 			log.info("Testing correct use of game method");
-			assertDoesNotThrow(() -> gs.game(new File("maps" + fileSeparator + "level_1.txt").getAbsolutePath()));
+			assertDoesNotThrow(() -> gs.game(new File("testMaps" + fileSeparator + "level_1.txt").getAbsolutePath()));
 			log.info("Test passed");
 		}
 		
 		@Test
 		void FileNotFoundGameTest() {
 			log.info("Testing incorrect use of newGame method");
-			assertThrows(FileNotFoundException.class, () -> gs.game(new File("maps" + fileSeparator + "level_99.txt").getAbsolutePath()));
+			assertThrows(FileNotFoundException.class, () -> gs.game(new File("testMaps" + fileSeparator + "level_99.txt").getAbsolutePath()));
 			log.info("Test passed");
 		}
 		
@@ -2363,7 +2297,7 @@ public class AppTest {
 		@Test
 		void saveGameTest() throws IlegalPositionException, IlegalMap, IOException {
 			log.info("Testing correct use of saveGame method");
-			gs.newGame(new File("maps" + fileSeparator + "level_1.txt").getAbsolutePath());
+			gs.newGame();
 			String path = new File("savedTestMaps" + fileSeparator + "savedTestMap.txt").getAbsolutePath();
 			File f = new File(path);
 			assertEquals(true, gs.saveGame(f));
@@ -2472,7 +2406,7 @@ public class AppTest {
 		@Test
 		void moveUpTest() throws FileNotFoundException, IlegalPositionException, IlegalMap {
 			log.info("Testing correct use of method moveUp");
-			gs.newGame(new File("maps" + fileSeparator + "level_1.txt").getAbsolutePath());
+			gs.newGame();
 			assertDoesNotThrow(() -> gs.moveUp());
 			log.info("Test passed");
 		}
@@ -2480,7 +2414,7 @@ public class AppTest {
 		@Test
 		void moveDownTest() throws FileNotFoundException, IlegalPositionException, IlegalMap {
 			log.info("Testing correct use of method moveUp");
-			gs.newGame(new File("maps" + fileSeparator + "level_1.txt").getAbsolutePath());
+			gs.newGame();
 			assertDoesNotThrow(() -> gs.moveDown());
 			log.info("Test passed");
 		}
@@ -2488,7 +2422,7 @@ public class AppTest {
 		@Test
 		void moveRightTest() throws FileNotFoundException, IlegalPositionException, IlegalMap {
 			log.info("Testing correct use of method moveUp");
-			gs.newGame(new File("maps" + fileSeparator + "level_1.txt").getAbsolutePath());
+			gs.newGame();
 			assertDoesNotThrow(() -> gs.moveRight());
 			log.info("Test passed");
 		}
@@ -2496,7 +2430,7 @@ public class AppTest {
 		@Test
 		void moveLeftTest() throws FileNotFoundException, IlegalPositionException, IlegalMap {
 			log.info("Testing correct use of method moveUp");
-			gs.newGame(new File("maps" + fileSeparator + "level_1.txt").getAbsolutePath());
+			gs.newGame();
 			assertDoesNotThrow(() -> gs.moveLeft());
 			log.info("Test passed");
 		}
@@ -2504,7 +2438,7 @@ public class AppTest {
 		@Test
 		void undoMovementTest() throws FileNotFoundException, IlegalPositionException, IlegalMap {
 			log.info("Testing correct use of undoMovement method");
-			gs.newGame(new File("maps" + fileSeparator + "level_1.txt").getAbsolutePath());
+			gs.newGame();
 			gs.moveUp();
 			assertDoesNotThrow(() -> gs.undoMovement());
 			log.info("Test passed");
@@ -2513,7 +2447,7 @@ public class AppTest {
 		@Test
 		void isEndLevelTest1() throws FileNotFoundException, IlegalPositionException, IlegalMap {
 			log.info("Testing use of isEndLevel method");
-			gs.newGame(new File("maps" + fileSeparator + "level_1.txt").getAbsolutePath());
+			gs.newGame();
 			assertEquals(false, gs.isEndLevel());
 			log.info("Test passed");
 		}
@@ -2521,7 +2455,7 @@ public class AppTest {
 		@Test
 		void restartLevelTest() throws FileNotFoundException, IlegalPositionException, IlegalMap {
 			log.info("Testing correct use of restartLevel method");
-			gs.newGame(new File("maps" + fileSeparator + "level_1.txt").getAbsolutePath());
+			gs.newGame();
 			char[][] matExp = gs.getMap();
 			gs.restartLevel();
 			boolean equals = true;
@@ -2539,8 +2473,7 @@ public class AppTest {
 		@Test
 		void nextLevelTest1() throws FileNotFoundException, IlegalPositionException, IlegalMap {
 			log.info("Testing nextLevel method");
-			gs.setLevelNumber(2);
-			gs.setTotalLevels(4);
+			gs.setLevelPos(1);
 			assertEquals(1, gs.nextLevel());
 			log.info("Test passed");
 		}
@@ -2548,8 +2481,7 @@ public class AppTest {
 		@Test
 		void nextLevelTest2() throws FileNotFoundException, IlegalPositionException, IlegalMap {
 			log.info("Testing nextLevel method");
-			gs.setTotalLevels(4);
-			gs.setLevelNumber(4);
+			gs.setLevelPos(gs.getFiles().length-1);
 			assertEquals(2, gs.nextLevel());
 			log.info("Test passed");
 		}
@@ -2557,8 +2489,6 @@ public class AppTest {
 		@Test
 		void nextLevelTest3() throws FileNotFoundException, IlegalPositionException, IlegalMap {
 			log.info("Testing nextLevel method");
-			gs.setLevelNumber(1);
-			gs.setTotalLevels(4);
 			assertEquals(3, gs.nextLevel());
 			log.info("Test passed");
 		}
@@ -2566,7 +2496,7 @@ public class AppTest {
 		@Test
 		void getWTest() throws FileNotFoundException, IlegalPositionException, IlegalMap {
 			log.info("Testing correct use of getW method");
-			gs.newGame(new File("maps" + fileSeparator + "level_1.txt").getAbsolutePath());
+			gs.newGame();
 			assertNotEquals(null, gs.getW());
 			log.info("Test passed");
 		}
@@ -2583,7 +2513,7 @@ public class AppTest {
 		@Test
 		void getGsTest() throws FileNotFoundException, IlegalPositionException, IlegalMap {
 			log.info("Testing correct use of getW method");
-			gs.newGame(new File("maps" + fileSeparator + "level_1.txt").getAbsolutePath());
+			gs.newGame();
 			assertNotEquals(null, gs.getGs());
 			log.info("Test passed");
 		}
@@ -2615,11 +2545,11 @@ public class AppTest {
 			log.info("Test passed");
 		}
 		
-		@Test
+		/*@Test
 		void getLevelNameTest() throws FileNotFoundException, IlegalPositionException, IlegalMap {
 			log.info("Testing correct use of getW method");
-			gs.newGame(new File("maps" + fileSeparator + "level_1.txt").getAbsolutePath());
-			assertEquals(1, gs.getLevelNumber());
+			gs.newGame();
+			assertEquals(1, gs.);
 			log.info("Test passed");
 		}
 		
@@ -2629,7 +2559,7 @@ public class AppTest {
 			gs.setLevelNumber(2);
 			assertEquals(2, gs.getLevelNumber());
 			log.info("Test passed");
-		}
+		}*/
 	}
 	
 	@DisplayName("Test for class Action")

@@ -8,7 +8,7 @@ import model.exceptions.ObjectPositionNotFoundException;
 
 public interface GameControllerI {
 	
-	public void newGame(String fileName) throws FileNotFoundException, IlegalPositionException, IlegalMap, ObjectPositionNotFoundException;
+	public void newGame() throws FileNotFoundException, IlegalPositionException, IlegalMap, ObjectPositionNotFoundException;
 	
 	public void saveGame() throws ObjectPositionNotFoundException, IlegalPositionException;
 	
